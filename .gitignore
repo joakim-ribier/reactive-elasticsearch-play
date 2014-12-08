@@ -18,3 +18,8 @@ server.pid
 
 # Elasticsearch
 /data
+
+#Eclipse
+.classpath
+.project
+.settings/
