@@ -8,7 +8,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.ConfigurationService;
-import services.ESSearchService;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.inject.Singleton;
@@ -16,14 +15,13 @@ import com.google.inject.Singleton;
 @Singleton
 public class AbstractController extends Controller {
 
+    protected static final String _TITLE = "Reactive AngularApp's - Elasticsearch 1.4.1";
+    
     protected final ConfigurationService configurationService;
-    protected final ESSearchService esSearchService;
-
     protected final String hostName;
 
-    protected AbstractController(ConfigurationService configurationService, ESSearchService esSearchService) {
+    protected AbstractController(ConfigurationService configurationService) {
         this.configurationService = configurationService;
-        this.esSearchService = esSearchService;
         this.hostName = configurationService.getHostName();
     }
 

@@ -12,7 +12,6 @@ public class ConfigurationImplTest implements ConfigurationService {
 
     @Override
     public String getHostName() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

@@ -1,11 +1,15 @@
 import play.Application;
 import play.GlobalSettings;
+import services.AuthenticationImpl;
+import services.AuthenticationService;
 import services.ConfigurationImpl;
 import services.ConfigurationService;
 import services.ESSearchImpl;
 import services.ESSearchService;
 import services.ESConstantService;
 import services.ESConstantImpl;
+import utils.EncodeUtils;
+import utils.IEncodeUtils;
 import utils.eslasticsearch.ESServerEmbedded;
 import utils.eslasticsearch.IESServerEmbedded;
 
@@ -22,10 +26,13 @@ public class Global extends GlobalSettings {
         this.injector = Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
+                bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
+                bind(IEncodeUtils.class).to(EncodeUtils.class);
+                
                 bind(ESSearchService.class).to(ESSearchImpl.class);
                 bind(ESConstantService.class).to(ESConstantImpl.class);
                 bind(ConfigurationService.class).to(ConfigurationImpl.class);
-                bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
+                bind(AuthenticationService.class).to(AuthenticationImpl.class);
             }
         });
         
