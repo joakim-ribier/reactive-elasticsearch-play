@@ -4,9 +4,9 @@
 
 GET        /                              			@controllers.Application.index
 
-GET        /authentication/login                	@controllers.AuthenticationController.login
-GET        /authentication/logout                	@controllers.AuthenticationController.logout
-POST       /authentication		                	@controllers.AuthenticationController.authentication
+GET        /page/login             					@controllers.AuthenticationController.login
+GET        /logout                					@controllers.AuthenticationController.logout
+POST       /page/login/authentication              	@controllers.AuthenticationController.authentication
 
 GET        /search/by/query/:value                 	@controllers.SearchController.index(value: String)
 

@@ -1,43 +1,28 @@
 @(title: String, hostName: String)
-<!DOCTYPE html>
 
-<html lang="fr">
-	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		
-		<title>@title</title>
-		
-		<link rel="stylesheet" media="screen" href="@routes.Assets.at("lib/bootstrap/css/bootstrap.min.css")">
-		<link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-		<link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-		
-		<script src="@routes.Assets.at("lib/angularjs/angular.min.js")"></script>
-		<script src="@routes.Assets.at("javascripts/app.js")"></script>
-		<script src="@routes.Assets.at("javascripts/loginCtrl.js")"></script>
-		
-		<script type="text/javascript">
-			window.hostName = '@hostName';
-		</script>
-	</head>
-	<body data-ng-app="reactiveElasticsearchPlay">
-	
-		<div data-ng-controller="LoginCtrl" class="well">
-		
-			<div class="loading"><div class="spinner" data-ng-show="loading"></div></div>
-		
-			<form role="form" id="login-form" data-ng-submit="login(credentials)" novalidate>
-				<div class="form-group">
-					<input type="text" class="form-control" id="exampleInputEmail1" data-ng-model="credentials.username" placeholder="Enter identifiant">
-				</div>
-				<div class="form-group">
-					<input type="password" class="form-control" id="exampleInputPassword1" data-ng-model="credentials.password" placeholder="Password">
-				</div>
-				
-				<p data-ng-show="validationMessage" class="text-danger">{{validationMessage}}</p>
-				<button type="submit" class="btn btn-default btn-lg">Bonsai cool</button>
-			</form>
-			
+@scripts = {
+	<script src="@routes.Assets.at("javascripts/loginController.js")"></script>
+}
+
+@main(title, hostName, scripts) {
+	<div data-ng-controller="LoginController" id="login-page">
+		<div class="nav-top-bar">
+			<span>@title</span>
+			<div class="nav-top-bar-menu"></div>
 		</div>
-	
-	</body>
-</html>
+		
+		<form role="form" data-ng-submit="login(credentials)" novalidate>
+			<div class="form-group">
+				<input type="text" class="form-control input-lg" data-ng-model="credentials.username" placeholder="Enter identifiant">
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control input-lg" data-ng-model="credentials.password" placeholder="Password">
+			</div>
+			
+			<p data-ng-show="validationMessage" class="text-danger">{{validationMessage}}</p>
+			
+			<button type="submit" class="btn btn-default btn-lg">Bonsai cool</button>
+			<div class="spinner" data-ng-show="loading"></div>
+		</form>
+	</div>
+}

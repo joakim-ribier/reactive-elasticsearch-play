@@ -1,8 +1,6 @@
 @import "lib/bootstrap/less/bootstrap.less";
 
-.loading {
-  position: absolute;
-}
+@nav-bar-color: #795548;
 
 .spinner {
   background-image: url('../images/spiffygif_42x42.gif');
@@ -12,11 +10,32 @@
   width: 42px;
 }
 
-#login-form {
-  width: 350px;
-  margin-left: auto;
-  margin-right: auto;
-  .btn {
-    margin-right: 15px;
+#login-page {
+  width: 100%;
+  background-color: #F5F5F5;
+  border-bottom: solid 1px @nav-bar-color;
+
+  .nav-top-bar {
+  	font-size: @font-size-large;
+    padding: 5px;
+    text-align: center;
+
+    .nav-top-bar-menu {
+      width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 20px;
+      border-bottom: solid 1px @nav-bar-color;
+    }
+  }
+  
+  form {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 45px;
+    .btn {
+      margin-right: 15px;
+    }
   }
 }

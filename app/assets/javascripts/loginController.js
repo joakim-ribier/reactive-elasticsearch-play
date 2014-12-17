@@ -1,7 +1,7 @@
 'use strict';
 
 var myApp = angular.module('reactiveElasticsearchPlay.controllers',[]);
-myApp.controller('LoginCtrl', ['$scope', '$log', '$http', '$window', '$location', function ($scope, $log, $http, $window, $location) {
+myApp.controller('LoginController', ['$scope', '$log', '$http', '$window', '$location', function ($scope, $log, $http, $window, $location) {
 	
 	$scope.loading = false;
 	
@@ -13,7 +13,7 @@ myApp.controller('LoginCtrl', ['$scope', '$log', '$http', '$window', '$location'
 	
 	$scope.login = function (credentials) {
 		$scope.loading = true;
-		$http.post($window.hostName + '/authentication', {credentials: credentials}).
+		$http.post($window.hostName + '/page/login/authentication', {credentials: credentials}).
 			success(function(data, status, headers, config) {
 				$window.location = "/";
 			}).

@@ -1,33 +1,16 @@
 @(title: String, hostName: String)
-<!DOCTYPE html>
 
-<html>
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+@scripts = {
+	 <script src="@routes.Assets.at("javascripts/controllers.js")"></script>
+}
 
-    <title>@title</title>
-    
-    
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("lib/bootstrap/css/bootstrap.min.css")">
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-
-    <script src="@routes.Assets.at("lib/angularjs/angular.min.js")"></script>
-    <script src="@routes.Assets.at("javascripts/controllers.js")"></script>
-    <script src="@routes.Assets.at("javascripts/app.js")"></script>
-    
-	<script type="text/javascript">
-		window.hostName = '@hostName';
-	</script> 
-</head>
-<body ng-app="reactiveElasticsearchPlay">
-
-    <div ng-controller="SearchCtrl">
+@main(title, hostName, scripts) {
+	<div data-ng-controller="SearchCtrl">
         <div class="well" id="search">
-            <form class="form-search" role="form" ng-submit="startSearching()">
-                <input type="text" class="form-control" name="searchString" id="textField" ng-model="searchString" placeholder="Enter Lucene query string"/>
+            <form class="form-search" role="form" data-ng-submit="startSearching()">
+                <input type="text" class="form-control" name="searchString" id="textField" data-ng-model="searchString" placeholder="Enter Lucene query string"/>
                 <br />
-                <input type="button" class="btn btn-primary btn-lg btn-block" id="search" value="Search" ng-click="startSearching()" />
+                <input type="button" class="btn btn-primary btn-lg btn-block" id="search" value="Search" data-ng-click="startSearching()" />
             </form>
         </div>
         <div id="results">
@@ -41,7 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="searchResult in searchResults | limitTo:10">
+                    <tr data-ng-repeat="searchResult in searchResults | limitTo:10">
                         <td>{{searchResult.id}}</td>
                         <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
                         <td>{{searchResult.indexingDate | date:'medium'}}</td>
@@ -51,5 +34,4 @@
             </table>
         </div>
     </div>
-</body>
-</html>
+}
