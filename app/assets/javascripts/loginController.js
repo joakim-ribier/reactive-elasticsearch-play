@@ -2,9 +2,7 @@
 
 var myApp = angular.module('reactiveElasticsearchPlay.controllers',[]);
 myApp.controller('LoginController', ['$scope', '$log', '$http', '$window', '$location', function ($scope, $log, $http, $window, $location) {
-	
 	$scope.loading = false;
-	
 	$scope.validationMessage = '';
 	$scope.credentials = {
 		username: '',

@@ -1,18 +1,27 @@
 @(title: String, hostName: String)
 
 @scripts = {
-	 <script src="@routes.Assets.at("javascripts/controllers.js")"></script>
+	 <script src="@routes.Assets.at("javascripts/indexController.js")"></script>
 }
 
 @main(title, hostName, scripts) {
-	<div data-ng-controller="SearchCtrl">
-        <div class="well" id="search">
-            <form class="form-search" role="form" data-ng-submit="startSearching()">
-                <input type="text" class="form-control" name="searchString" id="textField" data-ng-model="searchString" placeholder="Enter Lucene query string"/>
-                <br />
-                <input type="button" class="btn btn-primary btn-lg btn-block" id="search" value="Search" data-ng-click="startSearching()" />
-            </form>
-        </div>
+	<div data-ng-controller="IndexController" id="index-page">
+		<div class="nav-top-bar">
+			<span>@title</span>
+			<div class="nav-top-bar-menu">
+				<a href="@hostName/logout">Déconnexion</a>
+			</div>
+		</div>
+		
+        <form role="form"  data-ng-click="startSearching()" novalidate>
+            <input type="text" class="form-control" name="searchString" data-ng-model="searchString" placeholder="Chercher dans le moteur..."/>
+            <br />
+            <button type="submit" class="btn btn-primary">&#xAB; Va chercher &#xBB;</button>
+            <div class="spinner" data-ng-show="loading"></div>
+            <br /><br />
+            <p data-ng-show="validationMessage" class="text-info">{{validationMessage}}</p>
+        </form>
+        
         <div id="results">
             <table class="table table-striped">
                 <thead>
