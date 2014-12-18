@@ -1,14 +1,14 @@
 package guice;
 
 import play.Application;
-import services.AuthenticationImpl;
 import services.AuthenticationService;
-import services.ConfigurationImplTest;
+import services.StubConfigurationImplTest;
 import services.ConfigurationService;
 import services.ESConstantImpl;
 import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
+import stub.StubAuthenticationImplTest;
 import utils.EncodeUtils;
 import utils.IEncodeUtils;
 import utils.eslasticsearch.ESServerEmbedded;
@@ -32,8 +32,9 @@ public class GlobalTest extends GlobalConfiguration {
                 
                 bind(ESSearchService.class).to(ESSearchImpl.class);
                 bind(ESConstantService.class).to(ESConstantImpl.class);
-                bind(ConfigurationService.class).to(ConfigurationImplTest.class);
-                bind(AuthenticationService.class).to(AuthenticationImpl.class);
+                
+                bind(ConfigurationService.class).to(StubConfigurationImplTest.class);
+                bind(AuthenticationService.class).to(StubAuthenticationImplTest.class);
                 
                 bind(AuthenticationController.class).asEagerSingleton();
             }

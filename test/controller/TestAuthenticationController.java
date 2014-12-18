@@ -11,16 +11,15 @@ import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 import guice.GlobalTest;
 
-import org.junit.Ignore;
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import play.libs.Json;
 import play.mvc.Http.Status;
 import play.mvc.Result;
 import play.test.FakeApplication;
 import play.test.FakeRequest;
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class TestAuthenticationController {
 
@@ -33,6 +32,8 @@ public class TestAuthenticationController {
 			assertThat(status(result)).isEqualTo(Status.OK);
 			assertThat(contentType(result)).isEqualTo("text/html");
 			assertThat(charset(result)).isEqualTo("utf-8");
+			assertThat(headers(result).get("Set-Cookie"))
+			    .doesNotContain("username=admin");
 		});
 	}
 	
@@ -44,24 +45,28 @@ public class TestAuthenticationController {
 			
 			assertThat(status(result)).isEqualTo(Status.SEE_OTHER);
 			assertThat(headers(result).get("Location")).isEqualTo("/page/login");
+			assertThat(headers(result).get("Set-Cookie"))
+			    .doesNotContain("username=admin")
+			    .contains("PLAY_FLASH=\"success=");
 		});
 	}
 	
-	@Ignore
 	@Test
 	public void testAuthentication() {
 		FakeApplication fakeApplication = fakeApplication(new GlobalTest());
 		running(fakeApplication, () -> {
+		    ObjectNode objectNode = Json.newObject()
+		            .put("username", "admin")
+		            .put("password", "Banzai !!!");
+		    
 			FakeRequest fakeRequest = fakeRequest("POST", "/page/login/authentication");
-			ObjectNode put = Json.newObject()
-					.put("username", "admin")
-					.put("password", "Banzai !!!");
-			
-			fakeRequest.withJsonBody(put);
+			fakeRequest.withJsonBody(objectNode);
 			
 			Result result =  route(fakeRequest);
 			
 			assertThat(status(result)).isEqualTo(Status.OK);
+            assertThat(headers(result).get("Set-Cookie"))
+                .contains("PLAY_SESSION=\"").contains("username=admin");
 		});
 	}
 	
@@ -69,11 +74,12 @@ public class TestAuthenticationController {
 	public void testBadAuthentication() {
 		FakeApplication fakeApplication = fakeApplication(new GlobalTest());
 		running(fakeApplication, () -> {
+		    ObjectNode objectNode = Json.newObject()
+		            .put("username", "bad username")
+		            .put("password", "bad password");
+		    
 			FakeRequest fakeRequest = fakeRequest("POST", "/page/login/authentication");
-			ObjectNode put = Json.newObject()
-					.put("username", "bad username")
-					.put("password", "bad password");
-			fakeRequest.withJsonBody(put);
+			fakeRequest.withJsonBody(objectNode);
 			
 			Result result =  route(fakeRequest);
 			

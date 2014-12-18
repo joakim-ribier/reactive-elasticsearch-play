@@ -1,23 +1,12 @@
 package configuration;
 
+import play.Application;
+import play.GlobalSettings;
+import utils.eslasticsearch.ESServerEmbedded;
+
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-
-import play.Application;
-import play.GlobalSettings;
-import services.AuthenticationImpl;
-import services.AuthenticationService;
-import services.ConfigurationImpl;
-import services.ConfigurationService;
-import services.ESConstantImpl;
-import services.ESConstantService;
-import services.ESSearchImpl;
-import services.ESSearchService;
-import utils.EncodeUtils;
-import utils.IEncodeUtils;
-import utils.eslasticsearch.ESServerEmbedded;
-import utils.eslasticsearch.IESServerEmbedded;
 
 public abstract class GlobalConfiguration extends GlobalSettings {
 	

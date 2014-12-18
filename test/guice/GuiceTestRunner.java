@@ -4,13 +4,12 @@ import org.junit.runners.model.InitializationError;
 
 import services.AuthenticationImpl;
 import services.AuthenticationService;
-import services.ConfigurationImplTest;
 import services.ConfigurationService;
 import services.ESConstantImplTest;
 import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
-import stub.StubAuthenticationController;
+import services.StubConfigurationImplTest;
 import utils.EncodeUtils;
 import utils.IEncodeUtils;
 import utils.eslasticsearch.ESServerEmbedded;
@@ -36,10 +35,8 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
                     
                     bind(ESSearchService.class).to(ESSearchImpl.class);
                     bind(ESConstantService.class).to(ESConstantImplTest.class);
-                    bind(ConfigurationService.class).to(ConfigurationImplTest.class);
+                    bind(ConfigurationService.class).to(StubConfigurationImplTest.class);
                     bind(AuthenticationService.class).to(AuthenticationImpl.class);
-                    
-                    bind(StubAuthenticationController.class).asEagerSingleton();
                 }
             });
         } catch (Exception e) {
