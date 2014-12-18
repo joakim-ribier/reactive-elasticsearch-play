@@ -10,6 +10,7 @@ import services.ESConstantImplTest;
 import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
+import stub.StubAuthenticationController;
 import utils.EncodeUtils;
 import utils.IEncodeUtils;
 import utils.eslasticsearch.ESServerEmbedded;
@@ -37,6 +38,8 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
                     bind(ESConstantService.class).to(ESConstantImplTest.class);
                     bind(ConfigurationService.class).to(ConfigurationImplTest.class);
                     bind(AuthenticationService.class).to(AuthenticationImpl.class);
+                    
+                    bind(StubAuthenticationController.class).asEagerSingleton();
                 }
             });
         } catch (Exception e) {
@@ -46,6 +49,6 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
 
     @Override
     protected Object createTest() throws Exception {
-        return this.injector.getInstance(this.getTestClass().getJavaClass());
+        return injector.getInstance(this.getTestClass().getJavaClass());
     }
 }

@@ -42,4 +42,12 @@ public class AbstractController extends Controller {
         });
         return arrayNode;
     }
+    
+    protected void clearSession() {
+	    session().clear();
+    }
+    
+    protected void flashSuccess(String message) {
+    	flash("success", message);
+    }
 }
