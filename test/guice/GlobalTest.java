@@ -10,7 +10,9 @@ import services.ESSearchImpl;
 import services.ESSearchService;
 import stub.StubAuthenticationImplTest;
 import utils.EncodeUtils;
+import utils.FileUtils;
 import utils.IEncodeUtils;
+import utils.IFileUtils;
 import utils.eslasticsearch.ESServerEmbedded;
 import utils.eslasticsearch.IESServerEmbedded;
 
@@ -29,7 +31,8 @@ public class GlobalTest extends GlobalConfiguration {
             protected void configure() {
                 bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
                 bind(IEncodeUtils.class).to(EncodeUtils.class);
-
+                bind(IFileUtils.class).to(FileUtils.class);
+                
                 bind(ESSearchService.class).to(ESSearchImpl.class);
                 bind(ESConstantService.class).to(ESConstantImpl.class);
 
