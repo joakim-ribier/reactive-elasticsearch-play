@@ -1,8 +1,6 @@
 package services;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 
 import models.exceptions.EncodeUtilsException;
 
@@ -10,8 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import utils.IEncodeUtils;
+import utils.IFileUtils;
 
-import com.google.common.io.Files;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -23,35 +21,38 @@ public class AuthenticationImpl implements AuthenticationService {
 
     private final ConfigurationService configurationService;
     private final IEncodeUtils iEncodeUtils;
+    private final IFileUtils iFileUtils;
 
     @Inject
-    private AuthenticationImpl(ConfigurationService configurationService,
-            IEncodeUtils iEncodeUtils) {
+    protected AuthenticationImpl(ConfigurationService configurationService,
+            IEncodeUtils iEncodeUtils, IFileUtils iFileUtils) {
         
         this.configurationService = configurationService;
         this.iEncodeUtils = iEncodeUtils;
+        this.iFileUtils = iFileUtils;
     }
 
     @Override
     public boolean connect(String username, String password) {
         String login = configurationService.get("application.security.login");
-        String pathFileToFindPassword = configurationService
+        String filePath = configurationService
                 .get("application.security.file.pwd");
 
         if (!login.contentEquals(username)) {
             return false;
         }
 
-        File file = new File(pathFileToFindPassword);
         try {
-            String passwordFromFile = Files.toString(file,
-                    Charset.defaultCharset());
-            
+            String passwordFromFile = getPassword(filePath);
             String passwordEncoded = iEncodeUtils.encode(username, password);
             return passwordFromFile.contentEquals(passwordEncoded);
         } catch (IOException | EncodeUtilsException e) {
             LOG.error(e.getMessage());
             return false;
         }
+    }
+
+    protected String getPassword(String filePath) throws IOException {
+        return iFileUtils.getContent(filePath);
     }
 }

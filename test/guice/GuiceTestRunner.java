@@ -2,7 +2,6 @@ package guice;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 
-import services.AuthenticationImpl;
 import services.AuthenticationService;
 import services.ConfigurationService;
 import services.ESConstantImplTest;
@@ -10,8 +9,11 @@ import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
 import services.StubConfigurationImplTest;
+import stub.StubAuthenticationImplTest;
 import utils.EncodeUtils;
+import utils.FileUtils;
 import utils.IEncodeUtils;
+import utils.IFileUtils;
 import utils.eslasticsearch.ESServerEmbedded;
 import utils.eslasticsearch.IESServerEmbedded;
 
@@ -32,11 +34,12 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
                 protected void configure() {
                     bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
                     bind(IEncodeUtils.class).to(EncodeUtils.class);
+                    bind(IFileUtils.class).to(FileUtils.class);
                     
                     bind(ESSearchService.class).to(ESSearchImpl.class);
                     bind(ESConstantService.class).to(ESConstantImplTest.class);
                     bind(ConfigurationService.class).to(StubConfigurationImplTest.class);
-                    bind(AuthenticationService.class).to(AuthenticationImpl.class);
+                    bind(AuthenticationService.class).to(StubAuthenticationImplTest.class);
                 }
             });
         } catch (Exception e) {

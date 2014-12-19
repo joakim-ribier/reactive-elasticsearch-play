@@ -1,11 +1,26 @@
 package stub;
 
-import services.AuthenticationService;
+import java.io.IOException;
 
-public class StubAuthenticationImplTest implements AuthenticationService {
+import com.google.inject.Inject;
 
+import services.AuthenticationImpl;
+import services.ConfigurationService;
+import utils.IEncodeUtils;
+import utils.IFileUtils;
+
+public class StubAuthenticationImplTest extends AuthenticationImpl {
+
+    @Inject
+    private StubAuthenticationImplTest(
+            ConfigurationService configurationService,
+            IEncodeUtils iEncodeUtils, IFileUtils iFileUtils) {
+        
+        super(configurationService, iEncodeUtils, iFileUtils);
+    }
+    
     @Override
-    public boolean connect(String username, String password) {
-        return username.equals("admin");
+    protected String getPassword(String filePath) throws IOException {
+        return "BiGlrUzC6WlXq/UoicJIIjvfGww=";
     }
 }

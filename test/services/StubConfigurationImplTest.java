@@ -10,6 +10,8 @@ public class StubConfigurationImplTest implements ConfigurationService {
         switch (key) {
         case "application.security.login":
             return "admin";
+        case "application.security.file.pwd":
+            return "test.pwd";
         default:
             return key;
         }
