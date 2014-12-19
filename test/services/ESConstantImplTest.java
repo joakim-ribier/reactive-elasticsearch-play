@@ -1,6 +1,5 @@
 package services;
 
-
 public class ESConstantImplTest implements ESConstantService {
 
     @Override

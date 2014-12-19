@@ -16,7 +16,7 @@ import com.google.inject.Singleton;
 public class AbstractController extends Controller {
 
     protected static final String _TITLE = "Reactive AngularApp's - Elasticsearch 1.4.1";
-    
+
     protected final ConfigurationService configurationService;
     protected final String hostName;
 
@@ -29,12 +29,12 @@ public class AbstractController extends Controller {
         return badRequest(
                 new ResultOkModel("ko", message).toJson());
     }
-    
+
     protected Result _internalServerError(String message) {
         return internalServerError(
                 new ResultOkModel("ko", message).toJson());
     }
-    
+
     protected ArrayNode toArrayNode(List<HitModel> hitModels) {
         ArrayNode arrayNode = Json.newObject().arrayNode();
         hitModels.forEach((hitModel) -> {
@@ -42,12 +42,12 @@ public class AbstractController extends Controller {
         });
         return arrayNode;
     }
-    
+
     protected void clearSession() {
-	    session().clear();
+        session().clear();
     }
-    
+
     protected void flashSuccess(String message) {
-    	flash("success", message);
+        flash("success", message);
     }
 }

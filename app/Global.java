@@ -17,14 +17,14 @@ import configuration.GlobalConfiguration;
 
 public class Global extends GlobalConfiguration {
 
-	@Override
+    @Override
     protected AbstractModule buildAbstractModule() {
-		return new AbstractModule() {
+        return new AbstractModule() {
             @Override
             protected void configure() {
                 bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
                 bind(IEncodeUtils.class).to(EncodeUtils.class);
-                
+
                 bind(ESSearchService.class).to(ESSearchImpl.class);
                 bind(ESConstantService.class).to(ESConstantImpl.class);
                 bind(ConfigurationService.class).to(ConfigurationImpl.class);

@@ -10,7 +10,7 @@ public class Secured extends Security.Authenticator {
     public String getUsername(Context context) {
         return context.session().get("username");
     }
-    
+
     @Override
     public Result onUnauthorized(Context ctx) {
         return redirect(routes.AuthenticationController.login());

@@ -16,5 +16,5 @@ public abstract class ESServerEmbeddedTest {
     protected IESServerEmbedded iesServerEmbedded;
     @Inject
     protected ESConstantService elasticsearchConstantService;
-    
+
 }

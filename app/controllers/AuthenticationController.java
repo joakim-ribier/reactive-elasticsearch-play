@@ -15,14 +15,16 @@ import com.google.inject.Singleton;
 @Singleton
 public class AuthenticationController extends AbstractController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(AuthenticationController.class);
 
     private final AuthenticationService authenticationService;
-    
+
     @Inject
-    protected AuthenticationController(ConfigurationService configurationService,
+    protected AuthenticationController(
+            ConfigurationService configurationService,
             AuthenticationService authenticationService) {
-        
+
         super(configurationService);
         this.authenticationService = authenticationService;
     }
@@ -31,19 +33,19 @@ public class AuthenticationController extends AbstractController {
         clearSession();
         return ok(views.html.login.render(_TITLE, hostName));
     }
-    
+
     public Result logout() {
         clearSession();
         flashSuccess("You've been logged out.");
         return redirect(routes.AuthenticationController.login());
     }
 
-	@BodyParser.Of(BodyParser.Json.class)
+    @BodyParser.Of(BodyParser.Json.class)
     public Result authentication() {
         JsonNode json = request().body().asJson();
         String username = json.findPath("username").textValue();
         String password = json.findPath("password").textValue();
-        
+
         boolean isConnect = authenticationService.connect(username, password);
         if (isConnect) {
             LOG.info("The user '{}' is now connected.", username);
@@ -51,7 +53,8 @@ public class AuthenticationController extends AbstractController {
             session("username", username);
             return ok();
         } else {
-            LOG.warn("The user '{}' tries to connect to the application.", username);
+            LOG.warn("The user '{}' tries to connect to the application.",
+                    username);
             return unauthorized("Wrong username or password.");
         }
     }

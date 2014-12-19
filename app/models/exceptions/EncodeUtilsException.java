@@ -1,7 +1,7 @@
 package models.exceptions;
 
 public class EncodeUtilsException extends Throwable {
- 
+
     /**
      * 
      */
@@ -18,7 +18,7 @@ public class EncodeUtilsException extends Throwable {
     public EncodeUtilsException(Throwable throwable) {
         super(throwable);
     }
-    
+
     public EncodeUtilsException(String message, Throwable throwable) {
         super(message, throwable);
     }

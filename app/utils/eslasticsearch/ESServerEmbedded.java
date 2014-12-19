@@ -19,22 +19,26 @@ import com.google.inject.Singleton;
 @Singleton
 public class ESServerEmbedded implements IESServerEmbedded {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IESServerEmbedded.class);
-    
+    private static final Logger LOG = LoggerFactory
+            .getLogger(IESServerEmbedded.class);
+
     private final String clusterName;
     private final String dataPath;
-    
+
     private Client client = null;
     private Node node;
-    
+
     @Inject
     private ESServerEmbedded(ConfigurationService configurationService,
             ESConstantService elasticsearchConstantService) {
+
+        this.clusterName = configurationService.get(
+                elasticsearchConstantService.getClusterName());
         
-        this.clusterName = configurationService.get(elasticsearchConstantService.getClusterName());
-        this.dataPath = configurationService.get(elasticsearchConstantService.getPathData());
+        this.dataPath = configurationService.get(
+                elasticsearchConstantService.getPathData());
     }
-    
+
     @Override
     public void init() {
         LOG.info("Elasticsearch server embedded started.");
@@ -48,21 +52,20 @@ public class ESServerEmbedded implements IESServerEmbedded {
         settingsBuilder.put("number_of_shards", 1);
         settingsBuilder.put("index.numberOfReplicas", 1);
 
-        this.node = nodeBuilder().clusterName(clusterName)
-                .client(false)
+        this.node = nodeBuilder().clusterName(clusterName).client(false)
                 .settings(settingsBuilder.build()).node();
-        
+
         this.client = node.client();
     }
-    
+
     @Override
-    public void stop () {
+    public void stop() {
         LOG.info("Elasticsearch server embedded stoped.");
         if (node != null) {
             node.close();
         }
     }
-    
+
     @Override
     public Client getClient() {
         return client;

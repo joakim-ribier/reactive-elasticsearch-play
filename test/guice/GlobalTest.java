@@ -21,33 +21,33 @@ import configuration.GlobalConfiguration;
 import controllers.AuthenticationController;
 
 public class GlobalTest extends GlobalConfiguration {
-	
-	@Override
+
+    @Override
     protected AbstractModule buildAbstractModule() {
-		return new AbstractModule() {
+        return new AbstractModule() {
             @Override
             protected void configure() {
                 bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
                 bind(IEncodeUtils.class).to(EncodeUtils.class);
-                
+
                 bind(ESSearchService.class).to(ESSearchImpl.class);
                 bind(ESConstantService.class).to(ESConstantImpl.class);
-                
+
                 bind(ConfigurationService.class).to(StubConfigurationImplTest.class);
                 bind(AuthenticationService.class).to(StubAuthenticationImplTest.class);
-                
+
                 bind(AuthenticationController.class).asEagerSingleton();
             }
         };
     }
-	
-	@Override
+
+    @Override
     public void onStart(Application application) {
         this.injector = Guice.createInjector(buildAbstractModule());
     }
-	
-	@Override
-	public void onStop(Application arg0) {
-		// do nothing
-	}
+
+    @Override
+    public void onStop(Application arg0) {
+        // do nothing
+    }
 }

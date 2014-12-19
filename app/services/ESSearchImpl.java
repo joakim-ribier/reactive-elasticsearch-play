@@ -27,7 +27,7 @@ public class ESSearchImpl implements ESSearchService {
     private final Client client;
     private final String indexName;
     private final String typeName;
-    
+
     private final String fileField;
     private final String fileNameField;
     private final String indexingDateField;
@@ -36,13 +36,17 @@ public class ESSearchImpl implements ESSearchService {
     private final String realField;
 
     @Inject
-    private ESSearchImpl(ConfigurationService configurationService, 
-            IESServerEmbedded iesServerEmbedded, ESConstantService esConstantService) {
-        
+    private ESSearchImpl(ConfigurationService configurationService,
+            IESServerEmbedded iesServerEmbedded,
+            ESConstantService esConstantService) {
+
         this.client = iesServerEmbedded.getClient();
-        this.indexName = configurationService.get(esConstantService.getIndexName());
-        this.typeName = configurationService.get(esConstantService.getTypeName());
+        this.indexName = configurationService.get(
+                esConstantService.getIndexName());
         
+        this.typeName = configurationService.get(
+                esConstantService.getTypeName());
+
         this.fileField = esConstantService.getRootFileField();
         this.fileNameField = esConstantService.getFileNameField();
         this.indexingDateField = esConstantService.getIndexingDateField();
@@ -53,10 +57,12 @@ public class ESSearchImpl implements ESSearchService {
 
     @Override
     public List<HitModel> searchByQuery(String value) {
-        SearchResponse searchResponse = client.prepareSearch(indexName)
+        SearchResponse searchResponse = client
+                .prepareSearch(indexName)
                 .setTypes(typeName)
                 .setQuery(
-                        QueryBuilders.multiMatchQuery(value, "_all", "filename"))
+                        QueryBuilders
+                                .multiMatchQuery(value, "_all", "filename"))
                 .execute().actionGet();
 
         List<HitModel> hitModels = Lists.newArrayList();
@@ -68,41 +74,38 @@ public class ESSearchImpl implements ESSearchService {
     }
 
     @Override
-    public Optional<File> findFileById(final String id) throws ESDocumentNotFound {
+    public Optional<File> findFileById(final String id)
+            throws ESDocumentNotFound {
         QueryBuilder query = QueryBuilders.termQuery("_id", id);
-        SearchResponse searchResponse = client
-                .prepareSearch(indexName)
-                .setTypes(typeName)
-                .setQuery(query)
-                .execute().actionGet();
-        
+        SearchResponse searchResponse = client.prepareSearch(indexName)
+                .setTypes(typeName).setQuery(query).execute().actionGet();
+
         if (searchResponse.getHits().getTotalHits() == 0) {
             throw new ESDocumentNotFound("The document '" + id + "' not found.");
         }
         return getFileFromFirstHits(searchResponse.getHits());
-    }    
-    
+    }
+
     @SuppressWarnings("unchecked")
     private Optional<File> getFileFromFirstHits(final SearchHits hits) {
         final SearchHit hit = hits.getAt(0);
         Map<String, Object> source = hit.getSource();
         Map<String, Object> path = (Map<String, Object>) source.get(pathField);
-        
+
         File file = new File((String) path.get(realField));
-        if(file.exists()) {
+        if (file.exists()) {
             return Optional.of(file);
-        }        
+        }
         return Optional.empty();
     }
-    
-    
+
     @SuppressWarnings("unchecked")
     private HitModel toHitModel(final SearchHit hit) {
         Map<String, Object> source = hit.getSource();
         Map<String, Object> file = (Map<String, Object>) source.get(fileField);
 
-        return new HitModel(
-                hit.getId(),(String) file.get(fileNameField),
-                (String) file.get(indexingDateField), (Integer) file.get(sizeField));
+        return new HitModel(hit.getId(), (String) file.get(fileNameField),
+                (String) file.get(indexingDateField),
+                (Integer) file.get(sizeField));
     }
 }

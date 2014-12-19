@@ -15,11 +15,11 @@ import com.google.inject.Singleton;
 public class SearchController extends AbstractController {
 
     private final ESSearchService esSearchService;
-    
+
     @Inject
     private SearchController(ConfigurationService configurationService,
             ESSearchService esSearchService) {
-        
+
         super(configurationService);
         this.esSearchService = esSearchService;
     }

@@ -6,7 +6,7 @@ public class ESDocumentNotFound extends Throwable {
      * 
      */
     private static final long serialVersionUID = -297807338728914527L;
-    
+
     public ESDocumentNotFound() {
         super();
     }
@@ -18,7 +18,7 @@ public class ESDocumentNotFound extends Throwable {
     public ESDocumentNotFound(Throwable throwable) {
         super(throwable);
     }
-    
+
     public ESDocumentNotFound(String message, Throwable throwable) {
         super(message, throwable);
     }

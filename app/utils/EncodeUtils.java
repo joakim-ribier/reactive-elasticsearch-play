@@ -12,8 +12,9 @@ import com.google.inject.Singleton;
 @Singleton
 public class EncodeUtils implements IEncodeUtils {
 
-    public EncodeUtils() {}
-    
+    public EncodeUtils() {
+    }
+
     @Override
     public String encode(String salt, String value) throws EncodeUtilsException {
         try {
