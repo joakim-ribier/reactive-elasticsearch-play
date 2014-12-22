@@ -39,8 +39,7 @@ public class ESServerEmbedded implements IESServerEmbedded {
                 elasticsearchConstantService.getPathData());
     }
 
-    @Override
-    public void init() {
+    private void init() {
         LOG.info("Elasticsearch server embedded started.");
         LOG.info("Cluster name [{}] for embedded [ES].", clusterName);
         LOG.info("Data path [{}] for embedded [ES].", dataPath);
@@ -63,11 +62,15 @@ public class ESServerEmbedded implements IESServerEmbedded {
         LOG.info("Elasticsearch server embedded stoped.");
         if (node != null) {
             node.close();
+            this.client = null;
         }
     }
 
     @Override
     public Client getClient() {
+        if (client == null) {
+            init();
+        }
         return client;
     }
 }

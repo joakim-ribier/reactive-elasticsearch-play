@@ -3,6 +3,7 @@ package controllers;
 import java.io.File;
 import java.util.Optional;
 
+import models.exceptions.ESDocumentFieldNotFound;
 import models.exceptions.ESDocumentNotFound;
 
 import org.elasticsearch.common.base.Strings;
@@ -41,7 +42,7 @@ public class FileDownloadController extends AbstractController {
                     return ok(file.get());
                 }
                 return _internalServerError("Document not found.");
-            } catch (ESDocumentNotFound e) {
+            } catch (ESDocumentNotFound | ESDocumentFieldNotFound e) {
                 return _internalServerError(e.getMessage());
             }
         }

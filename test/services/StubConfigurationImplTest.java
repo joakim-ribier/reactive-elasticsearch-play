@@ -12,6 +12,14 @@ public class StubConfigurationImplTest implements ConfigurationService {
             return "admin";
         case "application.security.file.pwd":
             return "test.pwd";
+        case ESConstantImpl.ES_PATH_DATA:
+            return "";
+        case ESConstantImpl.ES_CLUSTER_NAME:
+            return "junit-cluster";
+        case ESConstantImpl.ES_INDEX_NAME:
+            return "junit-index";
+        case ESConstantImpl.ES_TYPE_NAME:
+            return "junit-type";
         default:
             return key;
         }

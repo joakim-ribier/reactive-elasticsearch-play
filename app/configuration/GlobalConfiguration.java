@@ -17,7 +17,8 @@ public abstract class GlobalConfiguration extends GlobalSettings {
     @Override
     public void onStart(Application application) {
         this.injector = Guice.createInjector(buildAbstractModule());
-        injector.getInstance(ESServerEmbedded.class).init();
+        // Initializes client of Elasticsearch
+        injector.getInstance(ESServerEmbedded.class).getClient();
     }
 
     @Override
