@@ -5,9 +5,6 @@ import java.util.Optional;
 
 import models.exceptions.ESDocumentFieldNotFound;
 import models.exceptions.ESDocumentNotFound;
-
-import org.elasticsearch.common.base.Strings;
-
 import play.mvc.Result;
 import play.mvc.Security;
 import services.ConfigurationService;
@@ -31,20 +28,14 @@ public class FileDownloadController extends AbstractController {
 
     @Security.Authenticated(Secured.class)
     public Result index(String id) {
-        if (Strings.isNullOrEmpty(id)) {
-            return _badRequest(
-                    "The 'id' parameter is required to fetch the document.");
-
-        } else {
-            try {
-                Optional<File> file = esSearchService.findFileById(id);
-                if (file.isPresent()) {
-                    return ok(file.get());
-                }
-                return _internalServerError("Document not found.");
-            } catch (ESDocumentNotFound | ESDocumentFieldNotFound e) {
-                return _internalServerError(e.getMessage());
+        try {
+            Optional<File> file = esSearchService.findFileById(id);
+            if (file.isPresent()) {
+                return ok(file.get());
             }
+            return notFound("Document '" + id + "' not found.");
+        } catch (ESDocumentNotFound | ESDocumentFieldNotFound e) {
+            return notFound(e.getMessage());
         }
     }
 }

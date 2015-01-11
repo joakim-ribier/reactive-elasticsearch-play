@@ -1,8 +1,10 @@
 package guice;
 
-import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsRequest;
+import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.exists.indices.IndicesExistsResponse;
+import org.elasticsearch.action.admin.indices.refresh.RefreshRequest;
 import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.QueryBuilders;
 
 import play.Application;
 import services.AuthenticationService;
@@ -68,21 +70,45 @@ public class GlobalTest extends GlobalConfiguration {
     }
 
     private void initESServerEmbeddedData() {
-        Client client = injector.getInstance(IESServerEmbedded.class).getClient();
+        Client client = getClient();
+        
         ConfigurationService configurationService = injector.getInstance(ConfigurationService.class);
         
         String indexName = configurationService.get(ESConstantImpl.ES_INDEX_NAME);
         
         // remove index
-        IndicesExistsResponse indicesExistsResponse = client.admin().indices().exists(
-                new IndicesExistsRequest(indexName)).actionGet();
-        
-        if (indicesExistsResponse.isExists()) {
-            client.admin().indices().prepareDelete(indexName).execute().actionGet();
+        client.admin().indices().prepareExists(indexName).execute(new ActionListener<IndicesExistsResponse>() {
+            
+            @Override
+            public void onResponse(IndicesExistsResponse indicesExistsResponse) {
+                if (indicesExistsResponse.isExists()) {
+                    client.prepareDeleteByQuery(indexName)
+                    .setQuery(QueryBuilders.matchAllQuery())
+                    .execute().actionGet();
+                    
+                    client.admin().indices().refresh(new RefreshRequest(indexName)).actionGet();
+                } else {
+                    // create a new clean index
+                    client.admin().indices().prepareCreate(indexName).execute().actionGet();
+                }
+            }
+            
+            @Override
+            public void onFailure(Throwable arg0) {
+                LOG.warn(arg0.getMessage(), arg0);
+            }
+        });
+    }
+
+    private Client getClient() {
+        Client client = injector.getInstance(IESServerEmbedded.class).getClient();
+        // waiting...
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            LOG.warn(e.getMessage(), e);
         }
-        
-        // create a new clean index
-        client.admin().indices().prepareCreate(indexName).execute().actionGet();
+        return client;
     }
 
     @Override

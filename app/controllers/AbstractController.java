@@ -3,10 +3,8 @@ package controllers;
 import java.util.List;
 
 import models.HitModel;
-import models.ResultOkModel;
 import play.libs.Json;
 import play.mvc.Controller;
-import play.mvc.Result;
 import services.ConfigurationService;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -23,16 +21,6 @@ public class AbstractController extends Controller {
     protected AbstractController(ConfigurationService configurationService) {
         this.configurationService = configurationService;
         this.hostName = configurationService.getHostName();
-    }
-
-    protected Result _badRequest(String message) {
-        return badRequest(
-                new ResultOkModel("ko", message).toJson());
-    }
-
-    protected Result _internalServerError(String message) {
-        return internalServerError(
-                new ResultOkModel("ko", message).toJson());
     }
 
     protected ArrayNode toArrayNode(List<HitModel> hitModels) {

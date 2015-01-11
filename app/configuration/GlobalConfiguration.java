@@ -1,5 +1,8 @@
 package configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import play.Application;
 import play.GlobalSettings;
 import utils.eslasticsearch.ESServerEmbedded;
@@ -10,6 +13,9 @@ import com.google.inject.Injector;
 
 public abstract class GlobalConfiguration extends GlobalSettings {
 
+    protected static final Logger LOG = LoggerFactory
+            .getLogger(GlobalConfiguration.class);
+    
     protected Injector injector;
 
     protected abstract AbstractModule buildAbstractModule();
