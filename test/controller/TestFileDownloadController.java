@@ -8,6 +8,7 @@ import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 import guice.GlobalTest;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import play.mvc.Http.Status;
@@ -18,6 +19,7 @@ import play.test.FakeRequest;
 public class TestFileDownloadController {
 
     @Test
+    @Ignore
     public void testDownloadFileWithIdNotExists() {
         FakeApplication fakeApplication = fakeApplication(new GlobalTest(true));
         running(
