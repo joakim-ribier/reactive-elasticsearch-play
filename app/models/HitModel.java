@@ -8,7 +8,8 @@ public class HitModel {
     private final String fileName;
     private final String indexingDate;
     private final Integer size;
-
+    private final boolean selected;
+    
     public HitModel(String id, String fileName, String indexingDate,
             Integer size) {
         
@@ -16,6 +17,7 @@ public class HitModel {
         this.fileName = fileName;
         this.indexingDate = indexingDate;
         this.size = size;
+        this.selected = false;
     }
 
     public String getId() {
@@ -34,9 +36,13 @@ public class HitModel {
         return size;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+    
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, fileName, indexingDate, size);
+        return Objects.hashCode(id, fileName, indexingDate, size, selected);
     }
 
     @Override
@@ -46,7 +52,8 @@ public class HitModel {
             return Objects.equal(this.id, that.id)
                     && Objects.equal(this.fileName, that.fileName)
                     && Objects.equal(this.indexingDate, that.indexingDate)
-                    && Objects.equal(this.size, that.size);
+                    && Objects.equal(this.size, that.size)
+                    && Objects.equal(this.selected, that.selected);
         }
         return false;
     }

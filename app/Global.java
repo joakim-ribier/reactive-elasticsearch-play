@@ -6,6 +6,8 @@ import services.ESConstantImpl;
 import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
+import services.ZipImpl;
+import services.ZipService;
 import utils.EncodeUtils;
 import utils.FileUtils;
 import utils.IEncodeUtils;
@@ -32,6 +34,7 @@ public class Global extends GlobalConfiguration {
                 bind(ESConstantService.class).to(ESConstantImpl.class);
                 bind(ConfigurationService.class).to(ConfigurationImpl.class);
                 bind(AuthenticationService.class).to(AuthenticationImpl.class);
+                bind(ZipService.class).to(ZipImpl.class);
             }
         };
     }

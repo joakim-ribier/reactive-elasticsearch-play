@@ -6,4 +6,8 @@ public interface ConfigurationService {
 
     String getHostName();
 
+    String getTmpDir();
+
+    String getTmpZipFilePathName();
+
 }

@@ -11,6 +11,8 @@ POST       /page/login/authentication              	@controllers.AuthenticationC
 GET        /search/by/query/:value                 	@controllers.SearchController.index(value: String)
 
 GET        /file/download/by/id/:id                	@controllers.FileDownloadController.index(id: String)
+GET        /file/download/by/ids/:ids               @controllers.FileDownloadController.generateZip(ids: String)
+GET        /file/download/zip 			            @controllers.FileDownloadController.downloadZip
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                  controllers.Assets.at(path="/public", file)
