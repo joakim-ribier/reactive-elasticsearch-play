@@ -29,4 +29,14 @@ public class StubConfigurationImplTest implements ConfigurationService {
     public String getHostName() {
         return null;
     }
+
+    @Override
+    public String getTmpDir() {
+        return null;
+    }
+
+    @Override
+    public String getTmpZipFilePathName() {
+        return null;
+    }
 }
