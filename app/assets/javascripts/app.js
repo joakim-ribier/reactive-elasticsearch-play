@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('reactiveElasticsearchPlay', ['reactiveElasticsearchPlay.controllers']);
+angular.module('App', ['App.controllers']);

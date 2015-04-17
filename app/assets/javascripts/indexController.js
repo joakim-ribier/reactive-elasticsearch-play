@@ -1,6 +1,6 @@
 'use strict';
 
-var myApp = angular.module('reactiveElasticsearchPlay.controllers',[]);
+var myApp = angular.module('App.controllers',[]);
 myApp.controller('IndexController', ['$scope', '$log', '$http', '$window', function ($scope, $log, $http, $window) {
 	
     $scope.loading = false;

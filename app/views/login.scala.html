@@ -1,33 +1,66 @@
 @(title: String, hostName: String)
 
 @scripts = {
-	<script src="@routes.Assets.at("javascripts/loginController.js")"></script>
 }
 
 @main(title, hostName, scripts) {
-	<div data-ng-controller="LoginController" id="login-page">
-        <div id="login-page-logo">
-            <img alt="logo" src="@routes.Assets.at("images/logo.png")" width="254px">
-        </div>
-        
-		<form role="form" data-ng-submit="login(credentials)" novalidate>
-			<div class="form-group">
-				<input type="text" class="form-control" data-ng-model="credentials.username" placeholder="Enter identifiant">
-			</div>
-			<div class="form-group">
-				<input type="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
-			</div>
-			
-			<p data-ng-show="validationMessage" class="text-danger">{{validationMessage}}</p>
-			
-			<button type="submit" class="btn btn-primary">Bonsai cool !</button>
-            <div class="windows8" data-ng-show="loading">
-                <div class="wBall" id="wBall_1"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_2"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_3"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_4"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_5"><div class="wInnerBall"></div></div>
+    <div data-ng-controller="LoginController" class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <span>Sign in to continue...</span>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" data-ng-submit="login(credentials)" novalidate>
+                            <fieldset>
+                                <div class="form-group input-group">
+                                    <input 
+                                        data-ng-model="credentials.username" 
+                                        data-ng-required="true" class="form-control" 
+                                        placeholder="Your login" name="id" type="text" autofocus>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user"></i>
+                                    </span>
+                                </div>
+                                <div class="form-group input-group">
+                                    <input 
+                                        data-ng-model="credentials.password" 
+                                        data-ng-required="true" class="form-control" 
+                                        placeholder="Your password" name="password" type="password" value="">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                                <button type="submit" class="btn btn-lg btn-primary">
+                                    <i class="fa fa-key"></i>
+                                    <span>Sign in</span>
+                                </button>
+                                <div data-ng-if="errorMessage" class="alert alert-danger">
+                                    <span>{{errorMessage}}</span>
+                                </div>
+                            </fieldset>
+                        </form>
+                        
+                        
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <a class="btn btn-social-icon btn-linkedin" 
+                          href="https://fr.linkedin.com/in/joakimribier" 
+                          target="_blank">
+                        <i class="fa fa-linkedin"></i>
+                    </a>
+                    <a class="btn btn-social-icon btn-github" 
+                          href="https://github.com/joakim-ribier/reactive-elasticsearch-play" 
+                          target="_blank">
+                        <i class="fa fa-github"></i>
+                    </a>
+                </div>
             </div>
-		</form>
-	</div>
+        </div>
+    </div>
 }
