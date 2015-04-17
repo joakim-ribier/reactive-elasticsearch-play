@@ -6,12 +6,16 @@ Introduction
 
 AngularJS / Elasticsearch WITH Play Framework for JAVA 8
 
+This project uses [sb-admin-2](http://startbootstrap.com/template-overviews/sb-admin-2/) bootstrap template.
+
+
 Versions
 --------
 
 |  ?             | Elasticsearch | FS River |  Mapper Attchments |
 |----------------|---------------|----------|--------------------|
 | 1.0-SNAPSHOT   |     1.4.1     | 0.0.0    |                    |
+
 
 Build status
 ------------
