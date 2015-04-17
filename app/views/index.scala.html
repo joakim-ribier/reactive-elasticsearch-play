@@ -1,10 +1,6 @@
 @(title: String, hostName: String)
 
-@scripts = {
-	 <script src="@routes.Assets.at("javascripts/indexController.js")"></script>
-}
-
-@main(title, hostName, scripts) {
+@main(title, hostName) {
 	<div data-ng-controller="IndexController" id="index-page">
 		<div class="nav-top-bar">
 			<span>@title</span>

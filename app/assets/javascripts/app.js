@@ -1,3 +1,6 @@
-'use strict';
-
-angular.module('App', ['App.controllers']);
+(function() {
+    
+    'use strict';
+    
+    angular.module('App', []);
+})();

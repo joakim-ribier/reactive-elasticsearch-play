@@ -1,4 +1,4 @@
-@(title: String, hostName: String, scripts: Html = Html(""))(content: Html)
+@(title: String, hostName: String)(content: Html)
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -25,7 +25,7 @@
             window.hostName = '@hostName';
         </script>
     </head>
-    <body cz-shortcut-listen="true" ng-app="App">
+    <body cz-shortcut-listen="true" data-ng-app="App">
         <div id="wrapper">
         
             <!-- Navigation -->
@@ -47,8 +47,9 @@
         <script src="@routes.Assets.at("bower_components/bootstrap/dist/js/bootstrap.min.js")"></script>
         <script src="@routes.Assets.at("bower_components/metisMenu/dist/metisMenu.min.js")"></script>
         
-        <!-- app.js -->        
+         <!-- build:js({.tmp,app}) scripts/scripts.js -->        
         <script src="@routes.Assets.at("javascripts/app.js")"></script>
         <script src="@routes.Assets.at("javascripts/loginController.js")"></script>
+        <script src="@routes.Assets.at("javascripts/indexController.js")"></script>
     </body>
 </html>
