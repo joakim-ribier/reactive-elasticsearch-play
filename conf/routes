@@ -2,7 +2,9 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET        /                              			@controllers.Application.index
+GET        /                                        @controllers.Application.index
+
+GET        /i18n/get/:lang                          @controllers.I18nController.index(lang: String)
 
 GET        /page/login             					@controllers.AuthenticationController.login
 GET        /logout                					@controllers.AuthenticationController.logout

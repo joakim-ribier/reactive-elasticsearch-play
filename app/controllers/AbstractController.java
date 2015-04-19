@@ -1,13 +1,12 @@
 package controllers;
 
-import java.util.List;
+import java.util.Map;
 
-import models.HitModel;
 import play.libs.Json;
 import play.mvc.Controller;
 import services.ConfigurationService;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -22,13 +21,13 @@ public class AbstractController extends Controller {
         this.configurationService = configurationService;
         this.hostName = configurationService.getHostName();
     }
-
-    protected ArrayNode toArrayNode(List<HitModel> hitModels) {
-        ArrayNode arrayNode = Json.newObject().arrayNode();
-        hitModels.forEach((hitModel) -> {
-            arrayNode.add(Json.toJson(hitModel));
+    
+    protected ObjectNode toObjectNode(Map<String, String> map) {
+        ObjectNode objectNode = Json.newObject();
+        map.forEach((key, value) -> {
+            objectNode.put(key, value);
         });
-        return arrayNode;
+        return objectNode;
     }
 
     protected void clearSession() {

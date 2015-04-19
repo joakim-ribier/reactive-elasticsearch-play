@@ -14,6 +14,8 @@ import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
 import services.StubConfigurationImplTest;
+import services.i18n.I18nImpl;
+import services.i18n.I18nService;
 import stub.StubAuthenticationImplTest;
 import utils.EncodeUtils;
 import utils.FileUtils;
@@ -56,6 +58,7 @@ public class GlobalTest extends GlobalConfiguration {
                 bind(AuthenticationService.class).to(StubAuthenticationImplTest.class);
 
                 bind(AuthenticationController.class).asEagerSingleton();
+                bind(I18nService.class).to(I18nImpl.class);
             }
         };
     }

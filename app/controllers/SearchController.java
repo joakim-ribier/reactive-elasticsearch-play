@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 
 import models.HitModel;
+import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Security;
 import services.ConfigurationService;
@@ -27,6 +28,6 @@ public class SearchController extends AbstractController {
     @Security.Authenticated(Secured.class)
     public Result index(String value) {
         List<HitModel> hitModels = esSearchService.searchByQuery(value);
-        return ok(toArrayNode(hitModels));
+        return ok(Json.toJson(hitModels));
     }
 }

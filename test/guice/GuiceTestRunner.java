@@ -9,6 +9,8 @@ import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
 import services.StubConfigurationImplTest;
+import services.i18n.I18nImpl;
+import services.i18n.I18nService;
 import stub.StubAuthenticationImplTest;
 import utils.EncodeUtils;
 import utils.FileUtils;
@@ -41,6 +43,7 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
                     
                     bind(ConfigurationService.class).to(StubConfigurationImplTest.class);
                     bind(AuthenticationService.class).to(StubAuthenticationImplTest.class);
+                    bind(I18nService.class).to(I18nImpl.class);
                 }
             });
         } catch (Exception e) {

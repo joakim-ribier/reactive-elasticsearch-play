@@ -1,0 +1,3 @@
+module.login.form.title=Identifiez-vous pour continuer...
+module.login.form.login=Votre identifiant
+module.login.form.password=Votre mot de passe

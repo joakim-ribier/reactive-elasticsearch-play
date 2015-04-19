@@ -8,6 +8,8 @@ import services.ESSearchImpl;
 import services.ESSearchService;
 import services.ZipImpl;
 import services.ZipService;
+import services.i18n.I18nImpl;
+import services.i18n.I18nService;
 import utils.EncodeUtils;
 import utils.FileUtils;
 import utils.IEncodeUtils;
@@ -35,6 +37,7 @@ public class Global extends GlobalConfiguration {
                 bind(ConfigurationService.class).to(ConfigurationImpl.class);
                 bind(AuthenticationService.class).to(AuthenticationImpl.class);
                 bind(ZipService.class).to(ZipImpl.class);
+                bind(I18nService.class).to(I18nImpl.class);
             }
         };
     }
