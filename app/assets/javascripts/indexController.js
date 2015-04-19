@@ -6,17 +6,16 @@
         $scope.loading = false;
         $scope.actionsLoading = false;
         
-        $scope.validationMessage = '';
+        $scope.errorMessage = '';
         $scope.actionsValidationMessage = '';
     
         $scope.searchResults = [];
         $scope.searchString = '';
         
-            
         $scope.startSearching = function () {
             if ($scope.searchString) {
                 $scope.loading = true;
-                $scope.validationMessage = '';
+                $scope.errorMessage = '';
         		
                 $http.get($window.hostName + '/search/by/query/' + $scope.searchString)
                 .success(function(data) {
@@ -25,7 +24,7 @@
                     $scope.loading = false;
     				
                     if (data.length < 1) {
-                        $scope.validationMessage = 'Il n\'y a pas de résultat.'
+                        $scope.errorMessage = 'Aucun document ne correspond aux termes de recherche spécifiés.'
                     }
                 })
                 .error(function(data, status, headers, config) {
@@ -43,7 +42,7 @@
         
         $scope.downloadFiles = function () {
             if ($scope.searchResults && $scope.searchResults.length > 0) {
-                $scope.actionsValidationMessage = '';
+                $scope.actionserrorMessage = '';
                 
                 var documentIds = '';
                 angular.forEach($scope.searchResults, function (document) {

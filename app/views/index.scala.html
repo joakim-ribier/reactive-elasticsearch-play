@@ -1,71 +1,126 @@
 @(title: String, hostName: String)
 
-@main(title, hostName) {
-	<div data-ng-controller="IndexController" id="index-page">
-		<div class="nav-top-bar">
-			<span>@title</span>
-			<div class="nav-top-bar-menu">
-				<a href="@hostName/logout">Déconnexion</a>
-			</div>
-		</div>
-		
-        <form role="form" data-ng-submit="startSearching()" novalidate>
-            <input type="text" class="form-control" name="searchString" data-ng-model="searchString" placeholder="Chercher dans le moteur..."/>
-            <br />
-            <button type="submit" class="btn btn-primary">&#xAB; Va chercher &#xBB;</button>
-            <div class="windows8" data-ng-show="loading">
-                <div class="wBall" id="wBall_1"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_2"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_3"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_4"><div class="wInnerBall"></div></div>
-                <div class="wBall" id="wBall_5"><div class="wInnerBall"></div></div>
+@dropdownMenu = {
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+            <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+            <li class="divider"></li>
+            <li>
+                <a href="@hostName/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+            </li>
+        </ul>
+        <!-- /.dropdown-user -->
+    </li>
+}
+
+@main(title, hostName, dropdownMenu) {
+	<div data-ng-controller="IndexController" id="page-wrapper">
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Recherche de documents</h1>
             </div>
-            <br /><br />
-            <p data-ng-show="validationMessage" class="text-info">{{validationMessage}}</p>
-        </form>
+        </div>
         
+        <div class="panel panel-default">
         
-        <div id="results">
-            <table class="table">
-                <thead>
-                    <tr>
-                    	<th class="text-info">
-                            <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
-                        </th>
-                        <th>Identifiant</th>
-                        <th>Nom du fichier</th>
-                        <th>Date d'indexation</th>
-                        <th>Taille</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr data-ng-repeat="searchResult in searchResults | limitTo:10">
-                    	<td>
-                    		<div class="checkbox"><input type="checkbox" data-ng-model="searchResult.selected"></div>
-						</td>
-						<td>{{searchResult.id}}</td>
-                        <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
-                        <td>{{searchResult.indexingDate | date:'medium'}}</td>
-                        <td>{{searchResult.size}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="panel-heading">
+                <i class="fa fa-search"></i>
+                <span>Rechercher</span>
+            </div>
             
-            <div id="actions">
-                <button type="button" class="btn" 
-                        data-ng-class="{'btn-primary' : searchResults.length > 0,
-                                        'btn-default' : searchResults.length < 1}"
-                        data-ng-click="downloadFiles()">Télécharger</button>
-                        
-                <div class="windows8" data-ng-show="actionsLoading">
-                    <div class="wBall" id="wBall_1"><div class="wInnerBall"></div></div>
-                    <div class="wBall" id="wBall_2"><div class="wInnerBall"></div></div>
-                    <div class="wBall" id="wBall_3"><div class="wInnerBall"></div></div>
-                    <div class="wBall" id="wBall_4"><div class="wInnerBall"></div></div>
-                    <div class="wBall" id="wBall_5"><div class="wInnerBall"></div></div>
+            <div class="panel-body search-panel">
+                <div class="panel-group">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-4">
+                                <form role="form" data-ng-submit="startSearching()" novalidate>
+                                    <fieldset>
+                                        <div class="form-group input-group">
+                                            <input 
+                                                data-ng-model="searchString" 
+                                                data-ng-required="true" class="form-control" 
+                                                type="text" name="searchString"  placeholder="Enter your value..." autofocus/>
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-search"></i>
+                                                </span>
+                                        </div>
+                                        <button type="submit" class="btn btn-lg btn-primary">
+                                            <i class="fa fa-gears"></i>
+                                            <span>Search</span>
+                                        </button>
+                                        <div data-ng-if="errorMessage" class="alert alert-warning">
+                                            <span>{{errorMessage}}</span>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <br /><br />
-                <p data-ng-if="actionsValidationMessage != ''" class="text-warning">{{actionsValidationMessage}}</p>
+                
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-default">
+                    
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true">
+                                    <i class="fa fa-file-o"></i>
+                                    Liste des documents
+                                </a>
+                            </h4>
+                        </div>
+                        
+                        <div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true">
+                            <div class="panel-body documents-list-panel">
+                                <div class="row">
+                                
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
+                                                    </th>
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Date</th>
+                                                    <th>Size</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr data-ng-repeat="searchResult in searchResults | limitTo:10" role="row">
+                                                    <td>
+                                                        <input type="checkbox" data-ng-model="searchResult.selected">
+                                                    </td>
+                                                    <td>{{searchResult.id}}</td>
+                                                    <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
+                                                    <td>{{searchResult.indexingDate | date:'medium'}}</td>
+                                                    <td>{{searchResult.size}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-lg" 
+                                            ng-class="{'btn-primary' : searchResults.length > 0,
+                                                            'btn-primary disabled' : searchResults.length < 1}"
+                                            ng-click="downloadFiles()">
+                                            <i class="fa fa-download"></i>
+                                            <span>Download</span>
+                                    </button>
+                                    <div data-ng-if="actionsValidationMessage != ''" class="alert alert-warning">
+                                        <span>{{actionsValidationMessage}}</span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>

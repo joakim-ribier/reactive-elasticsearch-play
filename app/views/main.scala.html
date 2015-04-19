@@ -1,4 +1,4 @@
-@(title: String, hostName: String)(content: Html)
+@(title: String, hostName: String, dropdownMenu: Html = Html(""))(content: Html)
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -27,8 +27,6 @@
     </head>
     <body cz-shortcut-listen="true" data-ng-app="App">
         <div id="wrapper">
-        
-            <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="@hostName">
@@ -36,8 +34,10 @@
                         @title
                     </a>
                 </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    @dropdownMenu
+                </ul>
             </nav>
-            
             @content
 		</div>
         
