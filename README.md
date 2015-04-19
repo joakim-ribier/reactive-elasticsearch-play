@@ -16,6 +16,14 @@ Versions
 |----------------|---------------|----------|--------------------|
 | 1.0-SNAPSHOT   |     1.4.1     | 0.0.0    |                    |
 
+Dependency error
+----------------
+
+```
+$ rm -r ~/.sbt/boot/
+$ rm -r ~/.ivy2/cache/org.scala-lang/
+$ rm -r ~/.ivy2/cache/org.scala-sbt/
+```
 
 Build status
 ------------
