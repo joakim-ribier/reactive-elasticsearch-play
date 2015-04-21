@@ -10,7 +10,7 @@ import utils.IEncodeUtils;
 import utils.IFileUtils;
 
 public class StubAuthenticationImplTest extends AuthenticationImpl {
-
+    
     @Inject
     private StubAuthenticationImplTest(
             ConfigurationService configurationService,
@@ -20,7 +20,8 @@ public class StubAuthenticationImplTest extends AuthenticationImpl {
     }
     
     @Override
-    protected String getPassword(String filePath) throws IOException {
+    protected String getPassword() throws IOException {
         return "BiGlrUzC6WlXq/UoicJIIjvfGww=";
     }
+    
 }

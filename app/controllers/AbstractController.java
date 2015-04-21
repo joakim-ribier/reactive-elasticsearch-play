@@ -1,12 +1,9 @@
 package controllers;
 
-import java.util.Map;
-
-import play.libs.Json;
 import play.mvc.Controller;
 import services.ConfigurationService;
+import utils.json.JsonHelper;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -22,14 +19,16 @@ public class AbstractController extends Controller {
         this.hostName = configurationService.getHostName();
     }
     
-    protected ObjectNode toObjectNode(Map<String, String> map) {
-        ObjectNode objectNode = Json.newObject();
-        map.forEach((key, value) -> {
-            objectNode.put(key, value);
-        });
-        return objectNode;
+    protected Status _internalServerError(String key) {
+        return internalServerError(
+                JsonHelper.toResultExceptionModel(key));
     }
-
+    
+    protected Status _preconditionFailed(String key) {
+        return status(PRECONDITION_FAILED,
+                JsonHelper.toResultExceptionModel(key));
+    }
+    
     protected void clearSession() {
         session().clear();
     }

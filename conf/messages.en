@@ -1,3 +1,10 @@
+module.global.error=An error occurred while processing your request. Please contact the administrator of the application.
+
 module.login.form.title=Sign in to continue...
 module.login.form.login=Your login
 module.login.form.password=Your password
+module.login.form.first.connection=It's my first connection...
+module.login.form.error=Please check your username and password.
+
+module.login.first.connection.error=Sorry it is not possible to create a new password.
+module.login.first.connection.success=Please sign in to continue.

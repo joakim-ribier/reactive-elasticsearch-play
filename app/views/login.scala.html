@@ -8,7 +8,7 @@
                 
                     <div class="panel-heading">
                         <h3 class="panel-title">
-                            <span translate="module.login.form.title"></span>
+                            <span data-translate="module.login.form.title"></span>
                         </h3>
                     </div>
                     
@@ -33,12 +33,32 @@
                                         <i class="fa fa-lock"></i>
                                     </span>
                                 </div>
+                                <div class="form-group input-group" data-ng-if="credentials.firstConnection">
+                                    <input 
+                                        data-ng-model="credentials.password2" 
+                                        data-ng-required="true" class="form-control" 
+                                        placeholder="Confirm your password" name="password2" type="password" value="">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
                                 <button type="submit" class="btn btn-lg btn-primary">
                                     <i class="fa fa-key"></i>
                                     <span>Sign in</span>
                                 </button>
+                                <div class="form-group">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input data-ng-model="credentials.firstConnection" type="checkbox">
+                                            <span data-translate="module.login.form.first.connection"></span>
+                                        </label>
+                                    </div>
+                                </div>
                                 <div data-ng-if="errorMessage" class="alert alert-danger">
                                     <span>{{errorMessage}}</span>
+                                </div>
+                                <div data-ng-if="infoMessage" class="alert alert-success">
+                                    <span>{{infoMessage}}</span>
                                 </div>
                             </fieldset>
                         </form>

@@ -9,6 +9,7 @@ GET        /i18n/get                                @controllers.I18nController.
 GET        /page/login                              @controllers.AuthenticationController.login
 GET        /logout                                  @controllers.AuthenticationController.logout
 POST       /page/login/authentication               @controllers.AuthenticationController.authentication
+POST       /page/login/firstConnection              @controllers.AuthenticationController.firstConnection
 
 GET        /search/by/query/:value                  @controllers.SearchController.index(value: String)
 

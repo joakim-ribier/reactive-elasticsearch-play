@@ -1,5 +1,7 @@
 package controllers;
 
+import models.exceptions.AuthenticationServiceException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +16,12 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class AuthenticationController extends AbstractController {
-
+    
     private static final Logger LOG = LoggerFactory
             .getLogger(AuthenticationController.class);
-
+    
     private final AuthenticationService authenticationService;
-
+    
     @Inject
     protected AuthenticationController(
             ConfigurationService configurationService,
@@ -28,12 +30,12 @@ public class AuthenticationController extends AbstractController {
         super(configurationService);
         this.authenticationService = authenticationService;
     }
-
+    
     public Result login() {
         clearSession();
         return ok(views.html.login.render(_TITLE, hostName));
     }
-
+    
     public Result logout() {
         clearSession();
         flashSuccess("You've been logged out.");
@@ -58,4 +60,24 @@ public class AuthenticationController extends AbstractController {
             return unauthorized("Wrong username or password.");
         }
     }
+    
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result firstConnection() {
+        JsonNode json = request().body().asJson();
+        String username = json.findPath("username").textValue();
+        String password = json.findPath("password").textValue();
+        String password2 = json.findPath("password2").textValue();
+
+        try {
+            boolean isOk = authenticationService.firstConnection(username, password, password2);
+            if (isOk) {
+                return ok();
+            } else {
+                return _preconditionFailed("module.login.first.connection.error");
+            }
+        } catch (AuthenticationServiceException e) {
+            return _internalServerError("module.global.error");
+        }
+    }
+    
 }
