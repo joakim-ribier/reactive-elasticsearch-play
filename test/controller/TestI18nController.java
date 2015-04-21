@@ -22,7 +22,7 @@ public class TestI18nController {
         FakeApplication fakeApplication = fakeApplication(new GlobalTest());
         running(
                 fakeApplication, () -> {
-                    FakeRequest fakeIndexRequest = fakeRequest("GET", "/i18n/get/en");
+                    FakeRequest fakeIndexRequest = fakeRequest("GET", "/i18n/get?lang=en");
                     
                     Result result = route(fakeIndexRequest);
                     
