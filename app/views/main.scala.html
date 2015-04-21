@@ -42,13 +42,18 @@
 		</div>
         
         <!-- vendor.js -->
-        <script src="@routes.Assets.at("lib/angularjs/angular.min.js")"></script>
+        <script src="@routes.Assets.at("bower_components/angular/angular.min.js")"></script>
+        <script src="@routes.Assets.at("bower_components/angular-translate/angular-translate.min.js")"></script>
+        <script src="@routes.Assets.at("bower_components/angular-translate-loader-url/angular-translate-loader-url.min.js")"></script>
+        
         <script src="@routes.Assets.at("bower_components/jquery/dist/jquery.min.js")"></script>
         <script src="@routes.Assets.at("bower_components/bootstrap/dist/js/bootstrap.min.js")"></script>
         <script src="@routes.Assets.at("bower_components/metisMenu/dist/metisMenu.min.js")"></script>
         
          <!-- build:js({.tmp,app}) scripts/scripts.js -->        
         <script src="@routes.Assets.at("javascripts/app.js")"></script>
+        <script src="@routes.Assets.at("javascripts/provider.js")"></script>
+        
         <script src="@routes.Assets.at("javascripts/loginController.js")"></script>
         <script src="@routes.Assets.at("javascripts/indexController.js")"></script>
     </body>

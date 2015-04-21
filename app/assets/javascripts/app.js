@@ -2,5 +2,8 @@
     
     'use strict';
     
-    angular.module('App', []);
+    var app = angular.module('App', []);
+    
+    angular.module('App', ['pascalprecht.translate']);
+    
 })();

@@ -4,15 +4,15 @@
 
 GET        /                                        @controllers.Application.index
 
-GET        /i18n/get/:lang                          @controllers.I18nController.index(lang: String)
+GET        /i18n/get                                @controllers.I18nController.index(lang: String)
 
-GET        /page/login             					@controllers.AuthenticationController.login
-GET        /logout                					@controllers.AuthenticationController.logout
-POST       /page/login/authentication              	@controllers.AuthenticationController.authentication
+GET        /page/login                              @controllers.AuthenticationController.login
+GET        /logout                                  @controllers.AuthenticationController.logout
+POST       /page/login/authentication               @controllers.AuthenticationController.authentication
 
-GET        /search/by/query/:value                 	@controllers.SearchController.index(value: String)
+GET        /search/by/query/:value                  @controllers.SearchController.index(value: String)
 
-GET        /file/download/by/id/:id                	@controllers.FileDownloadController.index(id: String)
+GET        /file/download/by/id/:id                 @controllers.FileDownloadController.index(id: String)
 GET        /file/download/by/ids/:ids               @controllers.FileDownloadController.generateZip(ids: String)
 GET        /file/download/zip 			            @controllers.FileDownloadController.downloadZip
 

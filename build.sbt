@@ -11,9 +11,7 @@ libraryDependencies ++= Seq(
   "org.testng" % "testng" % "6.8.8",
   "com.google.inject" % "guice" % "3.0",
   "org.elasticsearch" % "elasticsearch" % "1.4.1",
-  "org.elasticsearch" % "elasticsearch-mapper-attachments" % "2.4.1",
-  "org.webjars" % "angularjs" % "1.3.4-1",
-  "org.webjars" % "bootstrap" % "3.1.1-2")
+  "org.elasticsearch" % "elasticsearch-mapper-attachments" % "2.4.1")
 
 initialize := {
   val _ = initialize.value
