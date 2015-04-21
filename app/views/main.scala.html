@@ -25,7 +25,7 @@
             window.hostName = '@hostName';
         </script>
     </head>
-    <body cz-shortcut-listen="true" data-ng-app="App">
+    <body cz-shortcut-listen="true" data-ng-app="App" >
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
@@ -35,6 +35,9 @@
                     </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
+                    <li class="dropdown" data-ng-if="loading" >
+                        <i class="fa fa-spinner"></i>
+                    </li>
                     @dropdownMenu
                 </ul>
             </nav>

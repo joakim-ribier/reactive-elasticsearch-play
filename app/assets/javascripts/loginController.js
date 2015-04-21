@@ -4,11 +4,9 @@
     
     angular.module('App').controller(
             'LoginController', 
-            ['$scope', '$log', '$http', '$window', '$location', '$translate', '$filter',
-            function ($scope, $log, $http, $window, $location, $translate, $filter) {
+            ['$scope', '$log', '$http', '$window', '$location', '$translate', '$filter', '$rootScope',
+            function ($scope, $log, $http, $window, $location, $translate, $filter, $rootScope) {
         
-        $scope.loading = false;
-        $scope.errorMessage = '';
         $scope.credentials = {
             username: '',
             password: '',
@@ -17,11 +15,13 @@
         };
         
         $scope.login = function (credentials) {
-            $scope.loading = true;
+            $rootScope.loading = true;
             if (credentials.firstConnection === true) {
                 if (credentials.password == credentials.password2) {
                     $http.post($window.hostName + '/page/login/firstConnection', {credentials: credentials})
                     .success(function(data, status, headers, config) {
+                        $rootScope.loading = false;
+                        
                         credentials.username = '';
                         credentials.password = '';
                         credentials.password2 = '';
@@ -31,11 +31,13 @@
                         $scope.infoMessage = $filter('translate')('module.login.first.connection.success');
                     })
                     .error(function(data, status, headers, config) {
+                        $rootScope.loading = false;
                         $log.error(data);
-                        $scope.loading = false;
+                        
                         $scope.errorMessage =  $filter('translate')(data.key);
                     });
                 } else {
+                    $rootScope.loading = false;
                     $scope.errorMessage = $filter('translate')('module.login.form.error');
                 }
             } else {
@@ -44,8 +46,9 @@
                     $window.location = "/";
                 })
                 .error(function(data, status, headers, config) {
+                    $rootScope.loading = false;
                     $log.error(data);
-                    $scope.loading = false;
+                    
                     $scope.errorMessage = $filter('translate')('module.login.form.error');
                 });
             }
