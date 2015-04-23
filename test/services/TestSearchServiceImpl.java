@@ -1,6 +1,7 @@
 package services;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import static org.fest.assertions.Assertions.assertThat;
 import guice.GuiceTestRunner;
 
 import java.io.File;
@@ -16,11 +17,9 @@ import models.exceptions.ESDocumentNotFound;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-
-import static org.fest.assertions.Assertions.*;
-
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,30 +46,16 @@ public class TestSearchServiceImpl {
     private String index;
     private String type;
     
-    private String fileField;
-    private String fileNameField;
-    private String indexingDateField;
-    private String sizeField;
-    private String pathField;
-    private String realField;
-    
     private IndexResponse indexResponse;
     
     @Before
     public void init() throws ElasticsearchException, IOException {
-        this.fileField = esConstantService.getRootFileField();
-        this.fileNameField = esConstantService.getFileNameField();
-        this.indexingDateField = esConstantService.getIndexingDateField();
-        this.sizeField = esConstantService.getSizeField();
-        this.pathField = esConstantService.getPathField();
-        this.realField = esConstantService.getRealField();
-        
         this.index = configurationService.get(esConstantService.getIndexName());
         this.type = configurationService.get(esConstantService.getTypeName());
         
         this.indexResponse = index(FILE_NAME_DEFAULT, SIZE_DEFAULT, "/home/junit/test.pdf");
     }
-
+    
     @After
     public void after() throws InterruptedException {
         esServerEmbedded.getClient()
@@ -79,7 +64,7 @@ public class TestSearchServiceImpl {
         
         esServerEmbedded.stop();
     }
-
+    
     private IndexResponse index(String fileName, long size, String path) throws IOException {
         return index(
                 buildSource(fileName, new Date(), size, path));
@@ -97,15 +82,18 @@ public class TestSearchServiceImpl {
             String filePath) throws IOException {
         
         return jsonBuilder().startObject()
-                .startObject(fileField)
-                    .field(fileNameField, fileName)
-                    .field(indexingDateField, date.toString())
-                    .field(sizeField, size).endObject()
-                .startObject(pathField)
-                    .field(realField, pathField)
+                .startObject("file")
+                    .field("content", "Content of the file")
+                    .field("filename", fileName)
+                    .field("date", date.toString())
+                    .startObject("metadata")
+                        .field("content-type", "application/pdf")
+                        .field("content-length", size)
+                    .endObject()
                 .endObject();
     }
     
+    @Ignore
     @Test
     public void testFindByIdWithNotExistsFile() throws ESDocumentNotFound, ESDocumentFieldNotFound {
        String id = indexResponse.getId();
@@ -119,16 +107,14 @@ public class TestSearchServiceImpl {
         esSearchService.findFileById("bad id");
     }
     
+    @Ignore
     @Test(expected = ESDocumentFieldNotFound.class)
-    public void testFindByIdThrowESDocumentFieldNotFound() throws ESDocumentNotFound, ESDocumentFieldNotFound, IOException {
+    public void testFindByIdThrowESDocumentFieldNotFound()
+            throws ESDocumentNotFound, ESDocumentFieldNotFound, IOException {
+        
         XContentBuilder source = jsonBuilder().startObject()
-            .startObject(fileField)
-                .field(fileNameField, "test.png")
-                .field(indexingDateField, new Date())
-                .field(sizeField, 1l)
-            .endObject()
-            .startObject(pathField)
-                .field("reeeeallll", pathField)
+            .startObject("file")
+                .field("filename", "test.png")
             .endObject();
         
         IndexResponse index = index(source);
@@ -144,4 +130,5 @@ public class TestSearchServiceImpl {
         assertThat(searchByQuery.get(0).getSize()
                 ).isEqualTo(Ints.checkedCast(SIZE_DEFAULT));
     }
+    
 }

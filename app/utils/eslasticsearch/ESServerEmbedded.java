@@ -2,9 +2,15 @@ package utils.eslasticsearch;
 
 import static org.elasticsearch.node.NodeBuilder.nodeBuilder;
 
+import java.util.List;
+
+import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.node.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +62,25 @@ public class ESServerEmbedded implements IESServerEmbedded {
 
         this.client = node.client();
     }
-
+    
+    @Override
+    public IndexRequestBuilder buildIndexRequestBuilder(XContentBuilder xContentBuilder) {
+        IndexRequestBuilder indexRequestBuilder = client.prepareIndex(
+                "reactive-elasticsearch-play", "files");
+        
+        return indexRequestBuilder.setSource(xContentBuilder);
+    }
+    
+    @Override
+    public boolean bulk(List<IndexRequestBuilder> indexRequestBuilders) {
+        BulkRequestBuilder bulkRequestBuilder = client.prepareBulk();
+        for (IndexRequestBuilder indexRequestBuilder: indexRequestBuilders) {
+            bulkRequestBuilder.add(indexRequestBuilder);
+        }
+        BulkResponse bulkResponse = bulkRequestBuilder.execute().actionGet();
+        return !bulkResponse.hasFailures();
+    }
+    
     @Override
     public void stop() {
         LOG.info("Elasticsearch server embedded stoped.");

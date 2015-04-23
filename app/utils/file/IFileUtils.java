@@ -3,6 +3,8 @@ package utils.file;
 import java.nio.file.Path;
 import java.util.List;
 
+import models.PathIndexModel;
+
 public interface IFileUtils {
     
     String getContent(String filePath) throws FileUtilsException;
@@ -19,5 +21,14 @@ public interface IFileUtils {
      */
     List<Path> findRecursivelyAllFilesInADirectory(Path path)
             throws FileUtilsException;
+    
+    /**
+     * Gets content and metadata of path parameter.
+     * 
+     * @param path file object.
+     * @return PathIndexModel object.
+     * @throws FileUtilsException
+     */
+    PathIndexModel parse(Path path) throws FileUtilsException;
     
 }

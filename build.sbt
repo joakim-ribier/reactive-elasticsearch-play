@@ -10,8 +10,9 @@ libraryDependencies ++= Seq(
   "net.lingala.zip4j" % "zip4j" % "1.3.2",
   "org.testng" % "testng" % "6.8.8",
   "com.google.inject" % "guice" % "3.0",
-  "org.elasticsearch" % "elasticsearch" % "1.4.1",
-  "org.elasticsearch" % "elasticsearch-mapper-attachments" % "2.4.1")
+  "org.elasticsearch" % "elasticsearch" % "1.5.1",
+  "org.apache.tika" % "tika-core" % "1.7",
+  "org.apache.tika" % "tika-parsers" % "1.7")
 
 initialize := {
   val _ = initialize.value

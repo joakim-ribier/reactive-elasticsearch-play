@@ -1,19 +1,30 @@
 package utils.file;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import models.PathIndexModel;
+
+import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import com.google.inject.Singleton;
 
-
+@Singleton
 public class FileUtils implements IFileUtils {
     
     private static final Logger LOG = LoggerFactory
@@ -61,6 +72,24 @@ public class FileUtils implements IFileUtils {
             });
             return files;
         } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+            throw new FileUtilsException(e.getMessage(), e);
+        }
+    }
+    
+    @Override
+    public PathIndexModel parse(Path path) throws FileUtilsException {
+        try {
+            FileInputStream inputstream = new FileInputStream(path.toFile());
+            ParseContext context = new ParseContext();
+            BodyContentHandler bodyContentHandler = new BodyContentHandler(10 * 1024 * 1024);
+            Metadata metadata = new Metadata();
+            
+            Parser parser = new AutoDetectParser();
+            parser.parse(inputstream, bodyContentHandler, metadata, context);
+            
+            return new PathIndexModel(path, bodyContentHandler, metadata);
+        } catch (IOException | SAXException | TikaException e) {
             LOG.error(e.getMessage(), e);
             throw new FileUtilsException(e.getMessage(), e);
         }

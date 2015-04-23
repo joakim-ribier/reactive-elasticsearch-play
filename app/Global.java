@@ -18,6 +18,8 @@ import utils.eslasticsearch.ESServerEmbedded;
 import utils.eslasticsearch.IESServerEmbedded;
 import utils.file.FileUtils;
 import utils.file.IFileUtils;
+import utils.xcontentbuilder.IXContentBuilderHelper;
+import utils.xcontentbuilder.XContentBuilderHelper;
 
 import com.google.inject.AbstractModule;
 
@@ -33,6 +35,7 @@ public class Global extends GlobalConfiguration {
                 bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
                 bind(IEncodeUtils.class).to(EncodeUtils.class);
                 bind(IFileUtils.class).to(FileUtils.class);
+                bind(IXContentBuilderHelper.class).to(XContentBuilderHelper.class);
                 
                 bind(ESSearchService.class).to(ESSearchImpl.class);
                 bind(ESConstantService.class).to(ESConstantImpl.class);

@@ -31,13 +31,6 @@ public class ESSearchImpl implements ESSearchService {
     private final String indexName;
     private final String typeName;
 
-    private final String fileField;
-    private final String fileNameField;
-    private final String indexingDateField;
-    private final String sizeField;
-    private final String pathField;
-    private final String realField;
-
     @Inject
     private ESSearchImpl(ConfigurationService configurationService,
             IESServerEmbedded iesServerEmbedded,
@@ -50,13 +43,6 @@ public class ESSearchImpl implements ESSearchService {
         
         this.typeName = configurationService.get(
                 esConstantService.getTypeName());
-
-        this.fileField = esConstantService.getRootFileField();
-        this.fileNameField = esConstantService.getFileNameField();
-        this.indexingDateField = esConstantService.getIndexingDateField();
-        this.sizeField = esConstantService.getSizeField();
-        this.pathField = esConstantService.getPathField();
-        this.realField = esConstantService.getRealField();
     }
 
     @Override
@@ -94,9 +80,9 @@ public class ESSearchImpl implements ESSearchService {
     private Optional<File> getFileFromFirstHits(final SearchHits hits) throws ESDocumentFieldNotFound  {
         final SearchHit hit = hits.getAt(0);
         Map<String, Object> source = hit.getSource();
-        Map<String, Object> path = (Map<String, Object>) source.get(pathField);
+        Map<String, Object> path = (Map<String, Object>) source.get("");
 
-        String pathname = (String) path.get(realField);
+        String pathname = (String) path.get("");
         if (Strings.isNullOrEmpty(pathname)) {
             throw new ESDocumentFieldNotFound(
                     "The file of document '" + hit.getId() + "' is not found.");
@@ -116,10 +102,11 @@ public class ESSearchImpl implements ESSearchService {
     @SuppressWarnings("unchecked")
     private HitModel toHitModel(final SearchHit hit) {
         Map<String, Object> source = hit.getSource();
-        Map<String, Object> file = (Map<String, Object>) source.get(fileField);
+        Map<String, Object> file = (Map<String, Object>) source.get("file");
+        Map<String, Object> metadata = (Map<String, Object>) file.get("metadata");
 
-        return new HitModel(hit.getId(), (String) file.get(fileNameField),
-                (String) file.get(indexingDateField),
-                (Integer) file.get(sizeField));
+        return new HitModel(hit.getId(), (String) file.get("filename"),
+                (String) file.get("date"),
+                (Integer) metadata.get("content-length"));
     }
 }
