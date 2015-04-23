@@ -1,5 +1,7 @@
 package services;
 
+import java.nio.file.Path;
+
 public interface ConfigurationService {
 
     String get(String key);
@@ -10,4 +12,12 @@ public interface ConfigurationService {
 
     String getTmpZipFilePathName();
 
+    /**
+     * Gets the file directory to index files.
+     * 
+     * @return file java.io object.
+     * @throws ConfigurationServiceException
+     */
+    Path getPathDirToIndexFiles() throws ConfigurationServiceException;
+    
 }

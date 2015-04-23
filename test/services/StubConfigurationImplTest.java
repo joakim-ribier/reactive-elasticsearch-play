@@ -1,5 +1,7 @@
 package services;
 
+import java.nio.file.Path;
+
 import com.google.inject.Singleton;
 
 @Singleton
@@ -39,4 +41,10 @@ public class StubConfigurationImplTest implements ConfigurationService {
     public String getTmpZipFilePathName() {
         return null;
     }
+
+    @Override
+    public Path getPathDirToIndexFiles() throws ConfigurationServiceException {
+        return null;
+    }
+    
 }

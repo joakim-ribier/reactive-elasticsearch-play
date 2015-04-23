@@ -1,4 +1,6 @@
-module.global.error=An error occurred while processing your request. Please contact the administrator of the application.
+module.global.error=An error has occurred while processing your request. Please contact the administrator of the application.
+
+module.configuration.error=An error has occurred, please check the configuration of the application.
 
 module.login.form.title=Sign in to continue...
 module.login.form.login=Your login

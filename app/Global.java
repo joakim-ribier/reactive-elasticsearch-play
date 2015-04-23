@@ -10,6 +10,8 @@ import services.ZipImpl;
 import services.ZipService;
 import services.i18n.I18nImpl;
 import services.i18n.I18nService;
+import services.indexation.IndexationImpl;
+import services.indexation.IndexationService;
 import utils.EncodeUtils;
 import utils.FileUtils;
 import utils.IEncodeUtils;
@@ -38,6 +40,7 @@ public class Global extends GlobalConfiguration {
                 bind(AuthenticationService.class).to(AuthenticationImpl.class);
                 bind(ZipService.class).to(ZipImpl.class);
                 bind(I18nService.class).to(I18nImpl.class);
+                bind(IndexationService.class).to(IndexationImpl.class);
             }
         };
     }
