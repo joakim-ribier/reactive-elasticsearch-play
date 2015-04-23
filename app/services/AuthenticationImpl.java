@@ -1,6 +1,6 @@
 package services;
 
-import java.io.IOException;
+import java.nio.file.Path;
 
 import models.exceptions.AuthenticationServiceException;
 import models.exceptions.EncodeUtilsException;
@@ -9,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import services.configuration.ConfigurationService;
+import services.configuration.ConfigurationServiceException;
 import utils.IEncodeUtils;
+import utils.file.FileUtilsException;
 import utils.file.IFileUtils;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -32,56 +34,54 @@ public class AuthenticationImpl implements AuthenticationService {
             IEncodeUtils iEncodeUtils, IFileUtils iFileUtils) {
         
         this.configurationService = configurationService;
+        
         this.iEncodeUtils = iEncodeUtils;
         this.iFileUtils = iFileUtils;
     }
     
     @Override
     public boolean connect(String username, String password) {
-        String login = configurationService.get("application.security.login");
-        if (!login.equals(username)) {
-            return false;
-        }
         try {
+            String login = configurationService.getAuthLogin();
+            if (!login.equals(username)) {
+                return false;
+            }
+            
             String passwordFromFile = getPassword();
             String passwordEncoded = iEncodeUtils.encode(username, password);
             return passwordFromFile.equals(passwordEncoded);
-        } catch (IOException | EncodeUtilsException e) {
+        } catch (EncodeUtilsException | ConfigurationServiceException | FileUtilsException e) {
             LOG.error(e.getMessage());
             return false;
         }
     }
     
-    private String getSecurityFilePath() {
-        return configurationService.get("application.security.file.pwd");
-    }
-    
     @VisibleForTesting
-    protected String getPassword() throws IOException {
-        String filePath = getSecurityFilePath();
-        return iFileUtils.getContent(filePath);
+    protected String getPassword() throws ConfigurationServiceException, FileUtilsException {
+        Path path = configurationService.getAuthPasswordPath();
+        return iFileUtils.getContent(path);
     }
     
     @Override
     public boolean firstConnection(String username, String password, String password2)
             throws AuthenticationServiceException {
         
-        String login = configurationService.get("application.security.login");
-        if ((Strings.isNullOrEmpty(password) || Strings.isNullOrEmpty(password2)) 
-                || !login.equals(username) 
-                || !password.equals(password2)) {
-            
-            return false;
-        }
-        
         try {
+            String login = configurationService.getAuthLogin();
+            if ((Strings.isNullOrEmpty(password) || Strings.isNullOrEmpty(password2)) 
+                    || !login.equals(username) 
+                    || !password.equals(password2)) {
+                
+                return false;
+            }
+            
             if (!Strings.isNullOrEmpty(getPassword())) {
                 return false;
             }
             String encodedPassword = iEncodeUtils.encode(username, password);
-            iFileUtils.write(getSecurityFilePath(), encodedPassword);
+            iFileUtils.write(configurationService.getAuthPasswordPath(), encodedPassword);
             return true;
-        } catch (EncodeUtilsException | IOException e) {
+        } catch (EncodeUtilsException | FileUtilsException | ConfigurationServiceException e) {
             LOG.error(e.getMessage());
             throw new AuthenticationServiceException(e.getMessage(), e);
         }

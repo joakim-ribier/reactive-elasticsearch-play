@@ -9,7 +9,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class StubConfigurationImplTest implements ConfigurationService {
-
+    
     @Override
     public String get(String key) {
         switch (key) {
@@ -29,25 +29,35 @@ public class StubConfigurationImplTest implements ConfigurationService {
             return key;
         }
     }
-
+    
     @Override
     public String getHostName() {
         return null;
     }
-
+    
     @Override
     public String getTmpDir() {
         return null;
     }
-
+    
     @Override
     public String getTmpZipFilePathName() {
         return null;
     }
-
+    
     @Override
     public Path getPathDirToIndexFiles() throws ConfigurationServiceException {
         return null;
+    }
+    
+    @Override
+    public Path getAuthPasswordPath() throws ConfigurationServiceException {
+        return null;
+    }
+    
+    @Override
+    public String getAuthLogin() throws ConfigurationServiceException {
+        return "admin";
     }
     
 }

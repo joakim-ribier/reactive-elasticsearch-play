@@ -19,5 +19,9 @@ public interface ConfigurationService {
      * @throws ConfigurationServiceException
      */
     Path getPathDirToIndexFiles() throws ConfigurationServiceException;
+
+    Path getAuthPasswordPath() throws ConfigurationServiceException;
+
+    String getAuthLogin() throws ConfigurationServiceException;
     
 }

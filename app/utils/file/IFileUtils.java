@@ -1,14 +1,14 @@
 package utils.file;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
 public interface IFileUtils {
     
-    String getContent(String filePath) throws IOException;
+    String getContent(String filePath) throws FileUtilsException;
+    String getContent(Path path) throws FileUtilsException;
     
-    void write(String filePath, String content) throws IOException;
+    void write(Path path, String content) throws FileUtilsException;
     
     /**
      * Finds recursively all files in the path directory.
@@ -19,6 +19,5 @@ public interface IFileUtils {
      */
     List<Path> findRecursivelyAllFilesInADirectory(Path path)
             throws FileUtilsException;
-    
     
 }

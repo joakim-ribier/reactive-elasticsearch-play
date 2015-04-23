@@ -1,13 +1,11 @@
 package stub;
 
-import java.io.IOException;
-
-import com.google.inject.Inject;
-
 import services.AuthenticationImpl;
 import services.configuration.ConfigurationService;
 import utils.IEncodeUtils;
 import utils.file.IFileUtils;
+
+import com.google.inject.Inject;
 
 public class StubAuthenticationImplTest extends AuthenticationImpl {
     
@@ -20,7 +18,7 @@ public class StubAuthenticationImplTest extends AuthenticationImpl {
     }
     
     @Override
-    protected String getPassword() throws IOException {
+    protected String getPassword() {
         return "BiGlrUzC6WlXq/UoicJIIjvfGww=";
     }
     
