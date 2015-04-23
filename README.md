@@ -12,9 +12,9 @@ This project uses [sb-admin-2](http://startbootstrap.com/template-overviews/sb-a
 Versions
 --------
 
-|  ?             | Elasticsearch | FS River |  Mapper Attchments |
-|----------------|---------------|----------|--------------------|
-| 1.0-SNAPSHOT   |     1.4.1     | 0.0.0    |                    |
+|  ?             | Elasticsearch | Apache Tika |
+|----------------|---------------|-------------|
+| 1.0-SNAPSHOT   |     1.5.1     | 1.7.0       |
 
 Dependency error
 ----------------
