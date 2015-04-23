@@ -4,8 +4,8 @@ import java.nio.file.Path;
 
 import play.mvc.Result;
 import play.mvc.Security;
-import services.ConfigurationService;
-import services.ConfigurationServiceException;
+import services.configuration.ConfigurationService;
+import services.configuration.ConfigurationServiceException;
 import services.indexation.IndexationService;
 import services.indexation.IndexationServiceException;
 

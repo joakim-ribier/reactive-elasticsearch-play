@@ -2,8 +2,8 @@ package services.indexation;
 
 import java.nio.file.Path;
 
-import utils.FileUtilsException;
-import utils.IFileUtils;
+import utils.file.FileUtilsException;
+import utils.file.IFileUtils;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;

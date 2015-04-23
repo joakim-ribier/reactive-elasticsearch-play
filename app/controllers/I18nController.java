@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import play.mvc.Result;
-import services.ConfigurationService;
+import services.configuration.ConfigurationService;
 import services.i18n.I18nException;
 import services.i18n.I18nService;
 import utils.json.JsonHelper;

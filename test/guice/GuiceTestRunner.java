@@ -3,21 +3,21 @@ import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
 
 import services.AuthenticationService;
-import services.ConfigurationService;
 import services.ESConstantImpl;
 import services.ESConstantService;
 import services.ESSearchImpl;
 import services.ESSearchService;
 import services.StubConfigurationImplTest;
+import services.configuration.ConfigurationService;
 import services.i18n.I18nImpl;
 import services.i18n.I18nService;
 import stub.StubAuthenticationImplTest;
 import utils.EncodeUtils;
-import utils.FileUtils;
 import utils.IEncodeUtils;
-import utils.IFileUtils;
 import utils.eslasticsearch.ESServerEmbedded;
 import utils.eslasticsearch.IESServerEmbedded;
+import utils.file.FileUtils;
+import utils.file.IFileUtils;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;

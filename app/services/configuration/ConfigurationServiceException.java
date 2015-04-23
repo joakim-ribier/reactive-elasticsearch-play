@@ -1,4 +1,4 @@
-package services;
+package services.configuration;
 
 public class ConfigurationServiceException extends Throwable {
     

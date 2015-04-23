@@ -8,8 +8,9 @@ import models.exceptions.EncodeUtilsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import services.configuration.ConfigurationService;
 import utils.IEncodeUtils;
-import utils.IFileUtils;
+import utils.file.IFileUtils;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;

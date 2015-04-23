@@ -5,9 +5,9 @@ import java.io.IOException;
 import com.google.inject.Inject;
 
 import services.AuthenticationImpl;
-import services.ConfigurationService;
+import services.configuration.ConfigurationService;
 import utils.IEncodeUtils;
-import utils.IFileUtils;
+import utils.file.IFileUtils;
 
 public class StubAuthenticationImplTest extends AuthenticationImpl {
     

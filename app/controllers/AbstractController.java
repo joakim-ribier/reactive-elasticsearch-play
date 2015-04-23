@@ -1,7 +1,7 @@
 package controllers;
 
 import play.mvc.Controller;
-import services.ConfigurationService;
+import services.configuration.ConfigurationService;
 import utils.json.JsonHelper;
 
 import com.google.inject.Singleton;

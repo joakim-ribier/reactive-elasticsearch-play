@@ -2,6 +2,9 @@ package services;
 
 import java.nio.file.Path;
 
+import services.configuration.ConfigurationService;
+import services.configuration.ConfigurationServiceException;
+
 import com.google.inject.Singleton;
 
 @Singleton

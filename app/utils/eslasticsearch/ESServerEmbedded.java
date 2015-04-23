@@ -9,8 +9,8 @@ import org.elasticsearch.node.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import services.ConfigurationService;
 import services.ESConstantService;
+import services.configuration.ConfigurationService;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;

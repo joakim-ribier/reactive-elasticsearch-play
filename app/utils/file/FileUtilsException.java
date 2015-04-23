@@ -1,4 +1,4 @@
-package utils;
+package utils.file;
 
 public class FileUtilsException extends Throwable {
     

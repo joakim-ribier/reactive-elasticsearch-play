@@ -1,4 +1,4 @@
-package services;
+package services.configuration;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import play.mvc.BodyParser;
 import play.mvc.Result;
 import services.AuthenticationService;
-import services.ConfigurationService;
+import services.configuration.ConfigurationService;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;

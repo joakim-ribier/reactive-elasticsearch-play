@@ -6,8 +6,8 @@ import models.HitModel;
 import play.libs.Json;
 import play.mvc.Result;
 import play.mvc.Security;
-import services.ConfigurationService;
 import services.ESSearchService;
+import services.configuration.ConfigurationService;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

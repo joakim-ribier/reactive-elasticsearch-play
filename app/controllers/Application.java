@@ -2,7 +2,7 @@ package controllers;
 
 import play.mvc.Result;
 import play.mvc.Security;
-import services.ConfigurationService;
+import services.configuration.ConfigurationService;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

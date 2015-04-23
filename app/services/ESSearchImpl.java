@@ -15,6 +15,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
+import services.configuration.ConfigurationService;
 import utils.eslasticsearch.IESServerEmbedded;
 
 import com.beust.jcommander.internal.Lists;

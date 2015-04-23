@@ -14,9 +14,9 @@ import org.testng.util.Strings;
 
 import play.mvc.Result;
 import play.mvc.Security;
-import services.ConfigurationService;
 import services.ESSearchService;
 import services.ZipService;
+import services.configuration.ConfigurationService;
 
 import com.google.common.base.Splitter;
 import com.google.inject.Inject;
