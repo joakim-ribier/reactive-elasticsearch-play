@@ -20,6 +20,14 @@ public class XContentBuilderHelper implements IXContentBuilderHelper {
     private static final Logger LOG = LoggerFactory
             .getLogger(IXContentBuilderHelper.class);
     
+    public static final String FILE_FIELD = "file";
+    public static final String CONTENT_FIELD = "content";
+    public static final String FILENAME_FIELD = "filename";
+    public static final String DATE_FIELD = "date";
+    public static final String METADATA_FIELD = "metadata";
+    public static final String CONTENT_TYPE_FIELD = "content-type";
+    public static final String CONTENT_LENGTH_FIELD = "content-length";
+    
     @Override
     public XContentBuilder buildXContentBuilder(PathIndexModel pathIndexModel) throws XContentHelperException {
         try {
@@ -30,13 +38,13 @@ public class XContentBuilderHelper implements IXContentBuilderHelper {
             
             File file = pathIndexModel.getPath().toFile();
             xContentBuilder
-                .startObject("file")
-                    .field("content", content)
-                    .field("filename", file.getName())
-                    .field("date", new Date().toString())
-                    .startObject("metadata")
-                        .field("content-type", contentType)
-                        .field("content-length", file.length())
+                .startObject(FILE_FIELD)
+                    .field(CONTENT_FIELD, content)
+                    .field(FILENAME_FIELD, file.getName())
+                    .field(DATE_FIELD, new Date().toString())
+                    .startObject(METADATA_FIELD)
+                        .field(CONTENT_TYPE_FIELD, contentType)
+                        .field(CONTENT_LENGTH_FIELD, file.length())
                     .endObject()
                 .endObject();
             
