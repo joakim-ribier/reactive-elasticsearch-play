@@ -31,3 +31,5 @@ Build status
 Thanks to [CodeShip.io](https://codeship.io/), we now have a build status for this repository:
 
 [ ![Codeship Status for joakim-ribier/reactive-elasticsearch-play](https://codeship.com/projects/d37116b0-6673-0132-0470-66851841475d/status?branch=master)](https://codeship.com/projects/52844)
+
+[![Coverage Status](https://coveralls.io/repos/joakim-ribier/reactive-elasticsearch-play/badge.svg)](https://coveralls.io/r/joakim-ribier/reactive-elasticsearch-play)
