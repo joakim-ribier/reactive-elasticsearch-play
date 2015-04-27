@@ -10,3 +10,5 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-less" % "1.0.0")
 addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.0.4")
 
 addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.0.BETA1")
+
+addSbtPlugin("de.johoop" % "jacoco4sbt" % "2.1.6")

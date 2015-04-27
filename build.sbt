@@ -6,6 +6,8 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 javacOptions ++= Seq("-source", "1.8", "-target", "1.8")
 
+jacoco.settings
+
 libraryDependencies ++= Seq(
   "org.testng" % "testng" % "6.8.8",
   "org.mockito" % "mockito-all" % "1.9.5",
