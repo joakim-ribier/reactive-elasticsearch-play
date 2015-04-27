@@ -35,6 +35,16 @@ public class PathIndexModel {
         return "";
     }
     
+    public String getExtension() {
+        String contentType = metadata.get("Content-Type");
+        switch (contentType) {
+        case "application/pdf":
+            return "pdf";
+        default:
+            return "";
+        }
+    }
+    
     public Path getPath() {
         return path;
     }

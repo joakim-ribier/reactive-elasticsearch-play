@@ -53,6 +53,19 @@ public class ConfigurationImpl implements ConfigurationService {
     }
     
     @Override
+    public Path getPathAppDataDir() throws ConfigurationServiceException {
+        String key = "application.data";
+        
+        String pathname = get(key);
+        Path path = Paths.get(pathname);
+        if (Files.isDirectory(path)) {
+            return path;
+        }
+        throw new ConfigurationServiceException(
+                "The key '{}' is not a directory.", key);
+    }
+    
+    @Override
     public Path getAuthPasswordPath() throws ConfigurationServiceException {
         String key = "module.authentication.password.file";
         

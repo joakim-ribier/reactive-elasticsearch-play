@@ -31,4 +31,6 @@ public interface IFileUtils {
      */
     PathIndexModel parse(Path path) throws FileUtilsException;
     
+    Path move(PathIndexModel source, Path target) throws FileUtilsException;
+    
 }

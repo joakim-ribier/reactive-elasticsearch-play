@@ -27,22 +27,27 @@ public class TestXContentBuilderHelper {
     public void testBuildXContentBuilder() throws XContentHelperException, IOException {
         PathIndexModel pathIndexModel = mock(PathIndexModel.class);
         Metadata metadata = mock(Metadata.class);
+        
         Path path = mock(Path.class);
         File file = mock(File.class);
+        when(path.toFile()).thenReturn(file);
+        
+        Path targetPath = mock(Path.class);
+        File targetFile = mock(File.class);
+        when(targetPath.toFile()).thenReturn(targetFile);
+        when(targetFile.getName()).thenReturn("1234567.pdf");
+        when(targetFile.length()).thenReturn(12l);
         
         when(pathIndexModel.getContent()).thenReturn("The String content.");
         when(pathIndexModel.getMetadata()).thenReturn(metadata);
         when(pathIndexModel.getPath()).thenReturn(path);
         
-        when(path.toFile()).thenReturn(file);
-        
         when(file.getName()).thenReturn("The Name of the file.");
-        when(file.length()).thenReturn(12l);
         
         when(metadata.get("Content-Type")).thenReturn("pdf./application");
         
         XContentBuilderHelper xContentBuilderHelper = new XContentBuilderHelper();
-        XContentBuilder expected = xContentBuilderHelper.buildXContentBuilder(pathIndexModel);
+        XContentBuilder expected = xContentBuilderHelper.buildXContentBuilder(pathIndexModel, targetPath);
         
         XContentParser parser = XContentHelper.createParser(expected.bytes());
         Map<String, Object> mapOrdered = parser.mapOrdered();
@@ -58,6 +63,7 @@ public class TestXContentBuilderHelper {
         
         assertThat(mapMetadata.get(XContentBuilderHelper.CONTENT_TYPE_FIELD)).isEqualTo("pdf./application");
         assertThat(mapMetadata.get(XContentBuilderHelper.CONTENT_LENGTH_FIELD)).isEqualTo(12);
+        assertThat(mapMetadata.get(XContentBuilderHelper.REAL_FILENAME_FIELD)).isEqualTo("1234567.pdf");
     }
     
 }

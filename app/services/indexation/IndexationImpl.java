@@ -10,6 +10,8 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import services.configuration.ConfigurationService;
+import services.configuration.ConfigurationServiceException;
 import utils.eslasticsearch.IESServerEmbedded;
 import utils.file.FileUtilsException;
 import utils.file.IFileUtils;
@@ -30,14 +32,16 @@ public class IndexationImpl implements IndexationService {
     private final IFileUtils iFileUtils;
     private final IXContentBuilderHelper ixContentBuilderHelper;
     private final IESServerEmbedded iesServerEmbedded;
+    private final ConfigurationService configurationService;
     
     @Inject
     protected IndexationImpl(IFileUtils iFileUtils, IXContentBuilderHelper ixContentBuilderHelper,
-            IESServerEmbedded iesServerEmbedded) {
+            IESServerEmbedded iesServerEmbedded, ConfigurationService configurationService) {
         
         this.iFileUtils = iFileUtils;
         this.ixContentBuilderHelper = ixContentBuilderHelper;
         this.iesServerEmbedded = iesServerEmbedded;
+        this.configurationService = configurationService;
     }
     
     @Override
@@ -48,13 +52,15 @@ public class IndexationImpl implements IndexationService {
             for (Path item: files) {
                 try {
                     PathIndexModel pathIndexModel = iFileUtils.parse(item);
+                    Path targetPath = iFileUtils.move(
+                            pathIndexModel, configurationService.getPathAppDataDir());
+                    
                     XContentBuilder xContentBuilder =
-                            ixContentBuilderHelper.buildXContentBuilder(pathIndexModel);
+                            ixContentBuilderHelper.buildXContentBuilder(pathIndexModel, targetPath);
                     
                     IndexRequestBuilder buildIndexRequestBuilder = iesServerEmbedded.buildIndexRequestBuilder(xContentBuilder);
                     iesServerEmbedded.bulk(Lists.newArrayList(buildIndexRequestBuilder));
-                    
-                } catch (FileUtilsException | XContentHelperException e) {
+                } catch (FileUtilsException | XContentHelperException | ConfigurationServiceException e) {
                     LOG.error(e.getMessage(), e);
                 }
             }

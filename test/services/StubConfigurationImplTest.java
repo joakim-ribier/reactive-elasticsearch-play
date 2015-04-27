@@ -70,5 +70,10 @@ public class StubConfigurationImplTest implements ConfigurationService {
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
     }
+
+    @Override
+    public Path getPathAppDataDir() throws ConfigurationServiceException {
+        return null;
+    }
     
 }

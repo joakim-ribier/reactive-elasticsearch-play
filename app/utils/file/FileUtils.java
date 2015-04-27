@@ -16,6 +16,7 @@ import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -93,6 +94,22 @@ public class FileUtils implements IFileUtils {
             LOG.error(e.getMessage(), e);
             throw new FileUtilsException(e.getMessage(), e);
         }
+    }
+    
+    @Override
+    public Path move(PathIndexModel source, Path targetFolder) throws FileUtilsException {
+        try {
+            Path path = Paths.get(targetFolder.toFile().getAbsolutePath(), buildFileName(source));
+            return Files.move(source.getPath(), path);
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+            throw new FileUtilsException(e.getMessage(), e);
+        }
+    }
+    
+    private String buildFileName(PathIndexModel source) {
+        long millis = DateTime.now().getMillis();
+        return String.valueOf(millis) + "." + source.getExtension();
     }
     
 }

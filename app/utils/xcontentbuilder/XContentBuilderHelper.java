@@ -4,6 +4,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Date;
 
 import models.PathIndexModel;
@@ -27,24 +28,27 @@ public class XContentBuilderHelper implements IXContentBuilderHelper {
     public static final String METADATA_FIELD = "metadata";
     public static final String CONTENT_TYPE_FIELD = "content-type";
     public static final String CONTENT_LENGTH_FIELD = "content-length";
+    public static final String REAL_FILENAME_FIELD = "real-filename";
     
     @Override
-    public XContentBuilder buildXContentBuilder(PathIndexModel pathIndexModel) throws XContentHelperException {
+    public XContentBuilder buildXContentBuilder(PathIndexModel pathIndexModel, Path targetPath) throws XContentHelperException {
         try {
             XContentBuilder xContentBuilder = jsonBuilder().startObject();
             
             String content = pathIndexModel.getContent();
             String contentType = pathIndexModel.getMetadata().get("Content-Type");
             
-            File file = pathIndexModel.getPath().toFile();
+            File targetFile = targetPath.toFile();
+            
             xContentBuilder
                 .startObject(FILE_FIELD)
                     .field(CONTENT_FIELD, content)
-                    .field(FILENAME_FIELD, file.getName())
+                    .field(FILENAME_FIELD, pathIndexModel.getPath().toFile().getName())
                     .field(DATE_FIELD, new Date().toString())
                     .startObject(METADATA_FIELD)
                         .field(CONTENT_TYPE_FIELD, contentType)
-                        .field(CONTENT_LENGTH_FIELD, file.length())
+                        .field(CONTENT_LENGTH_FIELD, targetFile.length())
+                        .field(REAL_FILENAME_FIELD, targetFile.getName())
                     .endObject()
                 .endObject();
             
