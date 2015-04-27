@@ -10,6 +10,8 @@ import com.google.inject.Singleton;
 @Singleton
 public class StubConfigurationImplTest implements ConfigurationService {
     
+    private String algorithm = "SHA-1";
+
     @Override
     public String get(String key) {
         switch (key) {
@@ -58,6 +60,15 @@ public class StubConfigurationImplTest implements ConfigurationService {
     @Override
     public String getAuthLogin() throws ConfigurationServiceException {
         return "admin";
+    }
+    
+    @Override
+    public String getAlgorithm() {
+        return algorithm;
+    }
+    
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
     }
     
 }

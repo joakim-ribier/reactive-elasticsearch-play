@@ -77,4 +77,9 @@ public class ConfigurationImpl implements ConfigurationService {
                 "The key '{}' is null or empty.", key);
     }
     
+    @Override
+    public String getAlgorithm() {
+        return "SHA-1";
+    }
+    
 }

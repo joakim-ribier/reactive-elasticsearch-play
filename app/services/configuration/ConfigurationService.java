@@ -23,5 +23,7 @@ public interface ConfigurationService {
     Path getAuthPasswordPath() throws ConfigurationServiceException;
 
     String getAuthLogin() throws ConfigurationServiceException;
+
+    String getAlgorithm();
     
 }
