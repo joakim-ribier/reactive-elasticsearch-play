@@ -1,4 +1,4 @@
-package services;
+package services.search;
 
 import java.io.File;
 import java.util.List;
@@ -15,6 +15,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 
+import services.ESConstantService;
 import services.configuration.ConfigurationService;
 import utils.eslasticsearch.IESServerEmbedded;
 

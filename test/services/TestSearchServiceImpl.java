@@ -23,6 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import services.search.ESSearchService;
 import utils.eslasticsearch.IESServerEmbedded;
 
 import com.google.common.primitives.Ints;
