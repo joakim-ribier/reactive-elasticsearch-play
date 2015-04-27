@@ -1,10 +1,10 @@
 package controllers;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
-import models.exceptions.ESDocumentFieldNotFound;
 import models.exceptions.ESDocumentNotFound;
 
 import org.slf4j.Logger;
@@ -16,6 +16,7 @@ import play.mvc.Result;
 import play.mvc.Security;
 import services.ZipService;
 import services.configuration.ConfigurationService;
+import services.configuration.ConfigurationServiceException;
 import services.search.ESSearchService;
 
 import com.google.common.base.Splitter;
@@ -43,12 +44,12 @@ public class FileDownloadController extends AbstractController {
     @Security.Authenticated(Secured.class)
     public Result index(String id) {
         try {
-            Optional<File> file = esSearchService.findFileById(id);
-            if (file.isPresent()) {
-                return ok(file.get());
+            Optional<Path> path = esSearchService.findFileById(id);
+            if (path.isPresent()) {
+                return ok(path.get().toFile());
             }
             return notFound("Document '" + id + "' not found.");
-        } catch (ESDocumentNotFound | ESDocumentFieldNotFound e) {
+        } catch (ESDocumentNotFound | ConfigurationServiceException e) {
             return notFound(e.getMessage());
         }
     }
@@ -80,12 +81,12 @@ public class FileDownloadController extends AbstractController {
         iterable.forEach(id -> {
             try {
                 if (!Strings.isNullOrEmpty(id)) {
-                    Optional<File> file = esSearchService.findFileById(id);
-                    if (file.isPresent()) {
-                        files.add(file.get());
+                    Optional<Path> path = esSearchService.findFileById(id);
+                    if (path.isPresent()) {
+                        files.add(path.get().toFile());
                     }
                 }
-            } catch (ESDocumentNotFound | ESDocumentFieldNotFound e) {
+            } catch (ESDocumentNotFound | ConfigurationServiceException e) {
                 LOG.error(e.getMessage(), e);
             }
         });

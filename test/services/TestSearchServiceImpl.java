@@ -4,8 +4,8 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.fest.assertions.Assertions.assertThat;
 import guice.GuiceTestRunner;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import services.configuration.ConfigurationServiceException;
 import services.search.ESSearchService;
 import utils.eslasticsearch.IESServerEmbedded;
 
@@ -96,15 +97,15 @@ public class TestSearchServiceImpl {
     
     @Ignore
     @Test
-    public void testFindByIdWithNotExistsFile() throws ESDocumentNotFound, ESDocumentFieldNotFound {
+    public void testFindByIdWithNotExistsFile() throws ESDocumentNotFound, ConfigurationServiceException {
        String id = indexResponse.getId();
-       Optional<File> file = esSearchService.findFileById(id);
+       Optional<Path> file = esSearchService.findFileById(id);
        
        assertThat(file.isPresent()).isFalse(); 
     }
     
     @Test(expected = ESDocumentNotFound.class)
-    public void testFindByIdThrowESDocumentNotFound() throws ESDocumentNotFound, ESDocumentFieldNotFound {
+    public void testFindByIdThrowESDocumentNotFound() throws ESDocumentNotFound, ConfigurationServiceException {
         esSearchService.findFileById("bad id");
     }
     
@@ -119,7 +120,7 @@ public class TestSearchServiceImpl {
             .endObject();
         
         IndexResponse index = index(source);
-        esSearchService.findFileById(index.getId());
+//        esSearchService.findFileById(index.getId());
     }
     
     @Test

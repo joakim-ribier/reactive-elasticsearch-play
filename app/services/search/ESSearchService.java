@@ -1,16 +1,17 @@
 package services.search;
 
-import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 
 import models.HitModel;
-import models.exceptions.ESDocumentFieldNotFound;
 import models.exceptions.ESDocumentNotFound;
+import services.configuration.ConfigurationServiceException;
 
 public interface ESSearchService {
-
+    
     List<HitModel> searchByQuery(String value);
-
-    Optional<File> findFileById(String id) throws ESDocumentNotFound, ESDocumentFieldNotFound;
+    
+    Optional<Path> findFileById(String id) throws ESDocumentNotFound, ConfigurationServiceException;
+    
 }
