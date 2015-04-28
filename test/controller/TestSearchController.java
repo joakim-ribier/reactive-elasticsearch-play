@@ -19,22 +19,20 @@ public class TestSearchController {
     
     @Test
     public void testSearchByValue() {
-        FakeApplication fakeApplication = fakeApplication(new GlobalTest(true));
-        running(
-                fakeApplication, () -> {
-                    FakeRequest fakeIndexRequest = fakeRequest("GET", "/search/by/query/" + "my-file.png");
-                    fakeIndexRequest.withSession("username", "admin");
-                    
-                    Result result = route(fakeIndexRequest);
-                    
-                    assertThat(status(result)).isEqualTo(Status.OK);
-                }
+        running(fakeApplication(new GlobalTest(true)), () -> {
+            FakeRequest fakeIndexRequest = fakeRequest("GET", "/search/by/query/" + "my-file.png");
+            fakeIndexRequest.withSession("username", "admin");
+            
+            Result result = route(fakeIndexRequest);
+            
+            assertThat(status(result)).isEqualTo(Status.OK);
+            }
         );
     }
     
     @Test
     public void testSearchByValueNotLogged() {
-        FakeApplication fakeApplication = fakeApplication(new GlobalTest(true));
+        FakeApplication fakeApplication = fakeApplication(new GlobalTest(false));
         running(
                 fakeApplication, () -> {
                     FakeRequest fakeIndexRequest = fakeRequest("GET", "/search/by/query/" + "my-value");

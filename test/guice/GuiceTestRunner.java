@@ -18,6 +18,10 @@ import utils.eslasticsearch.ESServerEmbedded;
 import utils.eslasticsearch.IESServerEmbedded;
 import utils.file.FileUtils;
 import utils.file.IFileUtils;
+import utils.xcontent.IXContentBuilderHelper;
+import utils.xcontent.IXContentHelper;
+import utils.xcontent.XContentBuilderHelper;
+import utils.xcontent.XContentHelper;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -37,6 +41,8 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
                     bind(IESServerEmbedded.class).to(ESServerEmbedded.class);
                     bind(IEncodeUtils.class).to(EncodeUtils.class);
                     bind(IFileUtils.class).to(FileUtils.class);
+                    bind(IXContentBuilderHelper.class).to(XContentBuilderHelper.class);
+                    bind(IXContentHelper.class).to(XContentHelper.class);
                     
                     bind(ESSearchService.class).to(ESSearchImpl.class);
                     bind(ESConstantService.class).to(ESConstantImpl.class);

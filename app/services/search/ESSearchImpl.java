@@ -23,7 +23,6 @@ import services.configuration.ConfigurationServiceException;
 import utils.eslasticsearch.IESServerEmbedded;
 import utils.xcontent.IXContentHelper;
 import utils.xcontent.XContentBuilderHelper;
-import utils.xcontent.XContentHelper;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
@@ -42,7 +41,7 @@ public class ESSearchImpl implements ESSearchService {
     @Inject
     private ESSearchImpl(ConfigurationService configurationService,
             IESServerEmbedded iesServerEmbedded, ESConstantService esConstantService,
-            XContentHelper xContentHelper) {
+            IXContentHelper xContentHelper) {
         
         this.configurationService = configurationService;
         this.esServerEmbedded = iesServerEmbedded;

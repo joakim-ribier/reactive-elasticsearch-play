@@ -6,6 +6,7 @@ import guice.GuiceTestRunner;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -55,16 +56,18 @@ public class TestSearchServiceImpl {
         this.index = configurationService.get(esConstantService.getIndexName());
         this.type = configurationService.get(esConstantService.getTypeName());
         
-        this.indexResponse = index(FILE_NAME_DEFAULT, SIZE_DEFAULT, "/home/junit/test.pdf");
+        this.indexResponse = index(FILE_NAME_DEFAULT, SIZE_DEFAULT, "test.pdf");
     }
     
     @After
     public void after() throws InterruptedException {
-        esServerEmbedded.getClient()
-            .admin().indices().prepareDelete(index)
-            .execute().actionGet();
-        
         esServerEmbedded.stop();
+        Path path = Paths.get(".", "data");
+        try {
+            org.apache.commons.io.FileUtils.deleteDirectory(path.toFile());
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        }
     }
     
     private IndexResponse index(String fileName, long size, String path) throws IOException {

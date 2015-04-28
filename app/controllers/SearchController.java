@@ -14,9 +14,9 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class SearchController extends AbstractController {
-
+    
     private final ESSearchService esSearchService;
-
+    
     @Inject
     private SearchController(ConfigurationService configurationService,
             ESSearchService esSearchService) {
@@ -24,10 +24,11 @@ public class SearchController extends AbstractController {
         super(configurationService);
         this.esSearchService = esSearchService;
     }
-
+    
     @Security.Authenticated(Secured.class)
     public Result index(String value) {
         List<HitModel> hitModels = esSearchService.searchByQuery(value);
         return ok(Json.toJson(hitModels));
     }
+    
 }

@@ -46,9 +46,9 @@ public class ESServerEmbedded implements IESServerEmbedded {
     }
 
     private void init() {
-        LOG.info("Elasticsearch server embedded started.");
-        LOG.info("Cluster name [{}] for embedded [ES].", clusterName);
-        LOG.info("Data path [{}] for embedded [ES].", dataPath);
+        LOG.info("Server embedded starting...");
+        LOG.info("Cluster name [{}].", clusterName);
+        LOG.info("Data path [{}].", dataPath);
 
         Builder settingsBuilder = ImmutableSettings.settingsBuilder();
         if (!Strings.isNullOrEmpty(dataPath)) {
@@ -83,8 +83,8 @@ public class ESServerEmbedded implements IESServerEmbedded {
     
     @Override
     public void stop() {
-        LOG.info("Elasticsearch server embedded stoped.");
         if (node != null) {
+            LOG.info("Server embedded stopping...");
             node.close();
             this.client = null;
         }
