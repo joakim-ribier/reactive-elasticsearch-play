@@ -1,8 +1,11 @@
 package models;
 
-import java.util.Date;
+import static org.fest.assertions.Assertions.assertThat;
 
-import static org.fest.assertions.Assertions.*;
+import java.util.Date;
+import java.util.Optional;
+
+import models.HitModel.Builder;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -69,6 +72,12 @@ public class TestHitModel {
     }
     
     private HitModel build(String id, String fileName, Date date, Integer size) {
-        return new HitModel(id, fileName, date.toString(), size);        
+        Builder builder = new HitModel.Builder();
+        builder.withId(id);
+        builder.withFileName(Optional.of(fileName));
+        builder.withDate(Optional.of(date.toString()));
+        builder.withSize(Optional.of(size));
+        return builder.build();
     }
+    
 }

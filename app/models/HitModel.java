@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Optional;
+
 import com.google.common.base.Objects;
 
 public class HitModel {
@@ -10,7 +12,52 @@ public class HitModel {
     private final Integer size;
     private final boolean selected;
     
-    public HitModel(String id, String fileName, String indexingDate,
+    public static class Builder {
+        
+        private String id;
+        private String fileName;
+        private String indexingDate;
+        private Integer size;
+        
+        public Builder withId(String value) {
+            this.id = value;
+            return this;
+        }
+        public Builder withFileName(Optional<String> value) {
+            if (value.isPresent()) {
+                this.fileName = value.get();
+            } else {
+                this.fileName = "unknow";
+            }
+            return this;
+        }
+        
+        public Builder withDate(Optional<String> value) {
+            if (value.isPresent()) {
+                this.indexingDate = value.get();
+            } else {
+                this.indexingDate = "unknow";
+            }
+            return this;
+        }
+        
+        public Builder withSize(Optional<Integer> value) {
+            if (value.isPresent()) {
+                this.size = value.get();
+            } else {
+                this.size = -1;
+            }
+            return this;
+        }
+        
+        public HitModel build() {
+            return new HitModel(id, fileName, indexingDate, size);
+        }
+        
+    }
+    
+    
+    private HitModel(String id, String fileName, String indexingDate,
             Integer size) {
         
         this.id = id;

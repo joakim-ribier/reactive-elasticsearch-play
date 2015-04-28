@@ -12,6 +12,6 @@ public interface ESSearchService {
     
     List<HitModel> searchByQuery(String value);
     
-    Optional<Path> findFileById(String id) throws ESDocumentNotFound, ConfigurationServiceException;
+    Optional<Path> searchFileById(String id) throws ESDocumentNotFound, ConfigurationServiceException;
     
 }

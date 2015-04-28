@@ -7,19 +7,16 @@ import static play.test.Helpers.route;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
 import guice.GlobalTest;
-import guice.GuiceTestRunner;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import play.mvc.Http.Status;
 import play.mvc.Result;
 import play.test.FakeApplication;
 import play.test.FakeRequest;
 
-@RunWith(GuiceTestRunner.class)
 public class TestSearchController {
-
+    
     @Test
     public void testSearchByValue() {
         FakeApplication fakeApplication = fakeApplication(new GlobalTest(true));
@@ -48,4 +45,5 @@ public class TestSearchController {
                 }
         );
     }
+    
 }

@@ -15,8 +15,8 @@ import services.configuration.ConfigurationServiceException;
 import utils.eslasticsearch.IESServerEmbedded;
 import utils.file.FileUtilsException;
 import utils.file.IFileUtils;
-import utils.xcontentbuilder.IXContentBuilderHelper;
-import utils.xcontentbuilder.XContentHelperException;
+import utils.xcontent.IXContentBuilderHelper;
+import utils.xcontent.XContentHelperException;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;

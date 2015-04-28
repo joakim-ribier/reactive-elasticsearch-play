@@ -1,4 +1,4 @@
-package utils.xcontentbuilder;
+package utils.xcontent;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
@@ -17,7 +17,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class XContentBuilderHelper implements IXContentBuilderHelper {
-
+    
     private static final Logger LOG = LoggerFactory
             .getLogger(IXContentBuilderHelper.class);
     

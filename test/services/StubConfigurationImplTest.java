@@ -1,6 +1,7 @@
 package services;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import services.configuration.ConfigurationService;
 import services.configuration.ConfigurationServiceException;
@@ -73,7 +74,7 @@ public class StubConfigurationImplTest implements ConfigurationService {
 
     @Override
     public Path getPathAppDataDir() throws ConfigurationServiceException {
-        return null;
+        return Paths.get(".", "conf", "test");
     }
     
 }

@@ -17,8 +17,8 @@ import org.elasticsearch.common.xcontent.XContentHelper;
 import org.elasticsearch.common.xcontent.XContentParser;
 import org.junit.Test;
 
-import utils.xcontentbuilder.XContentBuilderHelper;
-import utils.xcontentbuilder.XContentHelperException;
+import utils.xcontent.XContentBuilderHelper;
+import utils.xcontent.XContentHelperException;
 
 public class TestXContentBuilderHelper {
     

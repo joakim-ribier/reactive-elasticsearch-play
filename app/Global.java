@@ -18,8 +18,8 @@ import utils.eslasticsearch.ESServerEmbedded;
 import utils.eslasticsearch.IESServerEmbedded;
 import utils.file.FileUtils;
 import utils.file.IFileUtils;
-import utils.xcontentbuilder.IXContentBuilderHelper;
-import utils.xcontentbuilder.XContentBuilderHelper;
+import utils.xcontent.IXContentBuilderHelper;
+import utils.xcontent.XContentBuilderHelper;
 
 import com.google.inject.AbstractModule;
 

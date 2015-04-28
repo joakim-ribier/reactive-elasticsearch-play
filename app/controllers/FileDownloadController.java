@@ -9,8 +9,6 @@ import models.exceptions.ESDocumentNotFound;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testng.collections.Lists;
-import org.testng.util.Strings;
 
 import play.mvc.Result;
 import play.mvc.Security;
@@ -20,6 +18,8 @@ import services.configuration.ConfigurationServiceException;
 import services.search.ESSearchService;
 
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -44,7 +44,7 @@ public class FileDownloadController extends AbstractController {
     @Security.Authenticated(Secured.class)
     public Result index(String id) {
         try {
-            Optional<Path> path = esSearchService.findFileById(id);
+            Optional<Path> path = esSearchService.searchFileById(id);
             if (path.isPresent()) {
                 return ok(path.get().toFile());
             }
@@ -81,7 +81,7 @@ public class FileDownloadController extends AbstractController {
         iterable.forEach(id -> {
             try {
                 if (!Strings.isNullOrEmpty(id)) {
-                    Optional<Path> path = esSearchService.findFileById(id);
+                    Optional<Path> path = esSearchService.searchFileById(id);
                     if (path.isPresent()) {
                         files.add(path.get().toFile());
                     }

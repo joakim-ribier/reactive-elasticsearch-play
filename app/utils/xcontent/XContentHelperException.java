@@ -1,4 +1,4 @@
-package utils.xcontentbuilder;
+package utils.xcontent;
 
 public class XContentHelperException extends Throwable {
     

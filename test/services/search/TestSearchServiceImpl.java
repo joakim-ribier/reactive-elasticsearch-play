@@ -1,4 +1,4 @@
-package services;
+package services.search;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import static org.fest.assertions.Assertions.assertThat;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 import models.HitModel;
-import models.exceptions.ESDocumentFieldNotFound;
 import models.exceptions.ESDocumentNotFound;
 
 import org.elasticsearch.ElasticsearchException;
@@ -19,20 +18,21 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import services.ESConstantService;
+import services.StubConfigurationImplTest;
 import services.configuration.ConfigurationServiceException;
-import services.search.ESSearchService;
 import utils.eslasticsearch.IESServerEmbedded;
+import utils.xcontent.XContentBuilderHelper;
 
 import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 
 @RunWith(GuiceTestRunner.class)
 public class TestSearchServiceImpl {
-
+    
     private static final long SIZE_DEFAULT = 24356l;
     private static final String FILE_NAME_DEFAULT = "test.pdf";
     
@@ -84,43 +84,29 @@ public class TestSearchServiceImpl {
             String filePath) throws IOException {
         
         return jsonBuilder().startObject()
-                .startObject("file")
-                    .field("content", "Content of the file")
-                    .field("filename", fileName)
-                    .field("date", date.toString())
-                    .startObject("metadata")
-                        .field("content-type", "application/pdf")
-                        .field("content-length", size)
+                .startObject(XContentBuilderHelper.FILE_FIELD)
+                    .field(XContentBuilderHelper.CONTENT_FIELD, "Content of the file")
+                    .field(XContentBuilderHelper.FILENAME_FIELD, fileName)
+                    .field(XContentBuilderHelper.DATE_FIELD, date.toString())
+                    .startObject(XContentBuilderHelper.METADATA_FIELD)
+                        .field(XContentBuilderHelper.CONTENT_TYPE_FIELD, "application/pdf")
+                        .field(XContentBuilderHelper.CONTENT_LENGTH_FIELD, size)
+                        .field(XContentBuilderHelper.REAL_FILENAME_FIELD, filePath + "_real")
                     .endObject()
                 .endObject();
     }
     
-    @Ignore
     @Test
     public void testFindByIdWithNotExistsFile() throws ESDocumentNotFound, ConfigurationServiceException {
        String id = indexResponse.getId();
-       Optional<Path> file = esSearchService.findFileById(id);
+       Optional<Path> file = esSearchService.searchFileById(id);
        
        assertThat(file.isPresent()).isFalse(); 
     }
     
     @Test(expected = ESDocumentNotFound.class)
     public void testFindByIdThrowESDocumentNotFound() throws ESDocumentNotFound, ConfigurationServiceException {
-        esSearchService.findFileById("bad id");
-    }
-    
-    @Ignore
-    @Test(expected = ESDocumentFieldNotFound.class)
-    public void testFindByIdThrowESDocumentFieldNotFound()
-            throws ESDocumentNotFound, ESDocumentFieldNotFound, IOException {
-        
-        XContentBuilder source = jsonBuilder().startObject()
-            .startObject("file")
-                .field("filename", "test.png")
-            .endObject();
-        
-        IndexResponse index = index(source);
-//        esSearchService.findFileById(index.getId());
+        esSearchService.searchFileById("bad id");
     }
     
     @Test
@@ -129,8 +115,7 @@ public class TestSearchServiceImpl {
         
         assertThat(searchByQuery).hasSize(1);
         assertThat(searchByQuery.get(0).getFileName()).isEqualTo(FILE_NAME_DEFAULT);
-        assertThat(searchByQuery.get(0).getSize()
-                ).isEqualTo(Ints.checkedCast(SIZE_DEFAULT));
+        assertThat(searchByQuery.get(0).getSize()).isEqualTo(Ints.checkedCast(SIZE_DEFAULT));
     }
     
 }
