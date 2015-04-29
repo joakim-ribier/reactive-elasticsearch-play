@@ -4,6 +4,8 @@
     
     var app = angular.module('App', []);
     
-    angular.module('App', ['pascalprecht.translate']);
+    angular.module('login.service', []);
+    
+    angular.module('App', ['pascalprecht.translate', 'login.service']);
     
 })();

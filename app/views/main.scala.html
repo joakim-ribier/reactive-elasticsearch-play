@@ -25,7 +25,7 @@
             window.hostName = '@hostName';
         </script>
     </head>
-    <body cz-shortcut-listen="true" data-ng-app="App" >
+    <body cz-shortcut-listen="true" data-ng-app="App" ng-controller="RootController">
         <div id="wrapper">
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
@@ -57,7 +57,10 @@
         <script src="@routes.Assets.at("javascripts/app.js")"></script>
         <script src="@routes.Assets.at("javascripts/provider.js")"></script>
         
-        <script src="@routes.Assets.at("javascripts/loginController.js")"></script>
+        <script src="@routes.Assets.at("javascripts/rootController.js")"></script>
+        
+        <script src="@routes.Assets.at("javascripts/module/login/loginController.js")"></script>
+        <script src="@routes.Assets.at("javascripts/module/login/loginService.js")"></script>
         <script src="@routes.Assets.at("javascripts/indexController.js")"></script>
     </body>
 </html>
