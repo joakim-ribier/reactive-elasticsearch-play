@@ -7,7 +7,6 @@ import models.PathIndexModel;
 
 public interface IFileUtils {
     
-    String getContent(String filePath) throws FileUtilsException;
     String getContent(Path path) throws FileUtilsException;
     
     void write(Path path, String content) throws FileUtilsException;
