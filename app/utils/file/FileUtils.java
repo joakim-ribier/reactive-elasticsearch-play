@@ -32,11 +32,6 @@ public class FileUtils implements IFileUtils {
             .getLogger(IFileUtils.class);
     
     @Override
-    public String getContent(String pathname) throws FileUtilsException {
-        return getContent(Paths.get(pathname));
-    }
-    
-    @Override
     public String getContent(Path path) throws FileUtilsException {
         return getContent(path.toFile());
     }
