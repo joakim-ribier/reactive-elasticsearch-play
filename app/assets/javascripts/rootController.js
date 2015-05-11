@@ -9,7 +9,6 @@
         
         $rootScope.hostname = $window.hostName;
         
-        
     }]);
     
 })();

@@ -1,3 +1,7 @@
+download=Download
+search=Search
+title=Electronic Document Management
+
 module.global.error=An error has occurred while processing your request. Please contact the administrator of the application.
 
 module.configuration.error=An error has occurred, please check the configuration of the application.
@@ -10,3 +14,6 @@ module.login.form.error=Please check your username and password.
 
 module.login.first.connection.error=Sorry it is not possible to create a new password.
 module.login.first.connection.success=Please sign in to continue.
+
+module.upload.file.success=The file has been uploaded.
+module.upload.select.error=Please select a file. 

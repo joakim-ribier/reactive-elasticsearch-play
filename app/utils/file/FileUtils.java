@@ -98,9 +98,16 @@ public class FileUtils implements IFileUtils {
     
     @Override
     public Path move(PathIndexModel source, Path targetFolder) throws FileUtilsException {
+        Path path = Paths.get(targetFolder.toFile().getAbsolutePath(),
+                buildFileName(source));
+        
+        return move(source.getPath(), path);
+    }
+    
+    @Override
+    public Path move(Path source, Path target) throws FileUtilsException {
         try {
-            Path path = Paths.get(targetFolder.toFile().getAbsolutePath(), buildFileName(source));
-            return Files.move(source.getPath(), path);
+            return Files.move(source, target);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new FileUtilsException(e.getMessage(), e);

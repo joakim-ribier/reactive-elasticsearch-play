@@ -1,4 +1,4 @@
-@(title: String, hostName: String, dropdownMenu: Html = Html(""))(content: Html)
+@(title: String, hostName: String, dropdownMenu: Html = Html(""), leftMenu: Html = Html(""))(content: Html)
 <!DOCTYPE html>
 <html lang="fr">
     <head>
@@ -40,6 +40,13 @@
                     </li>
                     @dropdownMenu
                 </ul>
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse" data-ng-controller="LeftMenuController">
+                        <ul class="nav in" id="side-menu">
+                            @leftMenu
+                        </ul>
+                    </div>
+                </div>
             </nav>
             @content
 		</div>
@@ -52,15 +59,19 @@
         <script src="@routes.Assets.at("bower_components/jquery/dist/jquery.min.js")"></script>
         <script src="@routes.Assets.at("bower_components/bootstrap/dist/js/bootstrap.min.js")"></script>
         <script src="@routes.Assets.at("bower_components/metisMenu/dist/metisMenu.min.js")"></script>
+        <script src="@routes.Assets.at("bower_components/bootstrap-filestyle.min.js")"></script>
         
          <!-- build:js({.tmp,app}) scripts/scripts.js -->        
         <script src="@routes.Assets.at("javascripts/app.js")"></script>
         <script src="@routes.Assets.at("javascripts/provider.js")"></script>
         
         <script src="@routes.Assets.at("javascripts/rootController.js")"></script>
-        
+        <script src="@routes.Assets.at("javascripts/module/menu/leftMenuController.js")"></script>
         <script src="@routes.Assets.at("javascripts/module/login/loginController.js")"></script>
-        <script src="@routes.Assets.at("javascripts/module/login/loginService.js")"></script>
         <script src="@routes.Assets.at("javascripts/indexController.js")"></script>
+        
+        <script src="@routes.Assets.at("javascripts/module/menu/leftMenuService.js")"></script>
+        <script src="@routes.Assets.at("javascripts/module/login/loginService.js")"></script>
+        
     </body>
 </html>

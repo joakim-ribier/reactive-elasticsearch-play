@@ -5,7 +5,11 @@
     var app = angular.module('App', []);
     
     angular.module('login.service', []);
+    angular.module('menu.service', []);
     
-    angular.module('App', ['pascalprecht.translate', 'login.service']);
+    angular.module('App',
+            ['pascalprecht.translate',
+             'login.service',
+             'menu.service']);
     
 })();

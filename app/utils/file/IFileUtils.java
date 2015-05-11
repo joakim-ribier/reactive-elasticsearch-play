@@ -33,4 +33,6 @@ public interface IFileUtils {
     
     Path move(PathIndexModel source, Path target) throws FileUtilsException;
     
+    Path move(Path source, Path target) throws FileUtilsException;
+    
 }

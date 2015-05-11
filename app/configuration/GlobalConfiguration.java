@@ -17,6 +17,8 @@ import services.indexation.IndexationImpl;
 import services.indexation.IndexationService;
 import services.search.ESSearchImpl;
 import services.search.ESSearchService;
+import services.upload.UploadImpl;
+import services.upload.UploadService;
 import utils.EncodeUtils;
 import utils.IEncodeUtils;
 import utils.eslasticsearch.ESServerEmbedded;
@@ -74,6 +76,7 @@ public abstract class GlobalConfiguration extends GlobalSettings {
                 bind(ZipService.class).to(ZipImpl.class);
                 bind(I18nService.class).to(I18nImpl.class);
                 bind(IndexationService.class).to(IndexationImpl.class);
+                bind(UploadService.class).to(UploadImpl.class);
             }
         };
     }
