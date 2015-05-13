@@ -32,7 +32,7 @@ public class TestSearchController {
     
     @Test
     public void testSearchByValueNotLogged() {
-        FakeApplication fakeApplication = fakeApplication(new GlobalTest(false));
+        FakeApplication fakeApplication = fakeApplication(new GlobalTest());
         running(
                 fakeApplication, () -> {
                     FakeRequest fakeIndexRequest = fakeRequest("GET", "/search/by/query/" + "my-value");

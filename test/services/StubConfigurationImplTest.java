@@ -50,7 +50,7 @@ public class StubConfigurationImplTest implements ConfigurationService {
     
     @Override
     public Path getPathDirToIndexFiles() throws ConfigurationServiceException {
-        return null;
+        return Paths.get(".", "conf", "test");
     }
     
     @Override

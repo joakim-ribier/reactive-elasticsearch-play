@@ -69,4 +69,16 @@ public class IndexationImpl implements IndexationService {
         }
     }
     
+    @Override
+    public int getNumberOfFilesWaitingToBeIndexed()
+            throws ConfigurationServiceException, IndexationServiceException {
+        
+        try {
+            Path path = configurationService.getPathDirToIndexFiles();
+            return iFileUtils.getNumberOfFiles(path);
+        } catch (FileUtilsException e) {
+            throw new IndexationServiceException(e.getMessage(), e);
+        }
+    }
+    
 }

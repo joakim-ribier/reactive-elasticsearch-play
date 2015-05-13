@@ -114,4 +114,10 @@ public class FileUtils implements IFileUtils {
         return String.valueOf(millis) + "." + source.getExtension();
     }
     
+    @Override
+    public int getNumberOfFiles(Path path) throws FileUtilsException {
+        List<Path> paths = findRecursivelyAllFilesInADirectory(path);
+        return paths.size();
+    }
+    
 }

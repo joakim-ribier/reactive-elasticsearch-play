@@ -18,6 +18,7 @@ GET        /file/download/by/ids/:ids                       @controllers.FileDow
 GET        /file/download/zip                               @controllers.FileDownloadController.downloadZip
 
 GET        /index/index-all-files-in-directory              @controllers.IndexationController.index
+GET        /index/number-files-waiting-to-be-indexed        @controllers.IndexationController.getNumber
 
 POST       /module/upload/file                              @controllers.FileUploadController.upload
 

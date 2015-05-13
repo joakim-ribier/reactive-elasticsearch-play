@@ -34,4 +34,13 @@ public interface IFileUtils {
     
     Path move(Path source, Path target) throws FileUtilsException;
     
+    /**
+     * Gets the number of files in the path parameter.
+     * 
+     * @param path java.nio.file.Path.
+     * @return int number.
+     * @throws FileUtilsException
+     */
+    int getNumberOfFiles(Path path) throws FileUtilsException;
+    
 }
