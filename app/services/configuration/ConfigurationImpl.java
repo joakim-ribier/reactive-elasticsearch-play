@@ -95,4 +95,9 @@ public class ConfigurationImpl implements ConfigurationService {
         return "SHA-1";
     }
     
+    @Override
+    public String getI18nDirectory() {
+        return "resources/i18n";
+    }
+    
 }

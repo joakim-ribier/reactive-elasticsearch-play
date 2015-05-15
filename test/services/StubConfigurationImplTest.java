@@ -77,4 +77,10 @@ public class StubConfigurationImplTest implements ConfigurationService {
         return Paths.get(".", "conf", "test");
     }
     
+    @Override
+    public String getI18nDirectory() {
+        return Paths.get(".", "conf", "resources", "i18n")
+                .toFile().getAbsolutePath();
+    }
+    
 }

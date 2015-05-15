@@ -16,7 +16,7 @@ import play.test.FakeApplication;
 import play.test.FakeRequest;
 
 public class TestI18nController {
-
+    
     @Test
     public void testAPIUrl() {
         FakeApplication fakeApplication = fakeApplication(new GlobalTest());

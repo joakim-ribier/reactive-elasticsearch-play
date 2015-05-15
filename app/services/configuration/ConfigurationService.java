@@ -27,5 +27,7 @@ public interface ConfigurationService {
     String getAlgorithm();
 
     Path getPathAppDataDir() throws ConfigurationServiceException;
+
+    String getI18nDirectory();
     
 }
