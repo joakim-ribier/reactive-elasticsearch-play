@@ -26,7 +26,18 @@
         </script>
     </head>
     <body cz-shortcut-listen="true" data-ng-app="App" ng-controller="RootController">
+    
         <div id="wrapper">
+        
+            <div id="notification-popup" 
+                 class="alert alert-{{notification.type}} center-block" 
+                 data-ng-if="notification.message" 
+                 data-ng-click="close()" >
+                 
+                <span type="button" class="close" data-ng-click="close()">×</span>
+                <span>{{notification.message}}</span>
+            </div>
+            
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="@hostName">

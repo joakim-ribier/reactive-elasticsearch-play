@@ -29,19 +29,18 @@
                         clearUploadForm();
                         $rootScope.loading = false;
                         
-                        $scope.infoMessage = $filter('translate')('module.upload.file.success');
-                        
+                        $rootScope.$broadcast('success', 'module.upload.file.success');
                         displayNumberOfFilesWaitingToBeIndexed();
                     }, 
                     function (data) {
                         clearUploadForm();
                         $rootScope.loading = false;
-                        $scope.errorMessage =  $filter('translate')(data.key);
+                        $rootScope.$broadcast('error', data.key);
                     }
                 );
             } else {
                 clearUploadForm();
-                $scope.errorMessage =  $filter('translate')('module.upload.select.error');
+                $rootScope.$broadcast('success', 'module.upload.select.error');
             }
         };
         
@@ -57,6 +56,8 @@
                         
                         $('#left-menu-indexing-button').removeClass("disabled");
                         displayNumberOfFilesWaitingToBeIndexed();
+                        
+                        $rootScope.$broadcast('success', 'module.left.menu.edm.start.success');
                     }, 
                     function (data) {
                         $log.error(data);
