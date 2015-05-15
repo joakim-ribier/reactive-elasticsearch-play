@@ -13,12 +13,26 @@
         IndexationService.prototype.getNumber = function() {
             var defer = $q.defer();
             $http.get($rootScope.hostname + '/index/number-files-waiting-to-be-indexed')
-            .success(function(data) {
-                defer.resolve(data.number);
-            })
-            .error(function(data) {
-                defer.reject(data);
-            });
+                .success(function(data) {
+                    defer.resolve(data.number);
+                })
+                .error(function(data) {
+                    defer.reject(data);
+                }
+            );
+            return defer.promise;
+        };
+        
+        IndexationService.prototype.indexing = function() {
+            var defer = $q.defer();
+            $http.get($rootScope.hostname + '/index/index-all-files-in-directory')
+                .success(function(data) {
+                    defer.resolve(data);
+                })
+                .error(function(data) {
+                    defer.reject(data);
+                }
+            );
             return defer.promise;
         };
         

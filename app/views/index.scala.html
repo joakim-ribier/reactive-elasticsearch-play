@@ -17,10 +17,10 @@
 @leftMenu = {
     <li class="sidebar-search">
         <div class="input-group custom-search-form">
-            <form name="form" data-ng-submit="upload(uploadForm)" novalidate>
+            <form name="form" data-ng-submit="upload(data.uploadForm)" novalidate>
                     <div class="input-group">
                         <input type="file" name="file"
-                               data-ng-model="uploadForm.file"
+                               data-ng-model="data.uploadForm.file"
                                data-ng-required="true" 
                                onchange="angular.element(this).scope().setFile(this)"
                                class="filestyle" data-input="false" data-buttonText="&nbsp;Choose file" >
@@ -38,6 +38,29 @@
                     </div>
             </form>
         </div>
+    </li>
+    <li>
+        <a href="#">
+            <i class="fa fa-file-o fa-fw"></i>
+            <span data-translate="module.left.menu.edm"></span>
+            <span data-ng-if="data.number != 0" class="left-menu-number">{{data.number}}</span>
+            <span class="fa arrow"></span>
+        </a>
+        <ul class="nav nav-second-level collapse in" aria-expanded="true">
+            <li>
+                <a href="#">
+                    <i class="fa fa-bar-chart-o fa-fw"></i>
+                    <span data-translate="module.left.menu.edm.dashboard"></span>
+                </a>
+            </li>
+            <li>
+                <a href="#" id="left-menu-indexing-button" data-ng-click="indexing()">
+                    <i class="fa fa-play fa-fw"></i>
+                    <span data-translate="module.left.menu.edm.start"></span>
+                    <span data-ng-if="data.number != 0" class="left-menu-number">{{data.number}}</span>
+                </a>
+            </li>
+        </ul>
     </li>
 }
 

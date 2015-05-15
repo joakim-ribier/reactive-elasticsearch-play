@@ -1,6 +1,7 @@
 download=Download
 search=Search
 title=Electronic Document Management
+waiting=Waiting
 
 module.global.error=An error has occurred while processing your request. Please contact the administrator of the application.
 
@@ -16,4 +17,9 @@ module.login.first.connection.error=Sorry it is not possible to create a new pas
 module.login.first.connection.success=Please sign in to continue.
 
 module.upload.file.success=The file has been uploaded.
-module.upload.select.error=Please select a file. 
+module.upload.select.error=Please select a file.
+
+module.left.menu.edm=EDM
+module.left.menu.edm.dashboard=Dashboard
+module.left.menu.edm.start=Start indexing
+module.left.menu.edm.start.success=The files have been indexed.
