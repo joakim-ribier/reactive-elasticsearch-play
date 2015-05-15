@@ -19,12 +19,12 @@ public class AbstractController extends Controller {
         this.hostName = configurationService.getHostName();
     }
     
-    protected Status _internalServerError(String key) {
+    protected static Status _internalServerError(String key) {
         return internalServerError(
                 JsonHelper.toResultExceptionModel(key));
     }
     
-    protected Status _preconditionFailed(String key) {
+    protected static Status _preconditionFailed(String key) {
         return status(PRECONDITION_FAILED,
                 JsonHelper.toResultExceptionModel(key));
     }
