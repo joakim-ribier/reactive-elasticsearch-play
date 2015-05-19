@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import models.exceptions.ESDocumentNotFound;
+import models.search.PathModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,27 +26,33 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class FileDownloadController extends AbstractController {
-
+    
     private static final Logger LOG = LoggerFactory
             .getLogger(FileDownloadController.class);
     
     private final ESSearchService esSearchService;
     private final ZipService zipService;
-
+    
     @Inject
     private FileDownloadController(ConfigurationService configurationService,
             ESSearchService esSearchService, ZipService zipService) {
-
+        
         super(configurationService);
         this.esSearchService = esSearchService;
         this.zipService = zipService;
     }
-
+    
     @Security.Authenticated(Secured.class)
     public Result index(String id) {
         try {
-            Optional<Path> path = esSearchService.searchFileById(id);
+            PathModel pathModel = esSearchService.searchFileById(id);
+            Optional<Path> path = pathModel.getPath();
             if (path.isPresent()) {
+                Optional<String> filename = pathModel.getFilename();
+                if (filename.isPresent()) {
+                    response().setHeader(
+                            "Content-disposition", "attachment; filename=" + filename.get());
+                }
                 return ok(path.get().toFile());
             }
             return notFound("Document '" + id + "' not found.");
@@ -56,7 +63,7 @@ public class FileDownloadController extends AbstractController {
     
     @Security.Authenticated(Secured.class)
     public Result generateZip(String ids) {
-        List<File> files = getFilesFromIDs(ids);
+        List<PathModel> files = getFilesFromIDs(ids);
         if(zipService.create(files)) {
             return ok();
         } else {
@@ -75,15 +82,16 @@ public class FileDownloadController extends AbstractController {
         return notFound("Zip not found.");
     }
     
-    private List<File> getFilesFromIDs(String ids) {
-        List<File> files = Lists.newArrayList();
+    private List<PathModel> getFilesFromIDs(String ids) {
+        List<PathModel> files = Lists.newArrayList();
         Iterable<String> iterable = Splitter.on(";").split(ids);
         iterable.forEach(id -> {
             try {
                 if (!Strings.isNullOrEmpty(id)) {
-                    Optional<Path> path = esSearchService.searchFileById(id);
+                    PathModel pathModel = esSearchService.searchFileById(id);
+                    Optional<Path> path = pathModel.getPath();
                     if (path.isPresent()) {
-                        files.add(path.get().toFile());
+                        files.add(pathModel);
                     }
                 }
             } catch (ESDocumentNotFound | ConfigurationServiceException e) {

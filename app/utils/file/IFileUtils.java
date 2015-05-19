@@ -43,4 +43,15 @@ public interface IFileUtils {
      */
     int getNumberOfFiles(Path path) throws FileUtilsException;
     
+    /**
+     * Gets the copy of the source path parameter.
+     *  
+     * @param source path java.nio.file.Path.
+     * @param filename string value.
+     * @return path object.
+     * 
+     * @throws FileUtilsException
+     */
+    Path copy(Path source, String filename) throws FileUtilsException;
+    
 }

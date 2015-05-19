@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import models.HitModel;
 import models.exceptions.ESDocumentNotFound;
+import models.search.PathModel;
 
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.index.IndexResponse;
@@ -102,9 +103,11 @@ public class TestSearchServiceImpl {
     @Test
     public void testFindByIdWithNotExistsFile() throws ESDocumentNotFound, ConfigurationServiceException {
        String id = indexResponse.getId();
-       Optional<Path> file = esSearchService.searchFileById(id);
+       PathModel pathModel = esSearchService.searchFileById(id);
+       Optional<Path> expected = pathModel.getPath();
        
-       assertThat(file.isPresent()).isFalse(); 
+       
+       assertThat(expected.isPresent()).isFalse(); 
     }
     
     @Test(expected = ESDocumentNotFound.class)

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import models.PathIndexModel;
@@ -21,8 +22,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import services.configuration.ConfigurationService;
+
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
@@ -30,6 +34,14 @@ public class FileUtils implements IFileUtils {
     
     private static final Logger LOG = LoggerFactory
             .getLogger(IFileUtils.class);
+    
+    private final ConfigurationService configurationService;
+    
+    @Inject
+    public FileUtils(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+        
+    }
     
     @Override
     public String getContent(Path path) throws FileUtilsException {
@@ -103,6 +115,18 @@ public class FileUtils implements IFileUtils {
     public Path move(Path source, Path target) throws FileUtilsException {
         try {
             return Files.move(source, target);
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+            throw new FileUtilsException(e.getMessage(), e);
+        }
+    }
+    
+    @Override
+    public Path copy(Path source, String filename) throws FileUtilsException {
+        try {
+            return Files.copy(
+                    source, Paths.get(configurationService.getTmpDir(), filename),
+                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new FileUtilsException(e.getMessage(), e);

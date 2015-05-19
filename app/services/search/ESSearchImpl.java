@@ -10,6 +10,7 @@ import java.util.Optional;
 import models.HitModel;
 import models.HitModel.Builder;
 import models.exceptions.ESDocumentNotFound;
+import models.search.PathModel;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -71,18 +72,25 @@ public class ESSearchImpl implements ESSearchService {
     }
     
     @Override
-    public Optional<Path> searchFileById(final String id)
+    public PathModel searchFileById(final String id)
             throws ESDocumentNotFound, ConfigurationServiceException {
         
         QueryBuilder query = QueryBuilders.termQuery("_id", id);
         SearchResponse searchResponse = esServerEmbedded.getClient()
                 .prepareSearch(indexName)
                 .setTypes(typeName).setQuery(query).execute().actionGet();
-
+        
         if (searchResponse.getHits().getTotalHits() == 0) {
             throw new ESDocumentNotFound("The document '" + id + "' not found.");
         }
-        return findFileSearchHits(searchResponse.getHits());
+        
+        Optional<String> filename = xContentHelper.findValueToString(
+                searchResponse.getHits().getAt(0).getSource(),
+                XContentBuilderHelper.FILENAME_FIELD);
+        
+        Optional<Path> path = findFileSearchHits(searchResponse.getHits());
+        
+        return new PathModel(filename, path);
     }
     
     private Optional<Path> findFileSearchHits(final SearchHits hits)
