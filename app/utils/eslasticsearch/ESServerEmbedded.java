@@ -24,50 +24,52 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class ESServerEmbedded implements IESServerEmbedded {
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(IESServerEmbedded.class);
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(IESServerEmbedded.class);
+    
+    private final ConfigurationService configurationService;
+    private final ESConstantService esConstantService;
+    
     private final String clusterName;
     private final String dataPath;
-
+    private final String index;
+    private final String type;
+    
     private Client client = null;
     private Node node;
-
+    
     @Inject
     private ESServerEmbedded(ConfigurationService configurationService,
-            ESConstantService elasticsearchConstantService) {
-
-        this.clusterName = configurationService.get(
-                elasticsearchConstantService.getClusterName());
+            ESConstantService esConstantService) {
         
-        this.dataPath = configurationService.get(
-                elasticsearchConstantService.getPathData());
+        this.configurationService = configurationService;
+        this.esConstantService = esConstantService;
+        
+        this.clusterName = getCluster();
+        this.dataPath = getDataPath();
+        this.index = getIndex();
+        this.type = getType();
     }
-
+    
     private void init() {
         LOG.info("Server embedded starting...");
         LOG.info("Cluster name [{}].", clusterName);
         LOG.info("Data path [{}].", dataPath);
-
+        
         Builder settingsBuilder = ImmutableSettings.settingsBuilder();
         if (!Strings.isNullOrEmpty(dataPath)) {
             settingsBuilder.put("path.data", dataPath);
         }
-        settingsBuilder.put("number_of_shards", 1);
-        settingsBuilder.put("index.numberOfReplicas", 1);
-
+        
         this.node = nodeBuilder().clusterName(clusterName).client(false)
                 .settings(settingsBuilder.build()).node();
-
+        
         this.client = node.client();
     }
     
     @Override
     public IndexRequestBuilder buildIndexRequestBuilder(XContentBuilder xContentBuilder) {
-        IndexRequestBuilder indexRequestBuilder = client.prepareIndex(
-                "reactive-elasticsearch-play", "files");
-        
+        IndexRequestBuilder indexRequestBuilder = client.prepareIndex(index, type);
         return indexRequestBuilder.setSource(xContentBuilder);
     }
     
@@ -89,7 +91,7 @@ public class ESServerEmbedded implements IESServerEmbedded {
             this.client = null;
         }
     }
-
+    
     @Override
     public Client getClient() {
         if (client == null) {
@@ -97,4 +99,25 @@ public class ESServerEmbedded implements IESServerEmbedded {
         }
         return client;
     }
+    
+    private String getType() {
+        return configurationService.get(
+                esConstantService.getTypeName());
+    }
+    
+    private String getIndex() {
+        return configurationService.get(
+                esConstantService.getIndexName());
+    }
+    
+    private String getDataPath() {
+        return configurationService.get(
+                esConstantService.getPathData());
+    }
+    
+    private String getCluster() {
+        return configurationService.get(
+                esConstantService.getClusterName());
+    }
+    
 }
