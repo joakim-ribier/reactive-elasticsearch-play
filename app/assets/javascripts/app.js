@@ -8,9 +8,11 @@
     angular.module('login.service', []);
     angular.module('menu.service', []);
     angular.module('indexation.service', []);
+    angular.module('search.service', []);
     
     angular.module('App',
-            ['pascalprecht.translate',
-             'global.service', 'login.service', 'menu.service', 'indexation.service']);
+            ['pascalprecht.translate', 'angular-jqcloud', 
+             'global.service', 'login.service', 'menu.service',
+             'indexation.service', 'search.service']);
     
 })();

@@ -55,9 +55,11 @@ public class FileDownloadController extends AbstractController {
                 }
                 return ok(path.get().toFile());
             }
-            return notFound("Document '" + id + "' not found.");
-        } catch (ESDocumentNotFound | ConfigurationServiceException e) {
-            return notFound(e.getMessage());
+            return _notFound("module.download.document.not.found");
+        } catch (ConfigurationServiceException e) {
+            return _preconditionFailed("module.configuration.error");
+        } catch (ESDocumentNotFound e) {
+            return _notFound("module.download.document.not.found");
         }
     }
     
@@ -67,7 +69,7 @@ public class FileDownloadController extends AbstractController {
         if(zipService.create(files)) {
             return ok();
         } else {
-            return internalServerError();
+            return _internalServerError("module.global.error");
         }
     }
 
@@ -79,7 +81,7 @@ public class FileDownloadController extends AbstractController {
             return ok(file);
         }
         LOG.error("Zip file path name '{}' not found on the server.", zipFilePathName);
-        return notFound("Zip not found.");
+        return _internalServerError("module.global.error");
     }
     
     private List<PathModel> getFilesFromIDs(String ids) {

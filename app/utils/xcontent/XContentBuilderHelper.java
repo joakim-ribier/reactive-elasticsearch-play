@@ -45,7 +45,7 @@ public class XContentBuilderHelper implements IXContentBuilderHelper {
                 .startObject(FILE_FIELD)
                     .field(CONTENT_FIELD, content)
                     .field(FILENAME_FIELD, pathIndexModel.getPath().toFile().getName())
-                    .field(DATE_FIELD, new Date().toString());
+                    .field(DATE_FIELD, new Date());
             
             // add tags
             xContentBuilder.startArray(TAGS_FIELD);

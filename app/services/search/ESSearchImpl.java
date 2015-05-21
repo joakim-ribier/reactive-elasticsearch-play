@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import models.FacetModel;
 import models.HitModel;
 import models.HitModel.Builder;
 import models.exceptions.ESDocumentNotFound;
@@ -17,6 +18,8 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.facet.FacetBuilders;
+import org.elasticsearch.search.facet.terms.TermsFacet;
 
 import services.ESConstantService;
 import services.configuration.ConfigurationService;
@@ -53,7 +56,7 @@ public class ESSearchImpl implements ESSearchService {
     }
     
     @Override
-    public List<HitModel> searchByQuery(String value) {
+    public List<HitModel> searchByQuery(String value) { 
         SearchResponse searchResponse = esServerEmbedded.getClient()
                 .prepareSearch(indexName)
                 .setTypes(typeName)
@@ -129,6 +132,28 @@ public class ESSearchImpl implements ESSearchService {
                 source, XContentBuilderHelper.CONTENT_LENGTH_FIELD));
         
         return builder.build();
+    }
+    
+    @Override
+    public List<FacetModel> getTags() {
+        SearchResponse searchResponse = esServerEmbedded.getClient()
+                .prepareSearch(indexName)
+                .setTypes(typeName)
+                .setQuery(QueryBuilders.matchAllQuery())
+                .addFacet(FacetBuilders.termsFacet("tag")
+                        .field(XContentBuilderHelper.TAGS_FIELD)
+                        .size(10))
+                 .setSize(0)
+                .execute().actionGet();
+        
+        TermsFacet termsFacet = (TermsFacet) searchResponse.getFacets().facetsAsMap().get("tag");
+        List<FacetModel> facetModels = Lists.newArrayList();
+        termsFacet.forEach(facet -> {
+            facetModels.add(
+                    new FacetModel(
+                            facet.getTerm().toString(), facet.getCount(), facet.getCount()));
+        });
+        return facetModels;
     }
     
 }

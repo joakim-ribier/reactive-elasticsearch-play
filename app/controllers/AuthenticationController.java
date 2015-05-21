@@ -33,7 +33,7 @@ public class AuthenticationController extends AbstractController {
     
     public Result login() {
         clearSession();
-        return ok(views.html.login.render(_TITLE, hostName));
+        return ok(views.html.login.render(hostName));
     }
     
     public Result logout() {

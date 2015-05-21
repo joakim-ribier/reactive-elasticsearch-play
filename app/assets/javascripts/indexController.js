@@ -2,48 +2,55 @@
     
     'use strict';
     
-    angular.module('App').controller('IndexController', ['$scope', '$log', '$http', '$window', function ($scope, $log, $http, $window) {
-        $scope.loading = false;
-        $scope.actionsLoading = false;
+    angular.module('App').controller(
+            'IndexController', 
+            ['$scope', '$log', '$http', '$window', '$rootScope', 'searchService',
+             function ($scope, $log, $http, $window, $rootScope, searchService) {
         
-        $scope.errorMessage = '';
-        $scope.actionsValidationMessage = '';
-    
         $scope.searchResults = [];
         $scope.searchString = '';
         
+        $scope.words = [];
+        
+        $scope.getTags = function () {
+            searchService.getTags().then(
+                function(data) {
+                    $scope.words = data;
+                }, 
+                function (data) {
+                    $rootScope.$broadcast('error', data.key);
+                }
+            );
+        };
+        
         $scope.startSearching = function () {
             if ($scope.searchString) {
-                $scope.loading = true;
-                $scope.errorMessage = '';
-        		
-                $http.get($window.hostName + '/search/by/query/' + $scope.searchString)
-                .success(function(data) {
-                    $log.debug(data);
-                    $scope.searchResults = data;
-                    $scope.loading = false;
-    				
-                    if (data.length < 1) {
-                        $scope.errorMessage = 'Aucun document ne correspond aux termes de recherche spécifiés.'
+                $rootScope.loading = true;
+                searchService.search($scope.searchString).then(
+                    function(data) {
+                        $scope.searchResults = data;
+                        $rootScope.loading = false;
+                        
+                        if (data.length < 1) {
+                            $rootScope.$broadcast('info', 'module.index.search.nothing');
+                        }
+                    }, 
+                    function (data) {
+                        $rootScope.loading = false;
+                        $rootScope.$broadcast('error', data.key);
                     }
-                })
-                .error(function(data, status, headers, config) {
-                    $log.error(data);
-                    $scope.loading = false;
-                });
-        	}
-        }
+                );
+            }
+        };
         
         $scope.selectOrUnSelectAll = function () {
             angular.forEach($scope.searchResults, function (item) {
                 item.selected = $scope.selectedAll;
             });
-        }
+        };
         
         $scope.downloadFiles = function () {
             if ($scope.searchResults && $scope.searchResults.length > 0) {
-                $scope.actionserrorMessage = '';
-                
                 var documentIds = '';
                 angular.forEach($scope.searchResults, function (document) {
                     if (document.selected) {
@@ -52,24 +59,24 @@
                 });
                 
                 if (documentIds && documentIds != '') {
-                    $scope.actionsLoading = true;
+                    $rootScope.loading = true;
                     
                     $http.get($window.hostName + '/file/download/by/ids/' + documentIds)
                     .success(function(data) {
-                        $scope.actionsLoading = false;
+                        $rootScope.loading = false;
                         $window.location = $window.hostName + '/file/download/zip';
                     })
-                    .error(function(data, status, headers, config) {
-                        $log.error(data);
-                        $scope.actionsValidationMessage = 'Il y a une erreur pendant la création du zip.';
-                        $scope.actionsLoading = false;
+                    .error(function(data) {
+                        $rootScope.loading = false;
+                        $rootScope.$broadcast('error', data.key);
                     }); 
                 } else {
-                    $scope.actionsValidationMessage = 'Veuillez sélectionner au minimum un document.'
+                    $rootScope.$broadcast('warning', 'module.index.dowload.zip.select.error');
                 }
             }
-            
-        }
+        };
+        
+        $scope.getTags();
     }]);
     
 })();

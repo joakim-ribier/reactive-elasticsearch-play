@@ -8,9 +8,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class AbstractController extends Controller {
-
-    protected static final String _TITLE = "Reactive AngularApp's - Elasticsearch 1.4.1";
-
+    
     protected final ConfigurationService configurationService;
     protected final String hostName;
 
@@ -26,6 +24,11 @@ public class AbstractController extends Controller {
     
     protected static Status _preconditionFailed(String key) {
         return status(PRECONDITION_FAILED,
+                JsonHelper.toResultExceptionModel(key));
+    }
+    
+    protected static Status _notFound(String key) {
+        return status(NOT_FOUND,
                 JsonHelper.toResultExceptionModel(key));
     }
     

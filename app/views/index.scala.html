@@ -1,4 +1,4 @@
-@(title: String, hostName: String)
+@(hostName: String)
 
 @dropdownMenu = {
     <li class="dropdown">
@@ -26,7 +26,7 @@
                            class="filestyle" data-input="false" data-buttonText="&nbsp;Choose a file" >
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="submit">
-                            <i class="fa fa-upload"></i>
+                            <i class="fa fa-upload fa-fw"></i>
                         </button>
                     </span>
                 </div>
@@ -36,7 +36,7 @@
                         class="form-control" 
                         placeholder="{{ 'module.upload.tags.input' | translate }}" name="id" type="text">
                     <span class="input-group-addon">
-                        <i class="fa fa-tags"></i>
+                        <i class="fa fa-tags fa-fw"></i>
                     </span>
                 </div>
             </form>
@@ -67,111 +67,82 @@
     </li>
 }
 
-@main(title, hostName, dropdownMenu, leftMenu) {
-	<div data-ng-controller="IndexController" id="page-wrapper">
-        
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 class="page-header" data-translate="title"></h2>
+@main(hostName, dropdownMenu, leftMenu) {
+    <div data-ng-controller="IndexController" id="page-wrapper">
+    
+        <div class="container">
+            <jqcloud words="words" height="150"></jqcloud>
+            
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <form role="form" data-ng-submit="startSearching()" novalidate>
+                        <fieldset>
+                            <div class="form-group input-group">
+                                <input 
+                                    data-ng-model="searchString" 
+                                    data-ng-required="true" class="form-control" 
+                                    type="text" name="searchString"  placeholder="Enter your value..." autofocus/>
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-gears fa-fw"></i>
+                                <span data-translate="search"></span>
+                            </button>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
         </div>
         
-        <div class="panel panel-default">
+        <br />
+        
+        <div class="panel panel-info">
         
             <div class="panel-heading">
-                <i class="fa fa-gears"></i>
+                <i class="fa fa-list fa-fw"></i>
             </div>
             
-            <div class="panel-body search-panel">
-                <div class="panel-group">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4 col-md-offset-4">
-                                <form role="form" data-ng-submit="startSearching()" novalidate>
-                                    <fieldset>
-                                        <div class="form-group input-group">
-                                            <input 
-                                                data-ng-model="searchString" 
-                                                data-ng-required="true" class="form-control" 
-                                                type="text" name="searchString"  placeholder="Enter your value..." autofocus/>
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-search"></i>
-                                                </span>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">
-                                            <i class="fa fa-gears"></i>
-                                            <span data-translate="search"></span>
-                                        </button>
-                                        <div data-ng-if="errorMessage" class="alert alert-warning">
-                                            <span>{{errorMessage}}</span>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="panel-group" id="accordion">
-                    <div class="panel panel-default">
-                    
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true">
-                                    <i class="fa fa-list"></i>
-                                </a>
-                            </h4>
-                        </div>
-                        
-                        <div id="collapseTwo" class="panel-collapse collapse in" aria-expanded="true">
-                            <div class="panel-body documents-list-panel">
-                                <div class="row">
-                                
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
-                                                    </th>
-                                                    <th>ID</th>
-                                                    <th>Name</th>
-                                                    <th>Date</th>
-                                                    <th>Size</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr data-ng-repeat="searchResult in searchResults | limitTo:10" role="row">
-                                                    <td>
-                                                        <input type="checkbox" data-ng-model="searchResult.selected">
-                                                    </td>
-                                                    <td>{{searchResult.id}}</td>
-                                                    <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
-                                                    <td>{{searchResult.indexingDate | date:'medium'}}</td>
-                                                    <td>{{searchResult.size}}</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    
-                                    <button type="button" class="btn" 
-                                            ng-class="{'btn-primary' : searchResults.length > 0,
-                                                            'btn-primary disabled' : searchResults.length < 1}"
-                                            ng-click="downloadFiles()">
-                                            <i class="fa fa-download"></i>
-                                            <span data-translate="download"></span>
-                                    </button>
-                                    <div data-ng-if="actionsValidationMessage != ''" class="alert alert-warning">
-                                        <span>{{actionsValidationMessage}}</span>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
+                                </th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Size</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="searchResult in searchResults | limitTo:10" role="row">
+                                <td>
+                                    <input type="checkbox" data-ng-model="searchResult.selected">
+                                </td>
+                                <td>{{searchResult.id}}</td>
+                                <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
+                                <td>{{searchResult.indexingDate | date:'medium'}}</td>
+                                <td>{{searchResult.size}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            
+            <div class="panel-footer">
+                <button type="button" class="btn" 
+                        ng-class="{'btn-primary' : searchResults.length > 0,
+                                        'btn-primary disabled' : searchResults.length < 1}"
+                        ng-click="downloadFiles()">
+                        <i class="fa fa-download"></i>
+                        <span data-translate="download"></span>
+                </button>
+            </div>
+            
         </div>
     </div>
 }

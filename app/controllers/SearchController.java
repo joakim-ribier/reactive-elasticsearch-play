@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.FacetModel;
 import models.HitModel;
 import play.libs.Json;
 import play.mvc.Result;
@@ -29,6 +30,12 @@ public class SearchController extends AbstractController {
     public Result index(String value) {
         List<HitModel> hitModels = esSearchService.searchByQuery(value);
         return ok(Json.toJson(hitModels));
+    }
+    
+    @Security.Authenticated(Secured.class)
+    public Result getTags() {
+        List<FacetModel> facetModels = esSearchService.getTags();
+        return ok(Json.toJson(facetModels));
     }
     
 }
