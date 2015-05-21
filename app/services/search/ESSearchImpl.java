@@ -61,7 +61,8 @@ public class ESSearchImpl implements ESSearchService {
                         QueryBuilders.multiMatchQuery(
                                 value,
                                 XContentBuilderHelper.CONTENT_FIELD,
-                                XContentBuilderHelper.FILENAME_FIELD))
+                                XContentBuilderHelper.FILENAME_FIELD,
+                                XContentBuilderHelper.TAGS_FIELD))
                 .execute().actionGet();
         
         List<HitModel> hitModels = Lists.newArrayList();

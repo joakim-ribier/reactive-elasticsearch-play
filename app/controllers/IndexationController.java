@@ -30,7 +30,7 @@ public class IndexationController extends AbstractController {
     public Result index() {
         try {
             Path path = configurationService.getPathDirToIndexFiles();
-            indexationService.indexAllFilesInADirectory(path);
+            indexationService.indexingAllFilesInADirectory(path);
             return ok();
         } catch (ConfigurationServiceException e) {
             return _preconditionFailed("module.configuration.error");

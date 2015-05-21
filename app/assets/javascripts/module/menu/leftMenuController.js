@@ -12,35 +12,50 @@
         $scope.data = {
             number: 0,
             uploadForm: {
-                file: undefined
+                file: undefined,
+                tags: ''
             }
         };
         
         $scope.upload = function (uploadForm) {
-            $scope.errorMessage = '';
-            $scope.infoMessage = '';
-            
             $scope.form.$submitted = true;
             if ($scope.form.$valid) {
                 $rootScope.loading = true;
-                var file = uploadForm.file;
-                leftMenuService.upload(file).then(
-                    function(data){
-                        clearUploadForm();
-                        $rootScope.loading = false;
-                        
-                        $rootScope.$broadcast('success', 'module.upload.file.success');
-                        displayNumberOfFilesWaitingToBeIndexed();
-                    }, 
-                    function (data) {
-                        clearUploadForm();
-                        $rootScope.loading = false;
-                        $rootScope.$broadcast('error', data.key);
-                    }
-                );
+                
+                if (uploadForm.tags) {
+                    leftMenuService.uploadAndIndexing(uploadForm).then(
+                        function(data){
+                            clearUploadForm();
+                            $rootScope.loading = false;
+                            
+                            $rootScope.$broadcast('success', 'module.uploadAndIndexing.file.success');
+                            displayNumberOfFilesWaitingToBeIndexed();
+                        }, 
+                        function (data) {
+                            clearUploadForm();
+                            $rootScope.loading = false;
+                            $rootScope.$broadcast('error', data.key);
+                        }
+                    );
+                } else {
+                    leftMenuService.upload(uploadForm).then(
+                        function(data){
+                            clearUploadForm();
+                            $rootScope.loading = false;
+                            
+                            $rootScope.$broadcast('success', 'module.upload.file.success');
+                            displayNumberOfFilesWaitingToBeIndexed();
+                        }, 
+                        function (data) {
+                            clearUploadForm();
+                            $rootScope.loading = false;
+                            $rootScope.$broadcast('error', data.key);
+                        }
+                    );
+                }
             } else {
                 clearUploadForm();
-                $rootScope.$broadcast('success', 'module.upload.select.error');
+                $rootScope.$broadcast('warning', 'module.upload.select.error');
             }
         };
         
@@ -75,7 +90,10 @@
         
         function clearUploadForm() {
             $(":file").filestyle('clear');
-            $scope.data.uploadForm.file = undefined;
+            $scope.data.uploadForm = {
+                file: undefined,
+                tags: ''
+            };
         };
         
         function displayNumberOfFilesWaitingToBeIndexed() {

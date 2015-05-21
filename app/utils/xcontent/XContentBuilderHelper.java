@@ -25,6 +25,7 @@ public class XContentBuilderHelper implements IXContentBuilderHelper {
     public static final String CONTENT_FIELD = "content";
     public static final String FILENAME_FIELD = "filename";
     public static final String DATE_FIELD = "date";
+    public static final String TAGS_FIELD = "tags";
     public static final String METADATA_FIELD = "metadata";
     public static final String CONTENT_TYPE_FIELD = "content-type";
     public static final String CONTENT_LENGTH_FIELD = "content-length";
@@ -44,13 +45,21 @@ public class XContentBuilderHelper implements IXContentBuilderHelper {
                 .startObject(FILE_FIELD)
                     .field(CONTENT_FIELD, content)
                     .field(FILENAME_FIELD, pathIndexModel.getPath().toFile().getName())
-                    .field(DATE_FIELD, new Date().toString())
-                    .startObject(METADATA_FIELD)
-                        .field(CONTENT_TYPE_FIELD, contentType)
-                        .field(CONTENT_LENGTH_FIELD, targetFile.length())
-                        .field(REAL_FILENAME_FIELD, targetFile.getName())
-                    .endObject()
-                .endObject();
+                    .field(DATE_FIELD, new Date().toString());
+            
+            // add tags
+            xContentBuilder.startArray(TAGS_FIELD);
+            for (String tag: pathIndexModel.getTags()) {
+                xContentBuilder.value(tag);
+            }
+            xContentBuilder.endArray();
+            
+            xContentBuilder.startObject(METADATA_FIELD)
+                    .field(CONTENT_TYPE_FIELD, contentType)
+                    .field(CONTENT_LENGTH_FIELD, targetFile.length())
+                    .field(REAL_FILENAME_FIELD, targetFile.getName())
+                .endObject()
+            .endObject();
             
             return xContentBuilder.endObject();
         } catch (IOException e) {

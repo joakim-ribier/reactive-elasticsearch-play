@@ -21,7 +21,7 @@ GET        /index/index-all-files-in-directory              @controllers.Indexat
 GET        /index/number-files-waiting-to-be-indexed        @controllers.IndexationController.getNumber
 
 POST       /module/upload/file                              @controllers.FileUploadController.upload
-
+POST       /module/upload-and-index/file                    @controllers.FileUploadController.uploadAndIndex
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                  controllers.Assets.at(path="/public", file)

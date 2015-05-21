@@ -18,16 +18,25 @@
     <li class="sidebar-search">
         <div class="input-group custom-search-form">
             <form name="form" data-ng-submit="upload(data.uploadForm)" novalidate>
-                <div class="input-group">
+                <div class="form-group input-group">
                     <input type="file" name="file"
                            data-ng-model="data.uploadForm.file"
                            data-ng-required="true" 
                            onchange="angular.element(this).scope().setFile(this)"
-                           class="filestyle" data-input="false" data-buttonText="&nbsp;Choose file" >
+                           class="filestyle" data-input="false" data-buttonText="&nbsp;Choose a file" >
                     <span class="input-group-btn">
                         <button class="btn btn-primary" type="submit">
                             <i class="fa fa-upload"></i>
                         </button>
+                    </span>
+                </div>
+                <div class="input-group">
+                    <input 
+                        data-ng-model="data.uploadForm.tags" 
+                        class="form-control" 
+                        placeholder="{{ 'module.upload.tags.input' | translate }}" name="id" type="text">
+                    <span class="input-group-addon">
+                        <i class="fa fa-tags"></i>
                     </span>
                 </div>
             </form>

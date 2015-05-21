@@ -114,7 +114,7 @@ public class FileUtils implements IFileUtils {
     @Override
     public Path move(Path source, Path target) throws FileUtilsException {
         try {
-            return Files.move(source, target);
+            return Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
             throw new FileUtilsException(e.getMessage(), e);

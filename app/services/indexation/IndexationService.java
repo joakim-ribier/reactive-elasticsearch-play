@@ -6,8 +6,8 @@ import services.configuration.ConfigurationServiceException;
 
 public interface IndexationService {
     
-    void indexAllFilesInADirectory(Path path)
-            throws IndexationServiceException;
+    void indexingAllFilesInADirectory(Path path)
+            throws IndexationServiceException, ConfigurationServiceException;
     
     /**
      * Gets the number of files waiting to be indexed.
@@ -18,5 +18,17 @@ public interface IndexationService {
      */
     int getNumberOfFilesWaitingToBeIndexed()
             throws ConfigurationServiceException, IndexationServiceException;
+    
+    /**
+     * Indexing a target file parameter with tags.
+     * 
+     * @param target file parameter.
+     * @param tags string parameter.
+     * 
+     * @throws IndexationServiceException
+     * @throws ConfigurationServiceException
+     */
+    void indexing(Path target, String tags) 
+            throws IndexationServiceException, ConfigurationServiceException;
     
 }
