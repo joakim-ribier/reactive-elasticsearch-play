@@ -12,22 +12,24 @@ import org.junit.Test;
 
 import play.mvc.Http.Status;
 import play.mvc.Result;
-import play.test.FakeApplication;
 import play.test.FakeRequest;
+
 
 public class TestI18nController {
     
+    private static final String API = "/i18n/";
+    private static final String GET = API + "get";
+    
     @Test
-    public void testAPIUrl() {
-        FakeApplication fakeApplication = fakeApplication(new GlobalTest());
+    public void testGetOk() {
         running(
-                fakeApplication, () -> {
-                    FakeRequest fakeIndexRequest = fakeRequest("GET", "/i18n/get?lang=en");
-                    
-                    Result result = route(fakeIndexRequest);
-                    
-                    assertThat(status(result)).isEqualTo(Status.OK);
-                }
+            fakeApplication(new GlobalTest()), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", GET + "?lang=en");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.OK);
+            }
         );
     }
     

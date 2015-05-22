@@ -12,25 +12,37 @@ import org.junit.Test;
 
 import play.mvc.Http.Status;
 import play.mvc.Result;
-import play.test.FakeApplication;
 import play.test.FakeRequest;
 
 public class TestFileDownloadController {
     
+    private static final String API = "/file/download/";
+    private static final String BY_ID = API + "by/id/";
+    
     @Test
-    public void testDownloadFileWithIdNotExists() {
-        FakeApplication fakeApplication = fakeApplication(new GlobalTest(true));
+    public void testFileDownloadByIdOk() {
         running(
-                fakeApplication, () -> {
-                    String id = "1";
-                    
-                    FakeRequest fakeIndexRequest = fakeRequest("GET", "/file/download/by/id/" + id);
-                    fakeIndexRequest.withSession("username", "admin");
-                    
-                    Result result = route(fakeIndexRequest);
-                    
-                    assertThat(status(result)).isEqualTo(Status.NOT_FOUND);
-                }
+            fakeApplication(new GlobalTest(true)), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", BY_ID + "1000");
+                fakeIndexRequest.withSession("username", "admin");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.NOT_FOUND);
+            }
+        );
+    }
+    
+    @Test
+    public void testFileDownloadByIdUnAuthorized() {
+        running(
+            fakeApplication(new GlobalTest()), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", BY_ID + "1000");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.SEE_OTHER);
+            }
         );
     }
     

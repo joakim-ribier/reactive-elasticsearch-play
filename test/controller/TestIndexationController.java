@@ -20,9 +20,37 @@ public class TestIndexationController {
     
     private static final String API = "/index/";
     private static final String GET_NUMBER_API = API + "number-files-waiting-to-be-indexed";
+    private static final String INDEX_ALL_API = API + "index-all-files-in-directory";
     
     @Test
-    public void testGetNumberOK() {
+    public void testIndexingOk() {
+        running(
+            fakeApplication(new GlobalTest(true)), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", INDEX_ALL_API);
+                fakeIndexRequest.withSession("username", "admin");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.INTERNAL_SERVER_ERROR);
+            }
+        );
+    }
+    
+    @Test
+    public void testIndexingUnAuthorized() {
+        running(
+            fakeApplication(new GlobalTest()), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", INDEX_ALL_API);
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.SEE_OTHER);
+            }
+        );
+    }
+    
+    @Test
+    public void testGetNumberOk() {
         FakeApplication fakeApplication = fakeApplication(new GlobalTest());
         running(
             fakeApplication, () -> {
@@ -38,7 +66,7 @@ public class TestIndexationController {
     }
     
     @Test
-    public void testGetNumberUNAUTHORIZED() {
+    public void testGetNumberUnAuthorized() {
         FakeApplication fakeApplication = fakeApplication(new GlobalTest());
         running(
             fakeApplication, () -> {

@@ -12,35 +12,65 @@ import org.junit.Test;
 
 import play.mvc.Http.Status;
 import play.mvc.Result;
-import play.test.FakeApplication;
 import play.test.FakeRequest;
 
 public class TestSearchController {
     
+    private static final String API = "/search/";
+    private static final String BY_QUERY = API + "by/query/";
+    private static final String TAGS = API + "tags/";
+    
     @Test
-    public void testSearchByValue() {
-        running(fakeApplication(new GlobalTest(true)), () -> {
-            FakeRequest fakeIndexRequest = fakeRequest("GET", "/search/by/query/" + "my-file.png");
-            fakeIndexRequest.withSession("username", "admin");
-            
-            Result result = route(fakeIndexRequest);
-            
-            assertThat(status(result)).isEqualTo(Status.OK);
+    public void testSearchByValueOk() {
+        running(
+            fakeApplication(new GlobalTest(true)), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", BY_QUERY + "my-file.png");
+                fakeIndexRequest.withSession("username", "admin");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.OK);
             }
         );
     }
     
     @Test
-    public void testSearchByValueNotLogged() {
-        FakeApplication fakeApplication = fakeApplication(new GlobalTest());
+    public void testSearchByValueUnAuthorized() {
         running(
-                fakeApplication, () -> {
-                    FakeRequest fakeIndexRequest = fakeRequest("GET", "/search/by/query/" + "my-value");
-                    
-                    Result result = route(fakeIndexRequest);
-                    
-                    assertThat(status(result)).isEqualTo(Status.SEE_OTHER);
-                }
+            fakeApplication(new GlobalTest(false)), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", BY_QUERY + "my-value");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.SEE_OTHER);
+            }
+        );
+    }
+    
+    @Test
+    public void testGetTagsOk() {
+        running(
+            fakeApplication(new GlobalTest(true)), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", TAGS + "10");
+                fakeIndexRequest.withSession("username", "admin");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.OK);
+            }
+        );
+    }
+    
+    @Test
+    public void testGetTagsUnAuthorized() {
+        running(
+            fakeApplication(new GlobalTest()), () -> {
+                FakeRequest fakeIndexRequest = fakeRequest("GET", TAGS + "10");
+                
+                Result result = route(fakeIndexRequest);
+                
+                assertThat(status(result)).isEqualTo(Status.SEE_OTHER);
+            }
         );
     }
     
