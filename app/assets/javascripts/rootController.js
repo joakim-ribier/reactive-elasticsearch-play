@@ -10,7 +10,8 @@
         $rootScope.hostname = $window.hostName;
         
         $rootScope.data = {
-            tagscloud : []
+            tagscloud : [],
+            tags : [],
         };
         
         $scope.notification = {
@@ -23,6 +24,9 @@
             searchService.getTags().then(
                 function(data) {
                     $rootScope.data.tagscloud = data;
+                    angular.forEach(data, function(value, key) {
+                        this.push(value.text);
+                    }, $rootScope.data.tags);
                 }, 
                 function (data) {
                     $rootScope.$broadcast('error', data.key);

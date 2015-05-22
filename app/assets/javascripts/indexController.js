@@ -10,17 +10,6 @@
         $scope.searchResults = [];
         $scope.searchString = '';
         
-        $scope.getTags = function () {
-            searchService.getTags().then(
-                function(data) {
-                    $rootScope.data.tagscloud = data;
-                }, 
-                function (data) {
-                    $rootScope.$broadcast('error', data.key);
-                }
-            );
-        };
-        
         $scope.startSearching = function () {
             if ($scope.searchString) {
                 $rootScope.loading = true;
@@ -74,7 +63,7 @@
             }
         };
         
-        $scope.getTags();
+        $rootScope.$broadcast('tags-cloud');
     }]);
     
 })();

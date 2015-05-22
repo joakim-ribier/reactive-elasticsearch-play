@@ -79,6 +79,7 @@
                         <fieldset>
                             <div class="form-group input-group">
                                 <input 
+                                    typeahead="tag for tag in data.tags | filter:$viewValue | limitTo:8"
                                     data-ng-model="searchString" 
                                     data-ng-required="true" class="form-control" 
                                     type="text" name="searchString"  placeholder="Enter your value..." autofocus/>
