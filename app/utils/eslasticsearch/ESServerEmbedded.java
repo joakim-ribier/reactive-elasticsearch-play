@@ -80,7 +80,14 @@ public class ESServerEmbedded implements IESServerEmbedded {
             bulkRequestBuilder.add(indexRequestBuilder);
         }
         BulkResponse bulkResponse = bulkRequestBuilder.execute().actionGet();
+        
+        refresh();
+        
         return !bulkResponse.hasFailures();
+    }
+    
+    private void refresh() {
+        getClient().admin().indices().prepareRefresh().execute().actionGet();
     }
     
     @Override

@@ -10,12 +10,10 @@
         $scope.searchResults = [];
         $scope.searchString = '';
         
-        $scope.words = [];
-        
         $scope.getTags = function () {
             searchService.getTags().then(
                 function(data) {
-                    $scope.words = data;
+                    $rootScope.data.tagscloud = data;
                 }, 
                 function (data) {
                     $rootScope.$broadcast('error', data.key);

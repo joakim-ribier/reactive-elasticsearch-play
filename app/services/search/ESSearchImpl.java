@@ -135,14 +135,14 @@ public class ESSearchImpl implements ESSearchService {
     }
     
     @Override
-    public List<FacetModel> getTags() {
+    public List<FacetModel> getTags(int size) {
         SearchResponse searchResponse = esServerEmbedded.getClient()
                 .prepareSearch(indexName)
                 .setTypes(typeName)
                 .setQuery(QueryBuilders.matchAllQuery())
                 .addFacet(FacetBuilders.termsFacet("tag")
                         .field(XContentBuilderHelper.TAGS_FIELD)
-                        .size(10))
+                        .size(size))
                  .setSize(0)
                 .execute().actionGet();
         

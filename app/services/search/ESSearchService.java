@@ -31,9 +31,10 @@ public interface ESSearchService {
     
     /**
      * Gets all tags to make a 'tag cloud'.
+     * @param size int value 
      * 
      * @return list of FacetModel object.
      */
-    List<FacetModel> getTags();
+    List<FacetModel> getTags(int size);
     
 }

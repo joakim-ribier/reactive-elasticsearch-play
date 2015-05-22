@@ -33,8 +33,8 @@ public class SearchController extends AbstractController {
     }
     
     @Security.Authenticated(Secured.class)
-    public Result getTags() {
-        List<FacetModel> facetModels = esSearchService.getTags();
+    public Result getTags(Integer size) {
+        List<FacetModel> facetModels = esSearchService.getTags(size);
         return ok(Json.toJson(facetModels));
     }
     

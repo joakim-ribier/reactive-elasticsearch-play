@@ -29,6 +29,7 @@
                             $rootScope.loading = false;
                             
                             $rootScope.$broadcast('success', 'module.uploadAndIndexing.file.success');
+                            $rootScope.$broadcast('tags-cloud');
                             displayNumberOfFilesWaitingToBeIndexed();
                         }, 
                         function (data) {

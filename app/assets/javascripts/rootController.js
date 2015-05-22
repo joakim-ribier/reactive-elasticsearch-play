@@ -4,15 +4,31 @@
     
     angular.module('App').controller(
             'RootController',
-            ['$scope', '$window', '$rootScope', '$log', '$filter', '$translate', 
-            function ($scope, $window, $rootScope, $log, $filter, $translate) {
+            ['$scope', '$window', '$rootScope', '$log', '$filter', '$translate', 'searchService',
+            function ($scope, $window, $rootScope, $log, $filter, $translate, searchService) {
         
         $rootScope.hostname = $window.hostName;
+        
+        $rootScope.data = {
+            tagscloud : []
+        };
         
         $scope.notification = {
             'message': '',
             'type': 'info'
         };
+        
+        $scope.$on('tags-cloud', function (event) {
+            $log.debug('tags-cloud');
+            searchService.getTags().then(
+                function(data) {
+                    $rootScope.data.tagscloud = data;
+                }, 
+                function (data) {
+                    $rootScope.$broadcast('error', data.key);
+                }
+            );
+        });
         
         $scope.$on('info', function (event, key) {
             $scope.notification = {

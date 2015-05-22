@@ -12,7 +12,7 @@ POST       /page/login/authentication                       @controllers.Authent
 POST       /page/login/firstConnection                      @controllers.AuthenticationController.firstConnection
 
 GET        /search/by/query/:value                          @controllers.SearchController.index(value: String)
-GET        /search/tags                                     @controllers.SearchController.getTags
+GET        /search/tags/:size                             @controllers.SearchController.getTags(size: Integer)
 
 GET        /file/download/by/id/:id                         @controllers.FileDownloadController.index(id: String)
 GET        /file/download/by/ids/:ids                       @controllers.FileDownloadController.generateZip(ids: String)

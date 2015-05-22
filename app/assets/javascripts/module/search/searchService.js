@@ -4,15 +4,17 @@
     
     angular.module('search.service').factory(
             'searchService',
-            ['$http', '$q', '$rootScope', function($http, $q, $rootScope) {
+            ['$http', '$q', '$rootScope', '$log',
+             function($http, $q, $rootScope, $log) {
         
         function SearchService() {
             var self = this;
         }
         
         SearchService.prototype.getTags = function() {
+            $log.debug('SearchService.prototype.getTags');
             var defer = $q.defer();
-            $http.get($rootScope.hostname + '/search/tags')
+            $http.get($rootScope.hostname + '/search/tags/15')
                 .success(function(data) {
                     defer.resolve(data);
                 })
