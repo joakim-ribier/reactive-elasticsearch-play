@@ -4,9 +4,9 @@
     
     angular.module('App').controller(
             'LeftMenuController', 
-            ['$scope', '$log', '$http', '$window', '$location', '$translate', '$filter',
+            ['$scope', '$log', '$http', '$window', '$location', 
              '$rootScope', 'leftMenuService', 'indexationService', 
-            function ($scope, $log, $http, $window, $location, $translate, $filter,
+            function ($scope, $log, $http, $window, $location,
                       $rootScope, leftMenuService, indexationService) {
           
         $scope.data = {

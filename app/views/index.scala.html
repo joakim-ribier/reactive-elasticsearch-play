@@ -127,7 +127,7 @@
                                 <td>{{searchResult.id}}</td>
                                 <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
                                 <td>{{searchResult.indexingDate | date:'medium'}}</td>
-                                <td>{{searchResult.size}}</td>
+                                <td>{{searchResult.size | sizeConverter}}</td>
                             </tr>
                         </tbody>
                     </table>
