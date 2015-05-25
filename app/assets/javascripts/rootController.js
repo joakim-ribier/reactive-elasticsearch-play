@@ -21,9 +21,13 @@
         
         $scope.$on('tags-cloud', function (event) {
             $log.debug('tags-cloud');
+            $rootScope.data = {
+                tagscloud : [],
+                tags : [],
+            };
             searchService.getTags().then(
                 function(data) {
-                    $rootScope.data.tagscloud = data;
+                    $rootScope.data.tagscloud = data.slice(0, 25);
                     angular.forEach(data, function(value, key) {
                         this.push(value.text);
                     }, $rootScope.data.tags);

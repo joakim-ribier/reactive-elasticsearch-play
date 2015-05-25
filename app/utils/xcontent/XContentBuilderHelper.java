@@ -26,6 +26,7 @@ public class XContentBuilderHelper implements IXContentBuilderHelper {
     public static final String FILENAME_FIELD = "filename";
     public static final String DATE_FIELD = "date";
     public static final String TAGS_FIELD = "tags";
+    public static final String ORIGINAL_TAGS_FIELD = "original_tags";
     public static final String METADATA_FIELD = "metadata";
     public static final String CONTENT_TYPE_FIELD = "content-type";
     public static final String CONTENT_LENGTH_FIELD = "content-length";

@@ -20,6 +20,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.facet.terms.TermsFacet;
+import org.elasticsearch.search.facet.terms.TermsFacetBuilder;
 
 import services.ESConstantService;
 import services.configuration.ConfigurationService;
@@ -136,13 +137,17 @@ public class ESSearchImpl implements ESSearchService {
     
     @Override
     public List<FacetModel> getTags(int size) {
+        TermsFacetBuilder termsFacetBuilder = FacetBuilders.termsFacet("tag")
+                .field(XContentBuilderHelper.ORIGINAL_TAGS_FIELD);
+        if (size != -1) {
+            termsFacetBuilder.size(size);
+        }
+        
         SearchResponse searchResponse = esServerEmbedded.getClient()
                 .prepareSearch(indexName)
                 .setTypes(typeName)
                 .setQuery(QueryBuilders.matchAllQuery())
-                .addFacet(FacetBuilders.termsFacet("tag")
-                        .field(XContentBuilderHelper.TAGS_FIELD)
-                        .size(size))
+                .addFacet(termsFacetBuilder)
                  .setSize(0)
                 .execute().actionGet();
         

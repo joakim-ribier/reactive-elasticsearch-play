@@ -14,7 +14,7 @@
         SearchService.prototype.getTags = function() {
             $log.debug('SearchService.prototype.getTags');
             var defer = $q.defer();
-            $http.get($rootScope.hostname + '/search/tags/25')
+            $http.get($rootScope.hostname + '/search/tags/1000')
                 .success(function(data) {
                     defer.resolve(data);
                 })
