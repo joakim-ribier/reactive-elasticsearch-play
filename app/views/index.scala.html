@@ -113,10 +113,10 @@
                                 <th>
                                     <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
                                 </th>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Date</th>
-                                <th>Size</th>
+                                <th></th>
+                                <th><span data-translate="module.index.result.name.title"></span></th>
+                                <th><span data-translate="module.index.result.date.title"></span></th>
+                                <th><span data-translate="module.index.result.size.title"></span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -124,7 +124,15 @@
                                 <td>
                                     <input type="checkbox" data-ng-model="searchResult.selected">
                                 </td>
-                                <td>{{searchResult.id}}</td>
+                                <td>
+                                    <a href="#" 
+                                       data-ng-if="searchResult.tags && searchResult.tags.length > 0"  
+                                       tooltip-placement="right" 
+                                       tooltip="{{searchResult.tags | tagsConverter}}">
+                                       
+                                        <i class="fa fa-tags fa-fw"></i>
+                                    </a>
+                                </td>
                                 <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
                                 <td>{{searchResult.indexingDate | date:'medium'}}</td>
                                 <td>{{searchResult.size | sizeConverter}}</td>

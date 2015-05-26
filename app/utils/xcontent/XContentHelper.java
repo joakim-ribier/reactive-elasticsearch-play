@@ -1,5 +1,6 @@
 package utils.xcontent;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -25,6 +26,16 @@ public class XContentHelper implements IXContentHelper {
             return Optional.empty();
         }
         return Optional.of((Integer)find);
+    }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    public Optional<List<String>> findValueToList(Map<String, Object> source, String key) {
+        Object find = find(key, source);
+        if (find == null) {
+            return Optional.empty();
+        }
+        return Optional.of((List<String>)find);
     }
     
     @SuppressWarnings("unchecked")

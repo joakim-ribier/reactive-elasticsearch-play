@@ -132,6 +132,9 @@ public class ESSearchImpl implements ESSearchService {
         builder.withSize(xContentHelper.findValueToLong(
                 source, XContentBuilderHelper.CONTENT_LENGTH_FIELD));
         
+        builder.tags(xContentHelper.findValueToList(
+                source, XContentBuilderHelper.TAGS_FIELD));
+        
         return builder.build();
     }
     
