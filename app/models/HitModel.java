@@ -3,6 +3,8 @@ package models;
 import java.util.List;
 import java.util.Optional;
 
+import org.elasticsearch.common.text.Text;
+
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
@@ -14,6 +16,7 @@ public class HitModel {
     private final Integer size;
     private final boolean selected;
     private final List<String> tags;
+    private final List<String> texts;
     
     public static class Builder {
         
@@ -22,11 +25,13 @@ public class HitModel {
         private String indexingDate;
         private Integer size;
         private List<String> tags;
+        private List<String> texts;
         
         public Builder withId(String value) {
             this.id = value;
             return this;
         }
+        
         public Builder withFileName(Optional<String> value) {
             if (value.isPresent()) {
                 this.fileName = value.get();
@@ -62,35 +67,49 @@ public class HitModel {
             return this;
         }
         
+        public Builder withHighlightField(Text[] values) {
+            this.texts = Lists.newArrayList();
+            if (values != null) {
+                for (Text text: values) {
+                    if (text.hasBytes()) {
+                        texts.add(text.bytes().toUtf8());
+                    }
+                }
+            }
+            return this;
+        }
+        
         public HitModel build() {
-            return new HitModel(id, fileName, indexingDate, size, tags);
+            return new HitModel(
+                    id, fileName, indexingDate, size, tags, texts);
         }
     }
     
     
     private HitModel(String id, String fileName, String indexingDate,
-            Integer size, List<String> tags) {
+            Integer size, List<String> tags, List<String> texts) {
         
         this.id = id;
         this.fileName = fileName;
         this.indexingDate = indexingDate;
         this.size = size;
         this.tags = tags;
+        this.texts = texts;
         this.selected = false;
     }
-
+    
     public String getId() {
         return id;
     }
-
+    
     public String getFileName() {
         return fileName;
     }
-
+    
     public String getIndexingDate() {
         return indexingDate;
     }
-
+    
     public Integer getSize() {
         return size;
     }
@@ -99,15 +118,20 @@ public class HitModel {
         return tags;
     }
     
+    public List<String> getTexts() {
+        return texts;
+    }
+    
     public boolean isSelected() {
         return selected;
     }
     
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, fileName, indexingDate, size, tags, selected);
+        return Objects.hashCode(
+                id, fileName, indexingDate, size, tags, texts, selected);
     }
-
+    
     @Override
     public boolean equals(Object object) {
         if (object instanceof HitModel) {
@@ -117,15 +141,21 @@ public class HitModel {
                     && Objects.equal(this.indexingDate, that.indexingDate)
                     && Objects.equal(this.size, that.size)
                     && Objects.equal(this.tags, that.tags)
+                    && Objects.equal(this.texts, that.texts)
                     && Objects.equal(this.selected, that.selected);
         }
         return false;
     }
-
+    
     @Override
     public String toString() {
-        return Objects.toStringHelper(this).add("id", id)
-                .add("fileName", fileName).add("indexingDate", indexingDate)
-                .add("size", size).add("tags", tags).toString();
+        return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("fileName", fileName)
+                .add("indexingDate", indexingDate)
+                .add("size", size)
+                .add("tags", tags)
+                .add("texts", texts).toString();
     }
+    
 }

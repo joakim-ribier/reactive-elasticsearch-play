@@ -13,7 +13,7 @@
     angular.module('search.service', []);
     
     angular.module('App',
-            ['pascalprecht.translate', 'angular-jqcloud', 'ui.bootstrap', 
+            ['pascalprecht.translate', 'angular-jqcloud', 'ui.bootstrap', 'ngSanitize', 
              'global.filter', 
              'global.service', 'login.service', 'menu.service',
              'indexation.service', 'search.service']);

@@ -106,39 +106,70 @@
             </div>
             
             <div class="panel-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
-                                </th>
-                                <th></th>
-                                <th><span data-translate="module.index.result.name.title"></span></th>
-                                <th><span data-translate="module.index.result.date.title"></span></th>
-                                <th><span data-translate="module.index.result.size.title"></span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr data-ng-repeat="searchResult in searchResults | limitTo:10" role="row">
-                                <td>
-                                    <input type="checkbox" data-ng-model="searchResult.selected">
-                                </td>
-                                <td>
-                                    <a href="#" 
-                                       data-ng-if="searchResult.tags && searchResult.tags.length > 0"  
-                                       tooltip-placement="right" 
-                                       tooltip="{{searchResult.tags | tagsConverter}}">
-                                       
-                                        <i class="fa fa-tags fa-fw"></i>
-                                    </a>
-                                </td>
-                                <td><a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a></td>
-                                <td>{{searchResult.indexingDate | date:'medium'}}</td>
-                                <td>{{searchResult.size | sizeConverter}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- results header -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row my-row my-row-title">
+                            <div class="col-md-1">
+                                <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <span data-translate="module.index.result.name.title"></span>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-default btn-circle" 
+                                        data-ng-click="openAllMark()">
+                                        
+                                    <i class="fa fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">
+                                <span data-translate="module.index.result.date.title"></span>
+                            </div>
+                            <div class="col-md-2">
+                                <span data-translate="module.index.result.size.title"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- results content -->
+                <div class="row" data-ng-repeat="searchResult in searchResults | limitTo:10">
+                    <div class="col-md-12"> 
+                        <div class="row my-row">
+                            <div class="col-md-1">
+                                <input type="checkbox" data-ng-model="searchResult.selected">
+                            </div>
+                            <div class="col-md-1">
+                                <a href="#" 
+                                    data-ng-if="searchResult.tags && searchResult.tags.length > 0"  
+                                    tooltip-placement="right" 
+                                    tooltip="{{searchResult.tags | tagsConverter}}">
+                                           
+                                    <i class="fa fa-tags fa-fw"></i>
+                                </a>
+                            </div>
+                            <div class="col-md-5">
+                                <a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a>
+                                <div data-ng-if="searchResult.open" data-ng-repeat="text in searchResult.texts | limitTo:2">
+                                    <div class="blockquote">
+                                        <span ng-bind-html="text"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-default btn-circle" 
+                                        data-ng-if="searchResult.texts && searchResult.texts.length > 0" 
+                                        data-ng-click="openMark(searchResult)">
+                                        
+                                    <i class="fa fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-2">{{searchResult.indexingDate | date:'medium'}}</div>
+                            <div class="col-md-2">{{searchResult.size | sizeConverter}}</div>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
             

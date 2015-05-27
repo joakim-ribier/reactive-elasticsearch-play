@@ -4,7 +4,7 @@
     
     angular.module('App').controller(
             'IndexController', 
-            ['$scope', '$log', '$http', '$window', '$rootScope', 'searchService',
+            ['$scope', '$log', '$http', '$window', '$rootScope', 'searchService', 
              function ($scope, $log, $http, $window, $rootScope, searchService) {
         
         $scope.searchResults = [];
@@ -27,6 +27,20 @@
                         $rootScope.$broadcast('error', data.key);
                     }
                 );
+            }
+        };
+        
+        $scope.openAllMark = function () {
+            angular.forEach($scope.searchResults, function (result) {
+                $scope.openMark(result);
+            });
+        };
+        
+        $scope.openMark = function (result) {
+            if (result.open === true) {
+                result.open = false;
+            } else {
+                result.open = true;
             }
         };
         

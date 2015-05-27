@@ -21,6 +21,7 @@ import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.facet.FacetBuilders;
 import org.elasticsearch.search.facet.terms.TermsFacet;
 import org.elasticsearch.search.facet.terms.TermsFacetBuilder;
+import org.elasticsearch.search.highlight.HighlightField;
 
 import services.ESConstantService;
 import services.configuration.ConfigurationService;
@@ -57,7 +58,7 @@ public class ESSearchImpl implements ESSearchService {
     }
     
     @Override
-    public List<HitModel> searchByQuery(String value) { 
+    public List<HitModel> searchByQuery(String value) {
         SearchResponse searchResponse = esServerEmbedded.getClient()
                 .prepareSearch(indexName)
                 .setTypes(typeName)
@@ -67,6 +68,7 @@ public class ESSearchImpl implements ESSearchService {
                                 XContentBuilderHelper.CONTENT_FIELD,
                                 XContentBuilderHelper.FILENAME_FIELD,
                                 XContentBuilderHelper.TAGS_FIELD))
+                .addHighlightedField(XContentBuilderHelper.CONTENT_FIELD)
                 .execute().actionGet();
         
         List<HitModel> hitModels = Lists.newArrayList();
@@ -134,6 +136,12 @@ public class ESSearchImpl implements ESSearchService {
         
         builder.tags(xContentHelper.findValueToList(
                 source, XContentBuilderHelper.TAGS_FIELD));
+        
+        Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+        HighlightField highlightField = highlightFields.get(XContentBuilderHelper.CONTENT_FIELD);
+        if (highlightField != null) {
+            builder.withHighlightField(highlightField.getFragments());
+        }
         
         return builder.build();
     }
