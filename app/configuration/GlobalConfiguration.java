@@ -17,6 +17,8 @@ import services.indexation.IndexationImpl;
 import services.indexation.IndexationService;
 import services.search.ESSearchImpl;
 import services.search.ESSearchService;
+import services.send.SendMailImpl;
+import services.send.SendMailService;
 import services.upload.UploadImpl;
 import services.upload.UploadService;
 import utils.EncodeUtils;
@@ -77,7 +79,7 @@ public abstract class GlobalConfiguration extends GlobalSettings {
                 bind(I18nService.class).to(I18nImpl.class);
                 bind(IndexationService.class).to(IndexationImpl.class);
                 bind(UploadService.class).to(UploadImpl.class);
-            }
+                bind(SendMailService.class).to(SendMailImpl.class);}
         };
     }
     

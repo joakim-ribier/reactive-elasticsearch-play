@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h3 class="modal-title" data-translate="module.send.new.message.title"></h3>
+</div>
+<form name="form" data-ng-submit="send(data.mail)" novalidate>
+    <div class="modal-body">
+        <fieldset>
+            <div class="form-group input-group">
+                <span class="input-group-addon">To</span>
+                <input data-ng-model="data.mail.to" 
+                       data-ng-required="true"
+                       type="text" class="form-control" 
+                       placeholder="{{ 'module.send.new.message.to' | translate }}" autofocus>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-group input-group">
+                <input data-ng-model="data.mail.subject" 
+                       data-ng-required="false" class="form-control"
+                       placeholder="{{ 'module.send.new.message.subject' | translate }}" 
+                       name="subject" type="text">
+                <span class="input-group-addon">
+                    <i class="fa fa-pencil"></i>
+                </span>
+            </div>
+        </fieldset>
+        <fieldset>
+            <div class="form-group input-group">
+                <textarea data-ng-model="data.mail.body" 
+                          data-ng-required="false" class="form-control" 
+                          placeholder="{{ 'module.send.new.message.body' | translate }}" 
+                          name="body" rows="5"></textarea>
+                <span class="input-group-addon">
+                    <i class="fa fa-pencil"></i>
+                </span>
+            </div>
+        </fieldset>
+        <fieldset>
+            <span>
+                <i class="fa fa-file-o fa-fw"></i>
+                <span>{{ data.result.fileName }}</span>
+            </span>
+        </fieldset>
+    </div>
+    <div data-ng-if="data.error" class="alert alert-danger">
+        <span data-translate="{{data.error}}"></span>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" >
+            <span data-translate="module.send.new.message.send"></span>
+        </button>
+        <button class="btn btn-warning" ng-click="cancel()">
+            <span data-translate="module.send.new.message.cancel"></span>
+        </button>
+    </div>
+</form>

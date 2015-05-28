@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
   "org.elasticsearch" % "elasticsearch" % "1.5.1",
   "net.lingala.zip4j" % "zip4j" % "1.3.2",
   "org.apache.tika" % "tika-core" % "1.7",
-  "org.apache.tika" % "tika-parsers" % "1.7")
+  "org.apache.tika" % "tika-parsers" % "1.7",
+  "com.typesafe.play" %% "play-mailer" % "2.4.0")
 
 initialize := {
   val _ = initialize.value

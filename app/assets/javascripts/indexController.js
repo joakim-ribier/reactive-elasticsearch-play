@@ -4,8 +4,8 @@
     
     angular.module('App').controller(
             'IndexController', 
-            ['$scope', '$log', '$http', '$window', '$rootScope', 'searchService', 
-             function ($scope, $log, $http, $window, $rootScope, searchService) {
+            ['$scope', '$log', '$http', '$window', '$rootScope', 'searchService', '$modal', 
+             function ($scope, $log, $http, $window, $rootScope, searchService, $modal) {
         
         $scope.searchResults = [];
         $scope.searchString = '';
@@ -75,6 +75,28 @@
                     $rootScope.$broadcast('warning', 'module.index.dowload.zip.select.error');
                 }
             }
+        };
+        
+        $scope.openSendFileByMailModal = function (result) {
+            var modalInstance = $modal.open({
+                animation: true,
+                templateUrl: 'test',
+                controller: 'SendController',
+                resolve: {
+                    data: function () {
+                        return result;
+                  }
+                }
+            });
+            
+            modalInstance.result.then(function (data) {
+                if (data === 'failed') {
+                    $rootScope.$broadcast('error', 'module.global.error');    
+                } else {
+                    $rootScope.$broadcast('success', 'module.send.new.message.send.success');
+                }
+            }, function () {
+            });
         };
         
         $rootScope.$broadcast('tags-cloud');

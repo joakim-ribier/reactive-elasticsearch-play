@@ -114,7 +114,7 @@
                                 <input data-ng-click="selectOrUnSelectAll()" data-ng-model="selectedAll" type="checkbox">
                             </div>
                             <div class="col-md-1"></div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <span data-translate="module.index.result.name.title"></span>
                             </div>
                             <div class="col-md-1">
@@ -124,6 +124,7 @@
                                     <i class="fa fa-eye-slash"></i>
                                 </button>
                             </div>
+                            <div class="col-md-1"></div>
                             <div class="col-md-2">
                                 <span data-translate="module.index.result.date.title"></span>
                             </div>
@@ -149,7 +150,7 @@
                                     <i class="fa fa-tags fa-fw"></i>
                                 </a>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a>
                                 <div data-ng-if="searchResult.open" data-ng-repeat="text in searchResult.texts | limitTo:2">
                                     <div class="blockquote">
@@ -163,6 +164,13 @@
                                         data-ng-click="openMark(searchResult)">
                                         
                                     <i class="fa fa-eye-slash"></i>
+                                </button>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-default btn-circle" 
+                                        data-ng-click="openSendFileByMailModal(searchResult)">
+                                        
+                                    <i class="fa fa-envelope"></i>
                                 </button>
                             </div>
                             <div class="col-md-2">{{searchResult.indexingDate | date:'medium'}}</div>

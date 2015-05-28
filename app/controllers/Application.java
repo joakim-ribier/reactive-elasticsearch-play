@@ -19,4 +19,9 @@ public class Application extends AbstractController {
     public Result index() {
         return ok(views.html.index.render(hostName));
     }
+    
+    @Security.Authenticated(Secured.class)
+    public Result test() {
+        return ok(views.html.test.render());
+    }
 }
