@@ -42,4 +42,14 @@ public class SendMailController extends AbstractController {
         }
     }
     
+    @Security.Authenticated(Secured.class)
+    public Result get() {
+        String bcc = configurationService.get("smtp.default.bcc");
+        String to = configurationService.get("smtp.default.to");
+        MailModel mailModel = new MailModel();
+        mailModel.setBcc(bcc);
+        mailModel.setTo(to);
+        return ok(Json.toJson(mailModel));
+    }
+    
 }

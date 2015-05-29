@@ -21,7 +21,7 @@ public class Application extends AbstractController {
     }
     
     @Security.Authenticated(Secured.class)
-    public Result test() {
-        return ok(views.html.test.render());
+    public Result sendMail() {
+        return ok(views.html.sendmail.render());
     }
 }

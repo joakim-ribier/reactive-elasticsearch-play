@@ -80,7 +80,7 @@
         $scope.openSendFileByMailModal = function (result) {
             var modalInstance = $modal.open({
                 animation: true,
-                templateUrl: 'test',
+                templateUrl: 'sendmail',
                 controller: 'SendController',
                 resolve: {
                     data: function () {

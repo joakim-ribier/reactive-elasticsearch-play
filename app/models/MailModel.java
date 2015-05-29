@@ -11,16 +11,20 @@ public class MailModel implements Serializable {
     private String id;
     
     private String to;
+    private String bcc;
+    private boolean bccEnable;
     private String subject;
     private String body;
     
     public MailModel() {}
     
-    public MailModel(String id, String to, String subject, String body) {
+    public MailModel(String id, String to, String bcc, String subject, String body) {
         this.id = id;
         this.to = to;
+        this.bcc = bcc;
         this.subject = subject;
         this.body = body;
+        this.bccEnable = false;
     }
     
     public String getId() {
@@ -37,6 +41,22 @@ public class MailModel implements Serializable {
     
     public void setTo(String to) {
         this.to = to;
+    }
+    
+    public String getBcc() {
+        return bcc;
+    }
+    
+    public void setBcc(String bcc) {
+        this.bcc = bcc;
+    }
+    
+    public boolean isBccEnable() {
+        return bccEnable;
+    }
+    
+    public void setBccEnable(boolean bccEnable) {
+        this.bccEnable = bccEnable;
     }
     
     public String getSubject() {
@@ -57,7 +77,7 @@ public class MailModel implements Serializable {
     
     @Override
     public int hashCode(){
-        return Objects.hashCode(id, to, subject, body);
+        return Objects.hashCode(id, to, bcc, bccEnable, subject, body);
     }
     
     @Override
@@ -66,6 +86,8 @@ public class MailModel implements Serializable {
             MailModel that = (MailModel) object;
             return Objects.equal(this.id, that.id)
                 && Objects.equal(this.to, that.to)
+                && Objects.equal(this.bcc, that.bcc)
+                && Objects.equal(this.bccEnable, that.bccEnable)
                 && Objects.equal(this.subject, that.subject)
                 && Objects.equal(this.body, that.body);
         }
@@ -77,6 +99,8 @@ public class MailModel implements Serializable {
         return Objects.toStringHelper(this)
             .add("id", id)
             .add("to", to)
+            .add("bcc", bcc)
+            .add("bccEnable", bccEnable)
             .add("subject", subject)
             .add("body", body)
             .toString();

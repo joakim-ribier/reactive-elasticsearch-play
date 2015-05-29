@@ -1,7 +1,7 @@
 <div class="modal-header">
     <h3 class="modal-title" data-translate="module.send.new.message.title"></h3>
 </div>
-<form name="form" data-ng-submit="send(data.mail)" novalidate>
+<form name="form" novalidate>
     <div class="modal-body">
         <fieldset>
             <div class="form-group input-group">
@@ -10,6 +10,21 @@
                        data-ng-required="true"
                        type="text" class="form-control" 
                        placeholder="{{ 'module.send.new.message.to' | translate }}" autofocus>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="input"
+                                    data-ng-click="data.mail.bccEnable = !data.mail.bccEnable ">
+                                <span>Bcc</span>
+                            </button>
+                        </span>
+            </div>
+        </fieldset>
+        <fieldset data-ng-if="data.mail.bccEnable">
+            <div class="form-group input-group">
+                <span class="input-group-addon">Bcc</span>
+                <input data-ng-model="data.mail.bcc" 
+                       data-ng-required="false"
+                       type="text" class="form-control" 
+                       placeholder="Bcc">
             </div>
         </fieldset>
         <fieldset>
@@ -45,10 +60,14 @@
         <span data-translate="{{data.error}}"></span>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="submit" >
+        <i data-ng-if="loading" class="fa fa-spinner"></i>
+        <button class="btn" type="submit" 
+                data-ng-if="!loading" 
+                ng-class="{'btn-primary' : !loading, 'btn-primary disabled' : loading}"
+                data-ng-click="send(data.mail)">
             <span data-translate="module.send.new.message.send"></span>
         </button>
-        <button class="btn btn-warning" ng-click="cancel()">
+        <button class="btn btn-warning" data-ng-click="cancel()">
             <span data-translate="module.send.new.message.cancel"></span>
         </button>
     </div>

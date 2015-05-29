@@ -25,6 +25,19 @@
             return defer.promise;
         };
         
+        SendMailService.prototype.get = function() {
+            $log.debug('SendService.prototype.get');
+            var defer = $q.defer();
+            $http.get($rootScope.hostname + '/module/send/mail/get')
+                .success(function(data) {
+                    defer.resolve(data);
+                })
+                .error(function(data) {
+                    defer.reject(data);
+                });
+            return defer.promise;
+        };
+        
         return new SendMailService();
         
     }]);

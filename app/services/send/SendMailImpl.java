@@ -9,6 +9,7 @@ import services.configuration.ConfigurationService;
 import services.configuration.ConfigurationServiceException;
 import services.search.ESSearchService;
 
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -32,8 +33,11 @@ public class SendMailImpl implements SendMailService {
         
         Email email = new Email();
         email.setSubject(mailModel.getSubject());
-        email.setFrom(configurationService.get("smtp.user"));
+        email.setFrom(configurationService.get("smtp.from"));
         email.addTo(mailModel.getTo());
+        if (mailModel.isBccEnable() && !Strings.isNullOrEmpty(mailModel.getBcc())) {
+            email.addBcc(mailModel.getBcc());
+        }
         email.addAttachment(
                 pathModel.getFilename().get(),
                 pathModel.getPath().get().toFile());

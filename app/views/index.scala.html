@@ -152,7 +152,7 @@
                             </div>
                             <div class="col-md-4">
                                 <a href="@hostName/file/download/by/id/{{searchResult.id}}">{{searchResult.fileName}}</a>
-                                <div data-ng-if="searchResult.open" data-ng-repeat="text in searchResult.texts | limitTo:2">
+                                <div data-ng-if="searchResult.open" data-ng-repeat="text in searchResult.texts | limitTo:2 track by $index">
                                     <div class="blockquote">
                                         <span ng-bind-html="text"></span>
                                     </div>

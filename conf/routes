@@ -3,7 +3,7 @@
 # ~~~~
 
 GET        /                                                @controllers.Application.index
-GET        /test                                            @controllers.Application.test
+GET        /sendmail                                        @controllers.Application.sendMail
 
 GET        /i18n/get                                        @controllers.I18nController.index(lang: String)
 
@@ -26,6 +26,7 @@ POST       /module/upload/file                              @controllers.FileUpl
 POST       /module/upload-and-index/file                    @controllers.FileUploadController.uploadAndIndex
 
 POST       /module/send/mail                                @controllers.SendMailController.index
+GET       /module/send/mail/get                             @controllers.SendMailController.get
 
 # Map static resources from the /public folder to the /assets URL path
 GET        /assets/*file                  controllers.Assets.at(path="/public", file)
